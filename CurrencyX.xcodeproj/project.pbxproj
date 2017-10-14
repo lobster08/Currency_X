@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0CF7191F91EB3800DB2DC1 /* Notification.swift */; };
 		BA7731501F916D3300ADD4DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA77314F1F916D3300ADD4DF /* AppDelegate.swift */; };
 		BA7731551F916D3300ADD4DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA7731531F916D3300ADD4DF /* Main.storyboard */; };
 		BA7731571F916D3300ADD4DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA7731561F916D3300ADD4DF /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B0CF7191F91EB3800DB2DC1 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		BA77314C1F916D3300ADD4DF /* CurrencyX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA77314F1F916D3300ADD4DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA7731541F916D3300ADD4DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -57,9 +59,10 @@
 			isa = PBXGroup;
 			children = (
 				BA77314F1F916D3300ADD4DF /* AppDelegate.swift */,
-				BA7731531F916D3300ADD4DF /* Main.storyboard */,
 				BA7731631F917D5400ADD4DF /* RegisterView.swift */,
 				BA7731611F91733600ADD4DF /* LoginView.swift */,
+				BA7731531F916D3300ADD4DF /* Main.storyboard */,
+				1B0CF7191F91EB3800DB2DC1 /* Notification.swift */,
 				BA7731561F916D3300ADD4DF /* Assets.xcassets */,
 				BA7731581F916D3300ADD4DF /* LaunchScreen.storyboard */,
 				BA77315B1F916D3300ADD4DF /* Info.plist */,
@@ -139,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */,
 				BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */,
 				BA7731621F91733600ADD4DF /* LoginView.swift in Sources */,
 				BA7731501F916D3300ADD4DF /* AppDelegate.swift in Sources */,
