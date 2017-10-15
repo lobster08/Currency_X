@@ -8,4 +8,5 @@ target 'CurrencyX' do
   # Pods for CurrencyX
   pod ‘Firebase/Core’
   pod ‘Firebase/Auth’ 
+  pod ‘Firebase/Database’
 end

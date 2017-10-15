@@ -15,6 +15,7 @@
 		BA7731621F91733600ADD4DF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7731611F91733600ADD4DF /* LoginView.swift */; };
 		BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7731631F917D5400ADD4DF /* RegisterView.swift */; };
 		BAE649A81F92D92B005416FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA591B551F92CF1A00E5ACD2 /* GoogleService-Info.plist */; };
+		BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE649A91F930CD6005416FC /* ForgotPassView.swift */; };
 		E947E60C92C543A828C4EC6E /* Pods_CurrencyX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		BA77315B1F916D3300ADD4DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA7731611F91733600ADD4DF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BA7731631F917D5400ADD4DF /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		BAE649A91F930CD6005416FC /* ForgotPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassView.swift; sourceTree = "<group>"; };
 		F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -79,6 +81,7 @@
 				BA77314F1F916D3300ADD4DF /* AppDelegate.swift */,
 				BA7731631F917D5400ADD4DF /* RegisterView.swift */,
 				BA7731611F91733600ADD4DF /* LoginView.swift */,
+				BAE649A91F930CD6005416FC /* ForgotPassView.swift */,
 				BA7731531F916D3300ADD4DF /* Main.storyboard */,
 				1B0CF7191F91EB3800DB2DC1 /* Notification.swift */,
 				BA7731561F916D3300ADD4DF /* Assets.xcassets */,
@@ -211,12 +214,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-CurrencyX/Pods-CurrencyX-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,6 +238,7 @@
 			files = (
 				1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */,
 				BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */,
+				BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */,
 				BA7731621F91733600ADD4DF /* LoginView.swift in Sources */,
 				BA7731501F916D3300ADD4DF /* AppDelegate.swift in Sources */,
 			);
