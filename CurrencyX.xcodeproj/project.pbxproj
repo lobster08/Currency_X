@@ -17,6 +17,7 @@
 		BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE649A91F930CD6005416FC /* ForgotPassView.swift */; };
 		BAE649AC1F932FF4005416FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */; };
 		E947E60C92C543A828C4EC6E /* Pods_CurrencyX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */; };
+		FF6B59E21F933C350072E48E /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6B59E11F933C350072E48E /* BuyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		BAE649A91F930CD6005416FC /* ForgotPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassView.swift; sourceTree = "<group>"; };
 		BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF6B59E11F933C350072E48E /* BuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				BA7731611F91733600ADD4DF /* LoginView.swift */,
 				BAE649A91F930CD6005416FC /* ForgotPassView.swift */,
 				BA7731531F916D3300ADD4DF /* Main.storyboard */,
+				FF6B59E11F933C350072E48E /* BuyView.swift */,
 				1B0CF7191F91EB3800DB2DC1 /* Notification.swift */,
 				BA7731561F916D3300ADD4DF /* Assets.xcassets */,
 				BA7731581F916D3300ADD4DF /* LaunchScreen.storyboard */,
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */,
+				FF6B59E21F933C350072E48E /* BuyView.swift in Sources */,
 				BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */,
 				BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */,
 				BA7731621F91733600ADD4DF /* LoginView.swift in Sources */,
