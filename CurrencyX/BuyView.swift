@@ -16,21 +16,35 @@ class BuyView: UIViewController {
     @IBOutlet weak var afterCurrency: UILabel!
     @IBOutlet weak var totalPrice: UILabel!
     var totalAmount: Double?
-    
+    var amount: Double?
+    var price: Double?
+    var totalString: String?
     // Process
     
-    
-    @IBAction func acceptButton(_ sender: Any) {
+    func displayTotal()
+    {
+        //price = Double(afterCurrency.text!)
+        amount = Double(buyInput.text!)
+        price = 22709.4096
+        if(amount != nil && totalString != nil)
+        {
+            totalAmount = amount! * price!
+            totalString = String(format:"%f", totalAmount!)
+            totalPrice.text = totalString!
+        }
+        
     }
     
     
-    @IBAction func cancelButton(_ sender: Any) {
-    }
+   
     
     
-    override func viewDidLoad() {
+    
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-
+        displayTotal()
         // Do any additional setup after loading the view.
     }
 

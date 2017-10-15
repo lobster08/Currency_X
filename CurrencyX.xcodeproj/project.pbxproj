@@ -15,8 +15,8 @@
 		BA7731621F91733600ADD4DF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7731611F91733600ADD4DF /* LoginView.swift */; };
 		BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7731631F917D5400ADD4DF /* RegisterView.swift */; };
 		BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE649A91F930CD6005416FC /* ForgotPassView.swift */; };
-		BAE649AC1F932FF4005416FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */; };
 		E947E60C92C543A828C4EC6E /* Pods_CurrencyX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */; };
+		FF1B9F321F93AE2800FC9F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */; };
 		FF6B59E21F933C350072E48E /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6B59E11F933C350072E48E /* BuyView.swift */; };
 /* End PBXBuildFile section */
 
@@ -166,7 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA77315A1F916D3300ADD4DF /* LaunchScreen.storyboard in Resources */,
-				BAE649AC1F932FF4005416FC /* GoogleService-Info.plist in Resources */,
+				FF1B9F321F93AE2800FC9F24 /* GoogleService-Info.plist in Resources */,
 				BA7731571F916D3300ADD4DF /* Assets.xcassets in Resources */,
 				BA7731551F916D3300ADD4DF /* Main.storyboard in Resources */,
 			);
