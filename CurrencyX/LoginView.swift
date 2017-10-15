@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import FirebaseAuth
 
-class LoginView: UIViewController, registerDelegate {
+class LoginView: UIViewController {
 
-    var userDictionary: [String: [String]] = ["admin": ["admin"]]
+    //var userDictionary: [String: [String]] = ["admin": ["admin"]]
     
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var passText: UITextField!
     
-    var newUsername: String = ""
-    var newPass: String = ""
+//    var newUsername: String = ""
+//    var newPass: String = ""
     
     
     override func viewDidLoad() {
@@ -32,41 +33,60 @@ class LoginView: UIViewController, registerDelegate {
     }
     
     //Function from Register View protocol delegate
-    func addingUser(newUser: String, newPass: String) {
-        userDictionary[newUser] = [newPass]
-        print(userDictionary)
-    }
+//    func addingUser(newUser: String, newPass: String) {
+//        userDictionary[newUser] = [newPass]
+//        print(userDictionary)
+//    }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "LoginToRegister" {
-            
-            let dvc: RegisterView = segue.destination as! RegisterView
-            dvc.delegate = self
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "LoginToRegister" {
+//
+//            let dvc: RegisterView = segue.destination as! RegisterView
+//            dvc.delegate = self
+//        }
+//    }
     
     @IBAction func signinBtn(_ sender: Any) {
         
-        //Check if either box is empty
-        if (usernameText.text == "" || passText.text == "") {
-            let alert = UIAlertController(title: "Alert!", message: "Username/Password is not correct", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
-            }))
-            self.present(alert, animated: true, completion: nil)
+        if let email = usernameText.text, let password = passText.text {
+            
+            Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+                if let firebaseError = error {
+                    print(firebaseError.localizedDescription)
+                    return
+                }
+                print("Login Success!")
+            })
+            
         }
-        //Check if user exists in dictionary
-        else if let message = userDictionary[usernameText.text!]?[0] {
-            if message == (passText.text!){
-               // performSegue(withIdentifier: "XXXXXXXXXXX", sender: self)
-                print("Login success!")
-            }
-            else{
-                let alert1 = UIAlertController(title: "Alert!", message: "Username/Password is not correct", preferredStyle: .alert)
-                alert1.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
-                }))
-                self.present(alert1, animated: true, completion: nil)
-            }
-        }    }
+//        //Check if either box is empty
+//        if (usernameText.text == "" || passText.text == "") {
+//            let alert = UIAlertController(title: "Alert!", message: "Please enter username/password", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+//            }))
+//            self.present(alert, animated: true, completion: nil)
+//        }
+//        //Check if user exists in dictionary
+//        else if let message = userDictionary[usernameText.text!]?[0] {
+//            if message == (passText.text!){
+//               // performSegue(withIdentifier: "XXXXXXXXXXX", sender: self)
+//                print("Login success!")
+//            }
+//            else{
+//                let alert1 = UIAlertController(title: "Alert!", message: "Username/Password is not correct", preferredStyle: .alert)
+//                alert1.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+//                }))
+//                self.present(alert1, animated: true, completion: nil)
+//            }
+//        }
+//        else {
+//            let alert1 = UIAlertController(title: "Alert!", message: "Username/Password is not correct", preferredStyle: .alert)
+//            alert1.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+//            }))
+//            self.present(alert1, animated: true, completion: nil)
+//        }
+        
+    }
     @IBAction func registerBtn(_ sender: Any) {
         performSegue(withIdentifier: "LoginToRegister", sender: self)
     }
