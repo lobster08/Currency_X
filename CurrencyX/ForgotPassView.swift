@@ -31,6 +31,10 @@ class ForgotPassView: UIViewController {
         Auth.auth().sendPasswordReset(withEmail: email, completion: { (error) in
             if let firebaseError = error {
                 print(firebaseError.localizedDescription)
+                let alert = UIAlertController(title: "Alert", message: firebaseError.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                }))
+                self.present(alert, animated: true, completion: nil)
             }
             else {
                 print("Email reset password sent!")
@@ -38,6 +42,7 @@ class ForgotPassView: UIViewController {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
                 }))
                 self.present(alert, animated: true, completion: nil)
+                
             }
             
         })

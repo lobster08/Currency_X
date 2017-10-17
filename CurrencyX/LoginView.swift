@@ -56,6 +56,7 @@ class LoginView: UIViewController {
                 else {
                     print("Login Success!")
                     //GO TO THE NEXT VIEW
+                    self.performSegue(withIdentifier: "LoginToMain", sender: self)
                 }
             }
         })
