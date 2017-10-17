@@ -8,46 +8,42 @@
 
 import UIKit
 
-class BuyView: UIViewController {
+class BuyView: UIViewController, UITextFieldDelegate {
 
     // Initialize
     @IBOutlet weak var buyInput: UITextField!
-    @IBOutlet weak var iniCurrency: UILabel!
-    @IBOutlet weak var afterCurrency: UILabel!
-    @IBOutlet weak var totalPrice: UILabel!
-    var totalAmount: Double?
-    var amount: Double?
-    var price: Double?
-    var totalString: String?
+    @IBOutlet weak var totalLabel: UILabel!
+    var amount: Float?
+    let priceFirst: Float = 1.00
+    let priceSecond: Float = 22719.50
+    
+    
     // Process
-    
-    func displayTotal()
-    {
-        //price = Double(afterCurrency.text!)
-        amount = Double(buyInput.text!)
-        price = 22709.4096
-        if(amount != nil && totalString != nil)
-        {
-            totalAmount = amount! * price!
-            totalString = String(format:"%f", totalAmount!)
-            totalPrice.text = totalString!
-        }
-        
-    }
-    
-    
-   
-    
-    
-    
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        displayTotal()
-        // Do any additional setup after loading the view.
+        buyInput.delegate = self
     }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if(buyInput.text != nil)
+        {
+            if(buyInput.text == "")
+            {
+                totalLabel.text = "0.0"
+            }else
+            {
+                amount = Float(buyInput.text!)
+                if(amount != nil)
+                {
+                    let total = (amount! * priceFirst) / priceSecond
+                    totalLabel.text = String(total)
+                }
+            }
+        }
+        return true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
