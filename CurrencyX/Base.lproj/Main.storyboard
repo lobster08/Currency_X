@@ -439,7 +439,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmH-2t-iP2">
-                                <rect key="frame" x="123" y="396" width="42" height="21"/>
+                                <rect key="frame" x="123" y="396" width="193" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -451,10 +451,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="GRO-Tb-QmF"/>
                     <connections>
-                        <outlet property="afterCurrency" destination="BgN-Ie-5te" id="jYI-p3-L02"/>
                         <outlet property="buyInput" destination="Gs1-yP-NOh" id="iNr-hO-xZL"/>
-                        <outlet property="iniCurrency" destination="flW-YH-b1A" id="fa5-HZ-AVZ"/>
-                        <outlet property="totalPrice" destination="lmH-2t-iP2" id="ian-3D-irP"/>
+                        <outlet property="totalLabel" destination="lmH-2t-iP2" id="sgT-7x-86E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vJg-mJ-hzf" userLabel="First Responder" sceneMemberID="firstResponder"/>
