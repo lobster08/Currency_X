@@ -30,14 +30,36 @@ class RegisterView: UIViewController {
     func createUser(email: String, pass: String) {
         
         Auth.auth().createUser(withEmail: email, password: pass, completion: { user, error in
-            if let firebaseError = error {
+            if error != nil {
                 
-                print(firebaseError.localizedDescription)
-                let alert = UIAlertController(title: "Alert", message: firebaseError.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
-                }))
-                self.present(alert, animated: true, completion: nil)
-                return
+                //Handle errors
+                if let firebaseError = AuthErrorCode(rawValue: error!._code) {
+                    
+                    switch firebaseError {
+
+                    case .networkError:
+                        let alert = UIAlertController(title: "Alert", message: "No Internet connection", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    case .emailAlreadyInUse:
+                        let alert = UIAlertController(title: "Alert", message: "Email already exists", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    case .invalidEmail:
+                        let alert = UIAlertController(title: "Alert", message: "Invalid Email", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    default:
+                        print("Error: \(firebaseError)")
+                    }
+                    
+                }
             }
             else {
                 

@@ -15,6 +15,7 @@
 		BA77315A1F916D3300ADD4DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA7731581F916D3300ADD4DF /* LaunchScreen.storyboard */; };
 		BA7731621F91733600ADD4DF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7731611F91733600ADD4DF /* LoginView.swift */; };
 		BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7731631F917D5400ADD4DF /* RegisterView.swift */; };
+		BA7C1DB91F98674100B5BBE3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7C1DB81F98674100B5BBE3 /* MainView.swift */; };
 		BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE649A91F930CD6005416FC /* ForgotPassView.swift */; };
 		E947E60C92C543A828C4EC6E /* Pods_CurrencyX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */; };
 		FF1B9F321F93AE2800FC9F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */; };
@@ -34,6 +35,7 @@
 		BA77315B1F916D3300ADD4DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA7731611F91733600ADD4DF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BA7731631F917D5400ADD4DF /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		BA7C1DB81F98674100B5BBE3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		BAE649A91F930CD6005416FC /* ForgotPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassView.swift; sourceTree = "<group>"; };
 		BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +89,7 @@
 				BA7731611F91733600ADD4DF /* LoginView.swift */,
 				BAE649A91F930CD6005416FC /* ForgotPassView.swift */,
 				BA7731531F916D3300ADD4DF /* Main.storyboard */,
+				BA7C1DB81F98674100B5BBE3 /* MainView.swift */,
 				1B5A956A1F94A03400FCBD6F /* AccountSetting.swift */,
 				FF6B59E11F933C350072E48E /* BuyView.swift */,
 				1B0CF7191F91EB3800DB2DC1 /* Notification.swift */,
@@ -243,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */,
+				BA7C1DB91F98674100B5BBE3 /* MainView.swift in Sources */,
 				FF6B59E21F933C350072E48E /* BuyView.swift in Sources */,
 				BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */,
 				BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */,

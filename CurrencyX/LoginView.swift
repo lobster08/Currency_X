@@ -45,13 +45,50 @@ class LoginView: UIViewController {
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }
-                else if let firebaseError = error {
-                    print(firebaseError.localizedDescription)
+                else if error != nil {
+                    //print(firebaseError.localizedDescription)
                     
-                    let alert = UIAlertController(title: "Awesome!", message: "Email/Password is incorrect", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
-                    }))
-                    self.present(alert, animated: true, completion: nil)
+                    //Handle errors
+                    if let firebaseError = AuthErrorCode(rawValue: error!._code) {
+                        
+                        switch firebaseError {
+                            
+                        case .wrongPassword:
+                            let alert = UIAlertController(title: "Alert", message: "Password is incorrect", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        
+                        case .networkError:
+                            let alert = UIAlertController(title: "Alert", message: "No Internet connection", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                            
+                        case .userNotFound:
+                            let alert = UIAlertController(title: "Alert", message: "Email was not found", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        
+                        case .invalidEmail:
+                            let alert = UIAlertController(title: "Alert", message: "Invalid Email", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        
+                        case .userDisabled:
+                            let alert = UIAlertController(title: "Alert", message: "Account is disabled", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                            
+                        default:
+                            print("Error: \(firebaseError)")
+                        }
+                        
+                    }
+                    
                 }
                 else {
                     print("Login Success!")

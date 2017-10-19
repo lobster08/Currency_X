@@ -29,15 +29,38 @@ class ForgotPassView: UIViewController {
     func resetPass(email: String!) {
         
         Auth.auth().sendPasswordReset(withEmail: email, completion: { (error) in
-            if let firebaseError = error {
-                print(firebaseError.localizedDescription)
-                let alert = UIAlertController(title: "Alert", message: firebaseError.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
-                }))
-                self.present(alert, animated: true, completion: nil)
+            if error != nil {
+                //Handle errors
+                if let firebaseError = AuthErrorCode(rawValue: error!._code) {
+                    
+                    switch firebaseError {
+                        
+                    case .networkError:
+                        let alert = UIAlertController(title: "Alert", message: "No Internet connection", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    case .userNotFound:
+                        let alert = UIAlertController(title: "Alert", message: "Email not found", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    case .invalidEmail:
+                        let alert = UIAlertController(title: "Alert", message: "Invalid Email", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    default:
+                        print("Error: \(firebaseError)")
+                    }
+                    
+                }
             }
             else {
-                print("Email reset password sent!")
+                //print("Email reset password sent!")
                 let alert = UIAlertController(title: "Alert", message: "Email reset password sent", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
                 }))
