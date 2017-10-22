@@ -1014,6 +1014,7 @@
                         <outlet property="phoneAreaText" destination="fbL-BN-fwp" id="AjK-r1-Iq9"/>
                         <outlet property="phoneNumText" destination="Vxb-d6-ZFk" id="dxC-mc-6OK"/>
                         <outlet property="stateText" destination="w0v-pk-EHb" id="ZPj-0Z-oSA"/>
+                        <outlet property="userNameLbl" destination="h1Y-qh-82j" id="41B-sd-WlZ"/>
                         <outlet property="zipCodeText" destination="KFx-nO-vwX" id="yDh-7L-zlV"/>
                     </connections>
                 </viewController>

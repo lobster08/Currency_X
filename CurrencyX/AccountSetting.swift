@@ -13,6 +13,8 @@ import FirebaseAuth
 
 class AccountSetting: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var userNameLbl: UILabel!
+    
     @IBOutlet weak var firstNameText: UITextField!
     
     @IBOutlet weak var lastNameText: UITextField!
@@ -43,7 +45,7 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
     
     var handle: DatabaseHandle!
     var ref: DatabaseReference!
-    let userID = Auth.auth().currentUser?.uid
+    let user = Auth.auth().currentUser
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,19 +64,59 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    //Function to update new password
+    func updatePass() {
+        
+        //Check if user want to change password
+        if currentPassText.text != "" && newPassText.text != "" && confirmPassText.text != "" {
+            
+            //Check if user's old password is correct
+            var credential: AuthCredential
+            credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: currentPassText.text!)
+            user?.reauthenticate(with: credential, completion: { (error) in
+                if error != nil {
+                    self.displayAlert(message: "Wrong Password")
+                }
+                else {
+                    
+                    //Confirm new password before update password
+                    if self.newPassText.text == self.confirmPassText.text {
+                        self.user?.updatePassword(to: self.newPassText.text!, completion: { (error) in
+                            if error != nil {
+                                self.displayAlert(message: error as! String)
+                            }
+                            else {
+                                self.displayAlert(message: "Password updated")
+                            }
+                        })
+                    }
+                    else {
+                        self.displayAlert(message: "New password and confirm password don't match")
+                    }
+                }
+            })
+        }
+    }
+    
     //Function to upload data to Database
     func uploadData() {
         
-        ref = Database.database().reference()
-        ref.child("accInfo").child(userID!).setValue(["address": addressText.text!, "city": cityText.text!, "state": stateText.text!, "zipcode": zipCodeText.text!,"dob": dobText.text!, "name": fullName, "phone": fullPhone])
+        fullPhone = "\(phoneAreaText.text!) \(phoneNumText.text!)"
+        fullName = "\(firstNameText.text!) \(lastNameText.text!)"
         
-        print("Uploaded data")
+        ref = Database.database().reference()
+        ref.child("accInfo").child((user?.uid)!).setValue(["address": addressText.text!, "city": cityText.text!, "state": stateText.text!, "zipcode": zipCodeText.text!,"dob": dobText.text!, "name": fullName, "phone": fullPhone])
+        
+        displayAlert(message: "Profile updated")
     }
     
     //Function to pull data from Database
     func getData() {
         
-        ref = Database.database().reference().child("accInfo").child(userID!)
+        //Update username Label
+        userNameLbl.text = user?.email
+        
+        ref = Database.database().reference().child("accInfo").child((user?.uid)!)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let userData = snapshot.value as? NSDictionary {
@@ -104,7 +146,6 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         
     }
     
-    
     @IBAction func acceptBtn(_ sender: Any) {
         
         //uploadData()
@@ -129,11 +170,13 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         else if phoneAreaText.text == "" || phoneNumText.text == "" {
             displayAlert(message: "Please enter your phone number")
         }
-        else {
-            fullPhone = "\(phoneAreaText.text!) \(phoneNumText.text!)"
-            fullName = "\(firstNameText.text!) \(lastNameText.text!)"
+        else if currentPassText.text == "" {
             
             uploadData()
+        }
+        else {
+            
+            updatePass()
         }
     }
     //Function to display alert
@@ -145,7 +188,8 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
     }
     
     
-    @IBAction func cancelBtn(_ sender: Any) {        
+    @IBAction func cancelBtn(_ sender: Any) {
+
     }
     
     //Function to limit numbers in zipcode, phone area and phone number
@@ -192,16 +236,6 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         dobText.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
-    
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
