@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0CF7191F91EB3800DB2DC1 /* Notification.swift */; };
+		1B4A8D341F9C742C0056B672 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4A8D331F9C742C0056B672 /* WalletView.swift */; };
 		1B5A956B1F94A03400FCBD6F /* AccountSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5A956A1F94A03400FCBD6F /* AccountSetting.swift */; };
 		BA7731501F916D3300ADD4DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA77314F1F916D3300ADD4DF /* AppDelegate.swift */; };
 		BA7731551F916D3300ADD4DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA7731531F916D3300ADD4DF /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		1B0CF7191F91EB3800DB2DC1 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		1B4A8D331F9C742C0056B672 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		1B5A956A1F94A03400FCBD6F /* AccountSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetting.swift; sourceTree = "<group>"; };
 		1BCED255CC2F6F39EAAA4888 /* Pods-CurrencyX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyX.release.xcconfig"; path = "Pods/Target Support Files/Pods-CurrencyX/Pods-CurrencyX.release.xcconfig"; sourceTree = "<group>"; };
 		9B549A1E0F5E89599BCFD5D8 /* Pods-CurrencyX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CurrencyX/Pods-CurrencyX.debug.xcconfig"; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				BA7731611F91733600ADD4DF /* LoginView.swift */,
 				BAE649A91F930CD6005416FC /* ForgotPassView.swift */,
 				BA7731531F916D3300ADD4DF /* Main.storyboard */,
+				1B4A8D331F9C742C0056B672 /* WalletView.swift */,
 				BA7C1DB81F98674100B5BBE3 /* MainView.swift */,
 				1B5A956A1F94A03400FCBD6F /* AccountSetting.swift */,
 				FF6B59E11F933C350072E48E /* BuyView.swift */,
@@ -247,6 +250,7 @@
 			files = (
 				1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */,
 				BA7C1DB91F98674100B5BBE3 /* MainView.swift in Sources */,
+				1B4A8D341F9C742C0056B672 /* WalletView.swift in Sources */,
 				FF6B59E21F933C350072E48E /* BuyView.swift in Sources */,
 				BA7731641F917D5400ADD4DF /* RegisterView.swift in Sources */,
 				BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */,
