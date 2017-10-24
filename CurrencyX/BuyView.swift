@@ -8,14 +8,28 @@
 
 import UIKit
 
+struct PurchaseInfo
+{
+    var currencyPurchased: Double
+    var pricePurchase: Double
+    var datePurchase: String
+    init() {
+        currencyPurchased = 0.0
+        pricePurchase = 0.0
+        datePurchase = ""
+    }
+}
+
+
 class BuyView: UIViewController, UITextFieldDelegate {
 
     // Initialize
     @IBOutlet weak var buyInput: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
-    var amount: Float?
-    let priceFirst: Float = 1.00
-    let priceSecond: Float = 22719.50
+    let price: Double = 0.000044
+    let date = Date()
+    let calendar = Calendar.current
+    var purchaseHist = [PurchaseInfo]()
     
     
     // Process
@@ -23,25 +37,49 @@ class BuyView: UIViewController, UITextFieldDelegate {
     {
         super.viewDidLoad()
         buyInput.delegate = self
+        totalLabel.text = "0.0"
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if(buyInput.text != nil)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        buyInput.resignFirstResponder()
+        ConvertCurrency()
+        return true
+    }
+    
+    @IBAction func clearButton(_ sender: Any)
+    {
+        buyInput.text = ""
+        totalLabel.text = "0.0"
+    }
+    
+    @IBAction func acceptButton(_ sender: Any)
+    {
+        let day = calendar.component(.day, from: date)
+        let month = calendar.component(.month, from: date)
+        let year = calendar.component(.year, from: date)
+        let hour = calendar.component(.hour, from: date)
+        let minute = calendar.component(.minute, from: date)
+        var purchaseItem = PurchaseInfo()
+        purchaseItem.currencyPurchased = Double(buyInput.text!)!
+        purchaseItem.pricePurchase = Double(totalLabel.text!)!
+        purchaseItem.datePurchase = "Date: \(day) - \(month) - \(year) at \(hour):\(minute)"
+        
+        purchaseHist.append(purchaseItem)
+        
+        if(purchaseHist.isEmpty == false)
         {
-            if(buyInput.text == "")
+            for item in purchaseHist
             {
-                totalLabel.text = "0.0"
-            }else
-            {
-                amount = Float(buyInput.text!)
-                if(amount != nil)
-                {
-                    let total = (amount! * priceFirst) / priceSecond
-                    totalLabel.text = String(total)
-                }
+                print(item.datePurchase)
+                print("Purchase currency amount: ",item.currencyPurchased)
+                print("Currency's Price: ", item.pricePurchase)
             }
         }
-        return true
+    }
+    
+    func ConvertCurrency()
+    {
+        totalLabel.text = String((Double(buyInput.text!)! * price))
     }
     
     override func didReceiveMemoryWarning() {
