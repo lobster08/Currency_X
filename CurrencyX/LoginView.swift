@@ -9,8 +9,10 @@
 import UIKit
 import FirebaseAuth
 
-class LoginView: UIViewController {
+class LoginView: UIViewController, UITextFieldDelegate {
 
+
+    @IBOutlet var mainView: UIView!
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var passText: UITextField!
 
@@ -19,7 +21,48 @@ class LoginView: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        self.usernameText.delegate = self
+        self.passText.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        
+        if UIDevice.current.orientation.isLandscape {
+            if (passText.isEditing){
+        
+//                if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+//                    let keyboardRectangle = keyboardFrame.cgRectValue
+//                    let keyboardHeight = keyboardRectangle.height
+//
+                   self.mainView.frame.origin.y -= 150
+//                }
+            }
+        }
+        
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        
+        if UIDevice.current.orientation.isLandscape {
+            if self.mainView.frame.origin.y != 0 {
+                
+//                if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+//                    let keyboardRectangle = keyboardFrame.cgRectValue
+//                    let keyboardHeight = keyboardRectangle.height
+//
+                    self.mainView.frame.origin.y += 150
+//                }
+            }
+        }
+        
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     
     //Clear text fields after going back from navigation controller
     override func viewWillAppear(_ animated: Bool) {

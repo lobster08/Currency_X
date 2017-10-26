@@ -9,8 +9,9 @@
 import UIKit
 import FirebaseAuth
 
-class RegisterView: UIViewController {
+class RegisterView: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet var mainView: UIView!
     @IBOutlet weak var newUserText: UITextField!
     @IBOutlet weak var newPassText: UITextField!
     @IBOutlet weak var confirmPassText: UITextField!
@@ -19,6 +20,58 @@ class RegisterView: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        newPassText.delegate = self
+        confirmPassText.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        
+        //Check current orientation of the device
+        if UIDevice.current.orientation.isLandscape {
+            
+            //Check if textfield is editing
+            if (confirmPassText.isEditing){
+
+                self.mainView.frame.origin.y = -160
+            }
+            else if (newPassText.isEditing) {
+
+                self.mainView.frame.origin.y = -90
+            }
+        }
+        
+    }
+    
+//    @objc func keyboardDidShow(notification: NSNotification) {
+//
+//        if UIDevice.current.orientation.isLandscape {
+//
+//            if self.mainView.frame.origin.y != 0 {
+//
+//                self.mainView.frame.origin.y = 0
+//            }
+//        }
+//    }
+    
+    
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        
+        if UIDevice.current.orientation.isLandscape {
+            if self.mainView.frame.origin.y != 0 {
+
+                self.mainView.frame.origin.y = 0
+            }
+        }
+        
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {

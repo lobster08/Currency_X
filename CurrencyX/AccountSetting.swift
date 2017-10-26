@@ -55,8 +55,18 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         phoneAreaText.delegate = self
         getData()
         createDatePicker()
+        
+        //Set type of keyboard for each text field
+        self.zipCodeText.keyboardType = .numberPad
+        self.phoneAreaText.keyboardType = .numberPad
+        self.phoneNumText.keyboardType = .numberPad
 
         // Do any additional setup after loading the view.
+    }
+    
+    //Hide keyboard when tap anywhere on the view
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -195,20 +205,38 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
     //Function to limit numbers in zipcode, phone area and phone number
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+            //Zip code
         if textField.tag == 1 {
             guard let text = textField.text else { return true }
             let newLength = text.characters.count + string.characters.count - range.length
-            return newLength <= 5
+            
+            let inverseSet = NSCharacterSet(charactersIn: "0123456789").inverted
+            let components = string.components(separatedBy: inverseSet)
+            let filtered = components.joined(separator: "")
+            
+            return (string == filtered && newLength <= 5)
         }
+            //Phone area number
         else if textField.tag == 2 {
             guard let text = textField.text else { return true }
             let newLength = text.characters.count + string.characters.count - range.length
-            return newLength <= 3
+            
+            let inverseSet = NSCharacterSet(charactersIn: "0123456789").inverted
+            let components = string.components(separatedBy: inverseSet)
+            let filtered = components.joined(separator: "")
+            
+            return (string == filtered && newLength <= 3)
         }
+            //Phone number
         else if textField.tag == 3 {
             guard let text = textField.text else { return true }
             let newLength = text.characters.count + string.characters.count - range.length
-            return newLength <= 7
+            
+            let inverseSet = NSCharacterSet(charactersIn: "0123456789").inverted
+            let components = string.components(separatedBy: inverseSet)
+            let filtered = components.joined(separator: "")
+            
+            return (string == filtered && newLength <= 7)
         }
         
         
@@ -227,6 +255,7 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         dobText.inputAccessoryView = toolbar
         dobText.inputView = datePicker
         datePicker.datePickerMode = .date
+        datePicker.maximumDate = NSCalendar.current.date(byAdding: .year, value: 0, to: Date())
     }
     @objc func donePressed() {
         let dateFormatter = DateFormatter()
