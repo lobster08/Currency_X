@@ -7,16 +7,22 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import Firebase
 
 struct PurchaseInfo
 {
-    var currencyPurchased: Double
+    var amountPurchased: Double
     var pricePurchase: Double
     var datePurchase: String
+    var purchaseCurrency: String
+    var usedCurrency: String
     init() {
-        currencyPurchased = 0.0
+        amountPurchased = 0.0
         pricePurchase = 0.0
         datePurchase = ""
+        purchaseCurrency = ""
+        usedCurrency = ""
     }
 }
 
@@ -26,11 +32,14 @@ class BuyView: UIViewController, UITextFieldDelegate {
     // Initialize
     @IBOutlet weak var buyInput: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var fromCurrency: UILabel!
+    @IBOutlet weak var toCurrency: UILabel!
     let price: Double = 0.000044
     let date = Date()
     let calendar = Calendar.current
     var purchaseHist = [PurchaseInfo]()
-    
+    var refPurchase: DatabaseReference!
+    var purchaseItem = PurchaseInfo()
     
     // Process
     override func viewDidLoad()
@@ -38,8 +47,25 @@ class BuyView: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         buyInput.delegate = self
         totalLabel.text = "0.0"
+        //FirebaseApp.configure()
+        refPurchase = Database.database().reference().child("Purchase")
+        
     }
 
+    func addPurchase()
+    {
+        let key = refPurchase.childByAutoId().key
+
+        let purchase = ["id" : key,
+                        "date": purchaseItem.datePurchase as String,
+                        "purchasedCurrency": purchaseItem.purchaseCurrency as String,
+                        "usedCurrency": purchaseItem.usedCurrency as String,
+                        "purchasedAmount": String(purchaseItem.amountPurchased) as String,
+                        "priceTotal": String(purchaseItem.pricePurchase) as String]
+        refPurchase.child(key).setValue(purchase)
+        print("Purchase added to database")
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         buyInput.resignFirstResponder()
         ConvertCurrency()
@@ -57,12 +83,13 @@ class BuyView: UIViewController, UITextFieldDelegate {
         let day = calendar.component(.day, from: date)
         let month = calendar.component(.month, from: date)
         let year = calendar.component(.year, from: date)
-        let hour = calendar.component(.hour, from: date)
-        let minute = calendar.component(.minute, from: date)
-        var purchaseItem = PurchaseInfo()
-        purchaseItem.currencyPurchased = Double(buyInput.text!)!
+        purchaseItem.amountPurchased = Double(buyInput.text!)!
         purchaseItem.pricePurchase = Double(totalLabel.text!)!
-        purchaseItem.datePurchase = "Date: \(day) - \(month) - \(year) at \(hour):\(minute)"
+        purchaseItem.purchaseCurrency = toCurrency.text!
+        purchaseItem.usedCurrency = fromCurrency.text!
+        purchaseItem.datePurchase = "Date: \(day) - \(month) - \(year)"
+        
+        addPurchase()
         
         purchaseHist.append(purchaseItem)
         
@@ -71,7 +98,9 @@ class BuyView: UIViewController, UITextFieldDelegate {
             for item in purchaseHist
             {
                 print(item.datePurchase)
-                print("Purchase currency amount: ",item.currencyPurchased)
+                print("Currency Purchased: ",item.purchaseCurrency)
+                print("Currency Used: ", item.usedCurrency)
+                print("Purchase currency amount: ",item.amountPurchased)
                 print("Currency's Price: ", item.pricePurchase)
             }
         }
