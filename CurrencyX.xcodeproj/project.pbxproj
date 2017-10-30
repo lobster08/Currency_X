@@ -19,6 +19,7 @@
 		BA7C1DB91F98674100B5BBE3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7C1DB81F98674100B5BBE3 /* MainView.swift */; };
 		BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE649A91F930CD6005416FC /* ForgotPassView.swift */; };
 		E947E60C92C543A828C4EC6E /* Pods_CurrencyX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */; };
+		EDCCAD461FA7CAA600439099 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA77315B1F916D3300ADD4DF /* Info.plist */; };
 		FF1B9F321F93AE2800FC9F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */; };
 		FF6B59E21F933C350072E48E /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6B59E11F933C350072E48E /* BuyView.swift */; };
 /* End PBXBuildFile section */
@@ -177,6 +178,7 @@
 				BA77315A1F916D3300ADD4DF /* LaunchScreen.storyboard in Resources */,
 				FF1B9F321F93AE2800FC9F24 /* GoogleService-Info.plist in Resources */,
 				BA7731571F916D3300ADD4DF /* Assets.xcassets in Resources */,
+				EDCCAD461FA7CAA600439099 /* Info.plist in Resources */,
 				BA7731551F916D3300ADD4DF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,7 +403,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = lobster.CurrencyX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -417,7 +419,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = lobster.CurrencyX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

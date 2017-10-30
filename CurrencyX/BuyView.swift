@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import Firebase
+import FirebaseAuth
 
 struct PurchaseInfo
 {
@@ -40,6 +41,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var purchaseHist = [PurchaseInfo]()
     var refPurchase: DatabaseReference!
     var purchaseItem = PurchaseInfo()
+    var user = Auth.auth().currentUser
     
     // Process
     override func viewDidLoad()
@@ -48,21 +50,23 @@ class BuyView: UIViewController, UITextFieldDelegate {
         buyInput.delegate = self
         totalLabel.text = "0.0"
         //FirebaseApp.configure()
-        refPurchase = Database.database().reference().child("Purchase")
+        //refPurchase = Database.database().reference()
         
     }
 
     func addPurchase()
     {
-        let key = refPurchase.childByAutoId().key
+        refPurchase = Database.database().reference()
+        
 
-        let purchase = ["id" : key,
-                        "date": purchaseItem.datePurchase as String,
+        let purchase = ["date": purchaseItem.datePurchase as String,
                         "purchasedCurrency": purchaseItem.purchaseCurrency as String,
                         "usedCurrency": purchaseItem.usedCurrency as String,
                         "purchasedAmount": String(purchaseItem.amountPurchased) as String,
                         "priceTotal": String(purchaseItem.pricePurchase) as String]
-        refPurchase.child(key).setValue(purchase)
+
+        refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
+        
         print("Purchase added to database")
     }
     

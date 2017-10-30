@@ -14,6 +14,9 @@ class MainView: UIViewController {
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
     
+    @IBAction func sendBtn(_ sender: Any) {
+        performSegue(withIdentifier: "MainToDetail", sender: self)
+    }
     
     class cryptoCurr : Codable {
         let Markets: [worldCoinIndex]
