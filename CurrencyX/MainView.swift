@@ -14,6 +14,8 @@ class MainView: UIViewController {
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
     
+    var cryptArrFin = [cryptoCurr]()        // JSON data for crypto currencies, access format: cryptArrFin[0].Markets[index].x where x = Label, Name...
+    
     @IBAction func sendBtn(_ sender: Any) {
         performSegue(withIdentifier: "MainToDetail", sender: self)
     }
@@ -100,9 +102,6 @@ class MainView: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func accSettingBtn(_ sender: Any) {
-        performSegue(withIdentifier: "MainToAcc", sender: self)
-    }
     
     func loadJson() {
         print("Loading JSON")
@@ -121,6 +120,10 @@ class MainView: UIViewController {
                 let decoder = JSONDecoder()
                 let crypt = try decoder.decode(cryptoCurr.self, from: data)       //decode JSON data
                 print(crypt.Markets[0].Label)
+                
+                self.cryptArrFin = [crypt]
+                print(self.cryptArrFin[0].Markets[1].Label)
+                
                 
                 
             } catch {
