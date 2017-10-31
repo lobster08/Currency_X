@@ -8,7 +8,9 @@
 
 import UIKit
 
-class MainView: UIViewController {
+class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    
 
     //http://rates.fxcm.com/RatesXML
     //http://api.fixer.io/latest
@@ -16,9 +18,48 @@ class MainView: UIViewController {
     
     var cryptArrFin = [cryptoCurr]()        // JSON data for crypto currencies, access format: cryptArrFin[0].Markets[index].x where x = Label, Name...
     
+    
+    
+    
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //return cryptArrFin[0].Markets.count     //# of cells in cryptTableView
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = cryptTableView.dequeueReusableCell(withIdentifier: "cell")
+        
+       // cell?.textLabel?.text = cryptArrFin[0].Markets[indexPath.row].Label
+       // cell?.textLabel?.text = "Test1"
+        
+       // cell?.detailTextLabel?.text = "/(cryptArrFin[0].Markets[indexPath.row].Price_usd)"
+        //cell?.detailTextLabel?.text = "test2"
+        
+        return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75.0
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     @IBAction func sendBtn(_ sender: Any) {
         performSegue(withIdentifier: "MainToDetail", sender: self)
     }
+    
+    @IBOutlet weak var cryptTableView: UITableView!
+    
     
     class cryptoCurr : Codable {
         let Markets: [worldCoinIndex]
@@ -93,6 +134,9 @@ class MainView: UIViewController {
         loadJson()      //gets json data and saves to cryptoCurr class
         loadXML()       //gets XML data and saves to regCurr class
         //updateTable()   //updates table, temporarly in loadJson
+        
+        cryptTableView.delegate = self
+        cryptTableView.dataSource = self
 
         // Do any additional setup after loading the view.
     }
