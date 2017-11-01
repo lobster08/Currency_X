@@ -29,18 +29,23 @@ struct PurchaseInfo
 
 
 class BuyView: UIViewController, UITextFieldDelegate {
-
-    // Initialize
+    
+    // UI Variable Initailize
     @IBOutlet weak var buyInput: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var fromCurrency: UILabel!
     @IBOutlet weak var toCurrency: UILabel!
+    
+    // Data Variable Initialize
     let price: Double = 0.000044
     let date = Date()
     let calendar = Calendar.current
     var purchaseHist = [PurchaseInfo]()
-    var refPurchase: DatabaseReference!
     var purchaseItem = PurchaseInfo()
+    //var currenyPassItem = worldCoinIndex()
+    
+    // Firebase Variable Initailize
+    var refPurchase: DatabaseReference!
     var user = Auth.auth().currentUser
     
     // Process

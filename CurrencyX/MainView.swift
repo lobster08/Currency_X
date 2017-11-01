@@ -17,7 +17,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
     
-
+    var selectedCryptCell = worldCoinIndex()
     var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format: cryptArrFin[index].x where x = Label, Name...
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,7 +45,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @IBAction func sendBtn(_ sender: Any) {
-        performSegue(withIdentifier: "MainToDetail", sender: self)
+        
     }
     
     @IBOutlet weak var cryptTableView: UITableView!
@@ -183,6 +183,17 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         print("updating table")
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCryptCell = cryptArrFin[indexPath.row]
+        self.performSegue(withIdentifier: "MainToDetail", sender: self)
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "MainToDetail" {
+//            let dvc = segue.destination as! BuyView
+//            dvc.currenyPassItem = selectedCryptCell
+//        }
+//    }
     /*
     // MARK: - Navigation
 
