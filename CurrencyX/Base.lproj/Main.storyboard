@@ -686,7 +686,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="75" id="0Cl-Yj-Hf9">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cryptCell" rowHeight="75" id="0Cl-Yj-Hf9" customClass="MainViewTableViewCell" customModule="CurrencyX" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0Cl-Yj-Hf9" id="ozb-gj-lVx">
@@ -745,15 +745,23 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="currencyLabelLbl" destination="JZZ-Gu-qas" id="UBF-zw-96X"/>
+                                            <outlet property="currencyPriceLbl" destination="dgS-eK-UoN" id="bvC-xG-UYx"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="hpy-jP-EgC" id="Grl-Vk-qqv"/>
+                                    <outlet property="delegate" destination="hpy-jP-EgC" id="qGP-16-WAB"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="iRK-ZX-h01"/>
                     </view>
                     <connections>
-                        <outlet property="cryptTableView" destination="tTE-S2-e5B" id="swg-uN-U4Z"/>
+                        <outlet property="cryptTableView" destination="tTE-S2-e5B" id="K0M-sJ-nZ8"/>
                         <segue destination="vpr-xX-n4K" kind="show" identifier="MainToAcc" id="7js-uG-a7a"/>
                         <segue destination="SAF-vU-wkn" kind="show" identifier="MainToDetail" id="d5i-hU-EW1"/>
                     </connections>

@@ -16,30 +16,35 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
     
-    var cryptArrFin = [cryptoCurr]()        // JSON data for crypto currencies, access format: cryptArrFin[0].Markets[index].x where x = Label, Name...
-    
-    
-    
-    
-    
+
+    var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format: cryptArrFin[index].x where x = Label, Name...
     
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return cryptArrFin[0].Markets.count     //# of cells in cryptTableView
-        return 1
+        return cryptArrFin.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = cryptTableView.dequeueReusableCell(withIdentifier: "cell")
         
-       // cell?.textLabel?.text = cryptArrFin[0].Markets[indexPath.row].Label
-       // cell?.textLabel?.text = "Test1"
+        let cell = tableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath) as! MainViewTableViewCell
         
-       // cell?.detailTextLabel?.text = "/(cryptArrFin[0].Markets[indexPath.row].Price_usd)"
-        //cell?.detailTextLabel?.text = "test2"
         
-        return cell!
+        //cell.currencyLabelLbl.text = cryptArrFin[indexPath.row].Label
+        var temp = cryptArrFin[indexPath.row].Label
+        
+        let index = temp.index(of: "/") ?? temp.endIndex
+        let temp2 = String(temp[..<index])
+        
+        
+        
+        var temp1 = String(temp.characters.prefix(3))
+        
+        cell.currencyLabelLbl.text = temp2
+        
+        cell.currencyPriceLbl.text = "$\(cryptArrFin[indexPath.row].Price_usd)"
+      
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -47,8 +52,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
     }
     
-    
-    
+
     
     
     
@@ -165,9 +169,15 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 let crypt = try decoder.decode(cryptoCurr.self, from: data)       //decode JSON data
                 print(crypt.Markets[0].Label)
                 
-                self.cryptArrFin = [crypt]
-                print(self.cryptArrFin[0].Markets[1].Label)
+                DispatchQueue.main.async{
+                    self.cryptTableView.reloadData()
+                }
                 
+                //self.cryptArrFin = [crypt]
+                //print(self.cryptArrFin[0].Markets[1].Label)
+                self.cryptArrFin = crypt.Markets
+                print(self.cryptArrFin[1].Label)
+                print(self.cryptArrFin.count)
                 
                 
             } catch {
