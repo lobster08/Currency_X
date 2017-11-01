@@ -19,6 +19,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     @IBOutlet weak var SellP: UITextField!
     @IBOutlet weak var BuyP: UITextField!
     
+    @IBOutlet var mainView: UIView!
     var currentPriceB : Double = 1.2445
     var currentPriceS : Double = 1.3453
     
@@ -28,6 +29,9 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         self.SellP.delegate = self
         self.BuyP.delegate = self
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         if isSwitch == false{
             Switch.setOn(false, animated: true)
         }
@@ -36,6 +40,28 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         }
     }
 
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if UIDevice.current.orientation.isLandscape {
+            if (SellP.isEditing){
+                self.mainView.frame.origin.y -= 150
+            }
+            else if (BuyP.isEditing){
+                self.mainView.frame.origin.y -= 150
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if UIDevice.current.orientation.isLandscape {
+            if self.mainView.frame.origin.y != 0 {
+                self.mainView.frame.origin.y += 150
+            }
+        }
+        
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 
     @IBAction func Switch(_ sender: Any) {
         if Switch.isOn == true {
@@ -143,13 +169,12 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         let SMS = MFMessageComposeViewController()
         SMS.messageComposeDelegate = self
         
-        SMS.recipients = ["7813756688"]
+        SMS.recipients = ["1-781-375-6688"]
         if (option == 1){
             SMS.body = "Your expected rate has been reached. The current price is \(currentPriceS)"
         } else if (option == 2){
             SMS.body = "Your expected rate has been reached. The current price is \(currentPriceB)"
         }
-        
         return SMS
     }
     func showMessageError(){
@@ -166,9 +191,4 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-
-    
-
 }

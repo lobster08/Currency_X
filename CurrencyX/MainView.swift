@@ -12,6 +12,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     
 
+    
     //http://rates.fxcm.com/RatesXML
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
@@ -19,14 +20,11 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format: cryptArrFin[index].x where x = Label, Name...
     
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cryptArrFin.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath) as! MainViewTableViewCell
         
         
@@ -35,15 +33,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         let index = temp.index(of: "/") ?? temp.endIndex
         let temp2 = String(temp[..<index])
-        
-        
-        
         var temp1 = String(temp.characters.prefix(3))
-        
         cell.currencyLabelLbl.text = temp2
-        
         cell.currencyPriceLbl.text = "$\(cryptArrFin[indexPath.row].Price_usd)"
-      
         return cell
     }
     
@@ -52,18 +44,11 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
     }
     
-
-    
-    
-    
-    
-    
     @IBAction func sendBtn(_ sender: Any) {
         performSegue(withIdentifier: "MainToDetail", sender: self)
     }
     
     @IBOutlet weak var cryptTableView: UITableView!
-    
     
     class cryptoCurr : Codable {
         let Markets: [worldCoinIndex]
@@ -71,7 +56,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         init(Markets: [worldCoinIndex]){
             self.Markets = Markets
         }
-        
+    }
+    
+    @IBAction func NotificationSetting(_ sender: Any) {
+        performSegue(withIdentifier: "MainToNotification", sender: self)
     }
     
     class worldCoinIndex : Codable {
@@ -129,12 +117,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor (patternImage: UIImage (named: "Background2.png")!)
         loadJson()      //gets json data and saves to cryptoCurr class
         loadXML()       //gets XML data and saves to regCurr class
         //updateTable()   //updates table, temporarly in loadJson
@@ -196,8 +181,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func updateTable(){
         print("updating table")
-        
-        
     }
     
     /*
