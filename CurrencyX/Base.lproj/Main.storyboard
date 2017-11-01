@@ -214,9 +214,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background-Notifi-Buy-Sell" translatesAutoresizingMaskIntoConstraints="NO" id="zYO-Vf-lyE">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification Setting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqm-Ed-NGu">
                                 <rect key="frame" x="110" y="25" width="155" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -350,14 +347,15 @@
                             <constraint firstItem="NFG-Yt-yI5" firstAttribute="centerY" secondItem="Vfl-lv-ChL" secondAttribute="centerY" id="EKC-eH-Z3n"/>
                             <constraint firstItem="RPt-NY-mBa" firstAttribute="trailing" secondItem="eqm-Ed-NGu" secondAttribute="trailing" constant="110" id="IQQ-Ja-aYJ"/>
                             <constraint firstItem="eqm-Ed-NGu" firstAttribute="leading" secondItem="RPt-NY-mBa" secondAttribute="leading" constant="110" id="PZQ-qD-4ih"/>
-                            <constraint firstAttribute="trailing" secondItem="zYO-Vf-lyE" secondAttribute="trailing" id="TTo-Aq-BQ4"/>
-                            <constraint firstItem="zYO-Vf-lyE" firstAttribute="bottom" secondItem="RPt-NY-mBa" secondAttribute="bottom" id="ZwB-dn-Adh"/>
                             <constraint firstItem="eqm-Ed-NGu" firstAttribute="top" secondItem="RPt-NY-mBa" secondAttribute="top" constant="5" id="amj-A1-cuw"/>
-                            <constraint firstItem="zYO-Vf-lyE" firstAttribute="leading" secondItem="RPt-NY-mBa" secondAttribute="leading" id="omk-UP-nPB"/>
-                            <constraint firstItem="zYO-Vf-lyE" firstAttribute="top" secondItem="Vfl-lv-ChL" secondAttribute="top" id="tjb-en-ctL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RPt-NY-mBa"/>
                     </view>
+                    <connections>
+                        <outlet property="BuyP" destination="v4U-aX-QE6" id="8G2-wn-jat"/>
+                        <outlet property="SellP" destination="mtI-iJ-H7t" id="9Et-9K-tkB"/>
+                        <outlet property="Switch" destination="PWm-qR-S8P" id="zrh-T2-sZx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wdI-aB-WcU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

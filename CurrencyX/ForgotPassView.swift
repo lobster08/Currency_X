@@ -16,7 +16,7 @@ class ForgotPassView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = UIColor (patternImage: UIImage(named: "Background2.png")!)
         // Do any additional setup after loading the view.
     }
     

@@ -20,7 +20,7 @@ class LoginView: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        self.view.backgroundColor = UIColor (patternImage: UIImage(named: "Background2.png")!)
         self.usernameText.delegate = self
         self.passText.delegate = self
         

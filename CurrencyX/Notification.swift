@@ -7,29 +7,168 @@
 //
 
 import UIKit
+import AVFoundation
+import AudioToolbox
+import Foundation
+import MessageUI
 
-class Notification: UIViewController {
-
+class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate {
+    
+    var isSwitch: Bool = false;
+    @IBOutlet weak var Switch: UISwitch!
+    @IBOutlet weak var SellP: UITextField!
+    @IBOutlet weak var BuyP: UITextField!
+    
+    var currentPriceB : Double = 1.2445
+    var currentPriceS : Double = 1.3453
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor (patternImage: UIImage(named: "Background2.png")!)
+        self.SellP.delegate = self
+        self.BuyP.delegate = self
+        
+        if isSwitch == false{
+            Switch.setOn(false, animated: true)
+        }
+        else{
+            Switch.setOn(true, animated: true)
+        }
     }
 
+
+    @IBAction func Switch(_ sender: Any) {
+        if Switch.isOn == true {
+            isSwitch = true;
+        }
+        else {
+            isSwitch = false;
+        }
+    }
+    
+    @IBAction func Cancel(_ sender: Any) {
+        Switch.setOn(false, animated: true)
+        BuyP.text = ""
+        SellP.text = ""
+    }
+    
+    @IBAction func Accept(_ sender: Any) {
+        if (BuyP.text == "" && SellP.text == "") {
+            alert(msg: "Please enter the value in the text field")
+        }
+        else{
+            if BuyP.text != ""{
+                guard let price = Double(BuyP.text!)
+                    else {
+                        alert(msg: "Please enter number only!")
+                        return
+                }
+                if (price >= currentPriceS && isSwitch == true){
+                    AudioServicesPlayAlertSound(SystemSoundID(1336))
+                    let sendEmail = configureMailController(option: 1)
+                    if MFMailComposeViewController.canSendMail(){
+                        self.present(sendEmail, animated: true, completion: nil)
+                    }
+                    else{
+                        showMailError()
+                    }
+                    let sendSMS = configureMessageController(option: 1)
+                    if MFMessageComposeViewController.canSendText(){
+                        self.present(sendSMS, animated: true, completion: nil)
+                    }
+                    else{
+                        showMessageError()
+                    }
+                }
+            }
+            if SellP.text != ""{
+                guard let price = Double(SellP.text!)
+                    else {
+                        alert(msg: "Please enter number only!")
+                        return
+                }
+                if (price <= currentPriceB && isSwitch == true){
+                    AudioServicesPlayAlertSound(SystemSoundID(1336))
+                    let sendEmail = configureMailController(option: 2)
+                    if MFMailComposeViewController.canSendMail(){
+                        self.present(sendEmail, animated: true, completion: nil)
+                    }
+                    else{
+                        showMailError()
+                    }
+                    let sendSMS = configureMessageController(option: 2)
+                    if MFMessageComposeViewController.canSendText(){
+                        self.present(sendSMS, animated: true, completion: nil)
+                    }
+                    else{
+                        showMessageError()
+                    }
+                }
+            }
+        }
+    }
+    
+    func alert (msg : String){
+        let alarm = UIAlertController(title: "Alert", message: msg, preferredStyle: .alert)
+        alarm.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+        } ))
+        self.present(alarm , animated: true, completion: nil)
+    }
+    
+    func configureMailController(option: Int) -> MFMailComposeViewController{
+        let email = MFMailComposeViewController()
+        email.mailComposeDelegate = self
+        
+        email.setToRecipients(["dawnmasu@gmail.com"])
+        email.setSubject("Your target rate has been reached.")
+        if (option == 1){
+            email.setMessageBody("Dear Customer, \nYour target rate has been reach. The current price is \(currentPriceS). You can make a purchase now. \nBest Regards,\nCurrency-X App Team", isHTML: false)
+        }else if (option == 2){
+            email.setMessageBody("Dear Customer, \nYour target rate has been reach. The current price is \(currentPriceB). You can make a purchase now. \nBest Regards,\nCurrency-X App Team", isHTML: false)
+        }
+        return email
+    }
+    
+    func showMailError(){
+        let emailError = UIAlertController(title: "Alert!", message: "Email cannot be sent! Please check your internet connection again!", preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "OK", style: .default, handler: nil)
+        emailError.addAction(dismiss)
+        self.present(emailError, animated: true, completion: nil)
+    }
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func configureMessageController(option: Int) ->MFMessageComposeViewController {
+        let SMS = MFMessageComposeViewController()
+        SMS.messageComposeDelegate = self
+        
+        SMS.recipients = ["7813756688"]
+        if (option == 1){
+            SMS.body = "Your expected rate has been reached. The current price is \(currentPriceS)"
+        } else if (option == 2){
+            SMS.body = "Your expected rate has been reached. The current price is \(currentPriceB)"
+        }
+        
+        return SMS
+    }
+    func showMessageError(){
+        let SMSError = UIAlertController(title: "Alert!", message: "Cannot send SMS message", preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "OK", style: .default, handler: nil)
+        SMSError.addAction(dismiss)
+        self.present(SMSError, animated: true, completion: nil)
+    }
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }
