@@ -318,7 +318,7 @@
                                                             <constraint firstAttribute="height" constant="40" id="tXx-MA-sdz"/>
                                                             <constraint firstAttribute="width" constant="60" id="v2y-9v-cd0"/>
                                                         </constraints>
-                                                        <state key="normal" title="Cancel" image="cancelButton3"/>
+                                                        <state key="normal" title="Cancel" image="cancelButton4"/>
                                                         <connections>
                                                             <action selector="Cancel:" destination="5du-tC-TLu" eventType="touchUpInside" id="1ry-vj-mj5"/>
                                                         </connections>
@@ -1396,7 +1396,7 @@
                                                             <constraint firstAttribute="width" constant="60" id="7Cg-zG-HCj"/>
                                                             <constraint firstAttribute="width" secondItem="jTO-0x-Sqc" secondAttribute="height" multiplier="8:5" id="PH5-ls-Rhx"/>
                                                         </constraints>
-                                                        <state key="normal" title="Cancel" image="cancelButton3"/>
+                                                        <state key="normal" title="Cancel" image="cancelButton4"/>
                                                         <connections>
                                                             <action selector="cancelBtn:" destination="vpr-xX-n4K" eventType="touchUpInside" id="XSG-dI-83u"/>
                                                         </connections>
@@ -1566,7 +1566,6 @@
         <image name="arrowVerti" width="200" height="200"/>
         <image name="bellButtonVer2" width="512" height="512"/>
         <image name="blackline" width="2800" height="63"/>
-        <image name="cancelButton3" width="224" height="94"/>
         <image name="cancelButton4" width="206" height="81"/>
         <image name="filterbuttonVer2" width="512" height="512"/>
     </resources>

@@ -10,14 +10,14 @@ import UIKit
 
 class DetailView: UIViewController {
 
-    
+    var cryptCurrency = worldCoinIndex()
     
     
     // Process
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
     }
 
     

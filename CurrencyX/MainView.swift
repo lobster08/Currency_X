@@ -8,11 +8,33 @@
 
 import UIKit
 
+struct worldCoinIndex : Codable {
+    var Label: String
+    var Name: String
+    var Price_btc: Float
+    var Price_usd: Float
+    var Price_cny: Float
+    var Price_eur: Float
+    var Price_gbp: Float
+    var Price_rur: Float
+    var Volume_24h: Float
+    var Timestamp: Int
+    init(){
+        Label = ""
+        Name = ""
+        Price_btc = 0.0
+        Price_usd = 0.0
+        Price_cny = 0.0
+        Price_eur = 0.0
+        Price_gbp = 0.0
+        Price_rur = 0.0
+        Volume_24h = 0.0
+        Timestamp = 0
+    }
+}
+
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    
-
-    
     //http://rates.fxcm.com/RatesXML
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
@@ -62,30 +84,30 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         performSegue(withIdentifier: "MainToNotification", sender: self)
     }
     
-    class worldCoinIndex : Codable {
-        var Label: String
-        var Name: String
-        var Price_btc: Float
-        var Price_usd: Float
-        var Price_cny: Float
-        var Price_eur: Float
-        var Price_gbp: Float
-        var Price_rur: Float
-        var Volume_24h: Float
-        var Timestamp: Int
-        init(){
-            Label = ""
-            Name = ""
-            Price_btc = 0.0
-            Price_usd = 0.0
-            Price_cny = 0.0
-            Price_eur = 0.0
-            Price_gbp = 0.0
-            Price_rur = 0.0
-            Volume_24h = 0.0
-            Timestamp = 0
-        }
-    }
+//    class worldCoinIndex : Codable {
+//        var Label: String
+//        var Name: String
+//        var Price_btc: Float
+//        var Price_usd: Float
+//        var Price_cny: Float
+//        var Price_eur: Float
+//        var Price_gbp: Float
+//        var Price_rur: Float
+//        var Volume_24h: Float
+//        var Timestamp: Int
+//        init(){
+//            Label = ""
+//            Name = ""
+//            Price_btc = 0.0
+//            Price_usd = 0.0
+//            Price_cny = 0.0
+//            Price_eur = 0.0
+//            Price_gbp = 0.0
+//            Price_rur = 0.0
+//            Volume_24h = 0.0
+//            Timestamp = 0
+//        }
+//    }
     
     
     //for XML data
@@ -188,12 +210,12 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.performSegue(withIdentifier: "MainToDetail", sender: self)
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "MainToDetail" {
-//            let dvc = segue.destination as! BuyView
-//            dvc.currenyPassItem = selectedCryptCell
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "MainToDetail" {
+            let dvc = segue.destination as! DetailView
+            dvc.cryptCurrency = selectedCryptCell
+        }
+    }
     /*
     // MARK: - Navigation
 
