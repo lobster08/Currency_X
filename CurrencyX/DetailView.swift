@@ -10,14 +10,23 @@ import UIKit
 
 class DetailView: UIViewController {
 
+    // Variable Initialize
     var cryptCurrency = worldCoinIndex()
+    
+    // UI variable initialize
+    
+    @IBOutlet weak var fromCurrencyLbl: UILabel!
+    @IBOutlet weak var toCurrencyLbl: UILabel!
+    @IBOutlet weak var fromCurrAmount: UILabel!
+    @IBOutlet weak var toCurrAmount: UILabel!
     
     
     // Process
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-
-        
+        fromCurrAmount.text = String(cryptCurrency.Price_usd)
+        toCurrAmount.text = String(cryptCurrency.Price_btc)
     }
 
     

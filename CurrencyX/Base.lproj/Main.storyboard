@@ -611,6 +611,10 @@
                         <viewLayoutGuide key="safeArea" id="VUD-lI-pwr"/>
                     </view>
                     <connections>
+                        <outlet property="fromCurrAmount" destination="SMC-Jc-qyy" id="mMC-Hs-WgB"/>
+                        <outlet property="fromCurrencyLbl" destination="ehH-ha-wpd" id="ysp-Xw-luA"/>
+                        <outlet property="toCurrAmount" destination="Eiq-3l-VHJ" id="myB-lh-5zK"/>
+                        <outlet property="toCurrencyLbl" destination="C66-27-qCR" id="Av5-ew-9vr"/>
                         <segue destination="SAF-vU-wkn" kind="show" identifier="DetailToBuy" id="qTe-ry-X6d"/>
                         <segue destination="ply-ZO-vXt" kind="show" identifier="DetailToSell" id="4jO-qU-uK3"/>
                     </connections>
