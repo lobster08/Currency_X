@@ -10,9 +10,14 @@ import UIKit
 
 class DetailView: UIViewController {
 
+    //  Create variable to set background image
+    var backgroundImage = UIImage()
+    var backgroundImageView = UIImageView()
+    var backgroundImageName = ""
+    
     // Variable Initialize
     var cryptCurrency = worldCoinIndex()
-    
+   
     // UI variable initialize
     
     @IBOutlet weak var fromCurrencyLbl: UILabel!
@@ -25,10 +30,33 @@ class DetailView: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        backgroundImageName = "Background4.png"
+        setBackgroundImage()
         fromCurrAmount.text = String(cryptCurrency.Price_usd)
         toCurrAmount.text = String(cryptCurrency.Price_btc)
     }
 
+    func setBackgroundImage() {
+        if backgroundImageName > "" {
+            backgroundImageView.removeFromSuperview()
+            backgroundImage = UIImage(named: backgroundImageName)!
+            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView.image = backgroundImage
+            self.view.addSubview(backgroundImageView)
+            self.view.sendSubview(toBack: backgroundImageView)
+        }
+    }
+    
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
+    }
     
     @IBAction func purchaseButton(_ sender: Any)
     {

@@ -23,9 +23,15 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     var currentPriceB : Double = 1.2445
     var currentPriceS : Double = 1.3453
     
+    var backgroundImage = UIImage()
+    var backgroundImageView = UIImageView()
+    var backgroundImageName = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor (patternImage: UIImage(named: "Background2.png")!)
+        
+        backgroundImageName = "Background4.png"
+        setBackgroundImage()
         self.SellP.delegate = self
         self.BuyP.delegate = self
         
@@ -37,6 +43,27 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         }
     }
 
+    func setBackgroundImage() {
+        if backgroundImageName > "" {
+            backgroundImageView.removeFromSuperview()
+            backgroundImage = UIImage(named: backgroundImageName)!
+            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView.image = backgroundImage
+            self.view.addSubview(backgroundImageView)
+            self.view.sendSubview(toBack: backgroundImageView)
+        }
+    }
+    
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

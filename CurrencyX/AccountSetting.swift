@@ -47,8 +47,15 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
     var ref: DatabaseReference!
     let user = Auth.auth().currentUser
     
+    var backgroundImage = UIImage()
+    var backgroundImageView = UIImageView()
+    var backgroundImageName = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        backgroundImageName = "Background4.png"
+        setBackgroundImage()
         
         zipCodeText.delegate = self
         phoneNumText.delegate = self
@@ -62,6 +69,28 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         self.phoneNumText.keyboardType = .numberPad
 
         // Do any additional setup after loading the view.
+    }
+    
+    func setBackgroundImage() {
+        if backgroundImageName > "" {
+            backgroundImageView.removeFromSuperview()
+            backgroundImage = UIImage(named: backgroundImageName)!
+            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView.image = backgroundImage
+            self.view.addSubview(backgroundImageView)
+            self.view.sendSubview(toBack: backgroundImageView)
+        }
+    }
+    
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
     }
     
     //Hide keyboard when tap anywhere on the view

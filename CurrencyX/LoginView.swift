@@ -9,23 +9,50 @@
 import UIKit
 import FirebaseAuth
 
+
 class LoginView: UIViewController, UITextFieldDelegate {
 
 
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var passText: UITextField!
-
+    
+    var backgroundImage = UIImage()
+    var backgroundImageView = UIImageView()
+    var backgroundImageName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor (patternImage: UIImage(named: "Background2.png")!)
+        backgroundImageName = "Background4.png"
+        setBackgroundImage()
         self.usernameText.delegate = self
         self.passText.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func setBackgroundImage() {
+        if backgroundImageName > "" {
+            backgroundImageView.removeFromSuperview()
+            backgroundImage = UIImage(named: backgroundImageName)!
+            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView.image = backgroundImage
+            self.view.addSubview(backgroundImageView)
+            self.view.sendSubview(toBack: backgroundImageView)
+        }
+    }
+    
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
