@@ -29,9 +29,6 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         self.SellP.delegate = self
         self.BuyP.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
         if isSwitch == false{
             Switch.setOn(false, animated: true)
         }
@@ -40,25 +37,6 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         }
     }
 
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if UIDevice.current.orientation.isLandscape {
-            if (SellP.isEditing){
-                self.mainView.frame.origin.y -= 150
-            }
-            else if (BuyP.isEditing){
-                self.mainView.frame.origin.y -= 150
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if UIDevice.current.orientation.isLandscape {
-            if self.mainView.frame.origin.y != 0 {
-                self.mainView.frame.origin.y += 150
-            }
-        }
-        
-    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

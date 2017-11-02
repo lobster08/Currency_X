@@ -45,7 +45,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @IBAction func sendBtn(_ sender: Any) {
-        performSegue(withIdentifier: "MainToDetail", sender: self)
+        performSegue(withIdentifier: "MainToWallet", sender: self)
     }
     
     @IBOutlet weak var cryptTableView: UITableView!
@@ -59,7 +59,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @IBAction func NotificationSetting(_ sender: Any) {
-        performSegue(withIdentifier: "MainToNotification", sender: self)
+        performSegue(withIdentifier: "MainToAcc", sender: self)
     }
     
     class worldCoinIndex : Codable {

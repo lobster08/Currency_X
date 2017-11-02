@@ -116,7 +116,7 @@ class AccountSetting: UIViewController, UITextFieldDelegate {
         
         ref = Database.database().reference()
         ref.child("accInfo").child((user?.uid)!).setValue(["address": addressText.text!, "city": cityText.text!, "state": stateText.text!, "zipcode": zipCodeText.text!,"dob": dobText.text!, "name": fullName, "phone": fullPhone])
-        
+        ref.child("Balance").child((user?.uid)!).setValue(["USD": "0"])
         displayAlert(message: "Profile updated")
     }
     
