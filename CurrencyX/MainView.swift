@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct worldCoinIndex : Codable {
+class worldCoinIndex : Codable {
     var Label: String
     var Name: String
     var Price_btc: Float
