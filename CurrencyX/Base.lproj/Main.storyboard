@@ -709,7 +709,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background4" translatesAutoresizingMaskIntoConstraints="NO" id="41q-VW-uYl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="1294"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PGw-nS-lPz">
                                 <rect key="frame" x="105" y="152" width="164" height="110"/>
