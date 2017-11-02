@@ -19,6 +19,7 @@ class Balance : NSObject {
         amount = amount1
     }
 }
+
 class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var actionList: UITextField!
@@ -26,8 +27,12 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
     @IBOutlet weak var amount: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
+    var backgroundImage = UIImage()
+    var backgroundImageView = UIImageView()
+    var backgroundImageName = ""
+    
     var action = ["Deposit", "Withdraw"]
-    var moneyType = ["USD", "CAD", "YEN"]
+    var moneyType = ["USD", "CAD", "YEN", "EUR"]
     
     let actionPicker = UIPickerView()
     let moneyPicker = UIPickerView()
@@ -42,7 +47,9 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor (patternImage: UIImage(named: "Background2.png")!)
+        backgroundImageName = "Background4.png"
+        setBackgroundImage()
+        self.title = "Wallet"
         createActionListPicker()
         createMoneyListPicker()
         loadBalance()
@@ -51,6 +58,27 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
         // Do any additional setup after loading the view.
     }
     
+    func setBackgroundImage() {
+        if backgroundImageName > "" {
+            backgroundImageView.removeFromSuperview()
+            backgroundImage = UIImage(named: backgroundImageName)!
+            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView.image = backgroundImage
+            self.view.addSubview(backgroundImageView)
+            self.view.sendSubview(toBack: backgroundImageView)
+        }
+    }
+    
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -99,8 +127,6 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
-        let acceptBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-        toolbar.setItems([acceptBtn], animated: false)
         actionList.inputAccessoryView = toolbar
         actionList.inputView = actionPicker
     }
@@ -109,8 +135,6 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
-        let acceptBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-        toolbar.setItems([acceptBtn], animated: false)
         moneyList.inputAccessoryView = toolbar
         moneyList.inputView = moneyPicker
     }
@@ -207,7 +231,6 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
                 }
             }
         })
-        self.loadBalance()
     }
     func withdraw(){
         ref = Database.database().reference().child("Balance").child((user?.uid)!)

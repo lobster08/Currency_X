@@ -42,6 +42,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var selectedCryptCell = worldCoinIndex()
     var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format: cryptArrFin[index].x where x = Label, Name...
     
+    var backgroundImage = UIImage()
+    var backgroundImageView = UIImageView()
+    var backgroundImageName = ""
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cryptArrFin.count
     }
@@ -141,7 +145,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor (patternImage: UIImage (named: "Background2.png")!)
+        
+        backgroundImageName = "Background4.png"
+        setBackgroundImage()
         loadJson()      //gets json data and saves to cryptoCurr class
         loadXML()       //gets XML data and saves to regCurr class
         //updateTable()   //updates table, temporarly in loadJson
@@ -150,6 +156,28 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         cryptTableView.dataSource = self
 
         // Do any additional setup after loading the view.
+    }
+    
+    func setBackgroundImage() {
+        if backgroundImageName > "" {
+            backgroundImageView.removeFromSuperview()
+            backgroundImage = UIImage(named: backgroundImageName)!
+            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView.image = backgroundImage
+            self.view.addSubview(backgroundImageView)
+            self.view.sendSubview(toBack: backgroundImageView)
+        }
+    }
+    
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
     }
 
     override func didReceiveMemoryWarning() {
