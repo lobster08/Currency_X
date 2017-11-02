@@ -44,7 +44,13 @@ class DetailView: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "DetailToBuy")
+        {
+            let passToBuy = segue.destination as! BuyView
+            passToBuy.buyData = cryptCurrency
+        }
+    }
     
     
     

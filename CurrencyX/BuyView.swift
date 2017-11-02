@@ -37,11 +37,11 @@ class BuyView: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var toCurrency: UILabel!
     
     // Data Variable Initialize
-    let price: Double = 0.000044
     let date = Date()
     let calendar = Calendar.current
     var purchaseHist = [PurchaseInfo]()
     var purchaseItem = PurchaseInfo()
+    var buyData = worldCoinIndex()
     //var currenyPassItem = worldCoinIndex()
     
     // Firebase Variable Initailize
@@ -54,6 +54,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         buyInput.delegate = self
         totalLabel.text = "0.0"
+        fromCurrency.text = String(buyData.Price_usd)
+        toCurrency.text = String(buyData.Price_btc)
         //FirebaseApp.configure()
         //refPurchase = Database.database().reference()
         
@@ -117,7 +119,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     
     func ConvertCurrency()
     {
-        totalLabel.text = String((Double(buyInput.text!)! * price))
+        totalLabel.text = String((Double(buyInput.text!)! * Double(buyData.Price_usd))/Double(buyData.Price_btc))
     }
     
     override func didReceiveMemoryWarning() {
