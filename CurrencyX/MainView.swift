@@ -252,27 +252,17 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let cell = cryptTableView
 
-        if(cell?.tag == 1)
-        {
-           // print(crypCurrencyList.count + Currencies.count)
-
-            return crypCurrencyList.count //+ Currencies.count)
-        }
-        else
-        {
-            return Currencies.count
-        }
+            return (crypCurrencyList.count + Currencies.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let prototypeCell = cryptTableView
+        let prototypeCell = cryptTableView
         if (indexPath.row < crypCurrencyList.count)
         {
-            let cell = cryptTableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath)
-            let currLbl = cell.viewWithTag(1) as! UILabel
-            let priceLbl = cell.viewWithTag(2) as! UILabel
+            let cell = tableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath)
+            let currLbl = cell.contentView.viewWithTag(1) as! UILabel
+            let priceLbl = cell.contentView.viewWithTag(2) as! UILabel
             
             currLbl.text = crypCurrencyList[indexPath.row].symbol
             priceLbl.text = crypCurrencyList[indexPath.row].price_usd
@@ -282,11 +272,11 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
         else
         {
-            let cell1 = cryptTableView .dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
+            let cell1 = tableView .dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
 
-            let firstlbl = cell1.viewWithTag(5) as! UILabel
-            let currencyLbl = cell1.viewWithTag(6) as! UILabel
-            let priceLabel = cell1.viewWithTag(7) as! UILabel
+            let firstlbl = cell1.contentView.viewWithTag(5) as! UILabel
+            let currencyLbl = cell1.contentView.viewWithTag(6) as! UILabel
+            let priceLabel = cell1.contentView.viewWithTag(7) as! UILabel
 
             firstlbl.text = String(Currencies[indexPath.row].symbol.characters.prefix(3))
             currencyLbl.text = String(Currencies[indexPath.row].symbol.characters.suffix(3))
