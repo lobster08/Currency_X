@@ -20,7 +20,7 @@ class Balance : NSObject {
     }
 }
 
-class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate {
+class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var actionList: UITextField!
     @IBOutlet weak var moneyList: UITextField!
@@ -55,6 +55,7 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
         loadBalance()
         actionPicker.delegate = self
         moneyPicker.delegate = self
+        self.amount.keyboardType = .decimalPad
         // Do any additional setup after loading the view.
     }
     
@@ -193,15 +194,28 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
             alert(msg: "Please pick up an option/enter a valid amount!")
             return false
         }
-        else if let value = Double(amount.text!){
-            if value == nil {
-                alert(msg: "Please enter a valid number!")
-                return false
-            }
-            else if value <= 0 {
+        else {
+            let value = Double(amount.text!) as! Double
+            if (value <= 0) {
                 alert(msg: "The ammount must be greater than 0!")
                 return false
             }
+        }
+        return true
+    }
+    
+    //Function to limit numbers in zipcode, phone area and phone number
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //  Allow amount text field enters number only
+        if textField.tag == 1 {
+            guard let text = textField.text else { return true }
+            let newLength = text.characters.count + string.characters.count - range.length
+            
+            let inverseSet = NSCharacterSet(charactersIn: "0123456789").inverted
+            let components = string.components(separatedBy: inverseSet)
+            let filtered = components.joined(separator: "")
+            
+            return (string == filtered && newLength <= 10)
         }
         return true
     }
