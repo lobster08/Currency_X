@@ -20,7 +20,6 @@
 		BAE649AA1F930CD6005416FC /* ForgotPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE649A91F930CD6005416FC /* ForgotPassView.swift */; };
 		E947E60C92C543A828C4EC6E /* Pods_CurrencyX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */; };
 		EDCCAD461FA7CAA600439099 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA77315B1F916D3300ADD4DF /* Info.plist */; };
-		FE8743081FA95EC700B3B23E /* MainViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8743071FA95EC700B3B23E /* MainViewTableViewCell.swift */; };
 		FF03E10E1FAA759800ABD91C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03E10D1FAA759800ABD91C /* DetailView.swift */; };
 		FF1B9F321F93AE2800FC9F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */; };
 		FF6B59E21F933C350072E48E /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6B59E11F933C350072E48E /* BuyView.swift */; };
@@ -44,7 +43,6 @@
 		BAE649A91F930CD6005416FC /* ForgotPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassView.swift; sourceTree = "<group>"; };
 		BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FE8743071FA95EC700B3B23E /* MainViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewTableViewCell.swift; sourceTree = "<group>"; };
 		FF03E10D1FAA759800ABD91C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		FF6B59E11F933C350072E48E /* BuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,7 +97,6 @@
 				FF03E10D1FAA759800ABD91C /* DetailView.swift */,
 				1B4A8D331F9C742C0056B672 /* WalletView.swift */,
 				BA7C1DB81F98674100B5BBE3 /* MainView.swift */,
-				FE8743071FA95EC700B3B23E /* MainViewTableViewCell.swift */,
 				1B5A956A1F94A03400FCBD6F /* AccountSetting.swift */,
 				FF6B59E11F933C350072E48E /* BuyView.swift */,
 				1B0CF7191F91EB3800DB2DC1 /* Notification.swift */,
@@ -266,7 +263,6 @@
 				BA7731621F91733600ADD4DF /* LoginView.swift in Sources */,
 				BA7731501F916D3300ADD4DF /* AppDelegate.swift in Sources */,
 				1B5A956B1F94A03400FCBD6F /* AccountSetting.swift in Sources */,
-				FE8743081FA95EC700B3B23E /* MainViewTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

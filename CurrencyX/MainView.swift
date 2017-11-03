@@ -8,6 +8,24 @@
 
 import UIKit
 
+struct currency : Codable
+{
+    var symbol : String
+    var price : Float
+    var bid : Float
+    var ask : Float
+    var timestamp : Int
+    init()
+    {
+        symbol = ""
+        price = 0.0
+        bid = 0.0
+        ask = 0.0
+        timestamp = 0
+    }
+}
+
+
 class worldCoinIndex : Codable {
     var Label: String
     var Name: String
@@ -84,21 +102,21 @@ class CryptoCurrency{
 }
 class cryptoCurr : Codable {
     let Markets: [worldCoinIndex]
-    
+
     init(Markets: [worldCoinIndex]){
         self.Markets = Markets
     }
 }
 
 //for XML data
-class RegCurrs: Codable {
-    let regCurrs: [regCurrency]
-    
-    init(regCurrs: [regCurrency]) {
-        self.regCurrs = regCurrs
-    }
-}
-
+//class RegCurrs: Codable {
+//    let regCurrs: [regCurrency]
+//
+//    init(regCurrs: [regCurrency]) {
+//        self.regCurrs = regCurrs
+//    }
+//}
+//
 class regCurrency: Codable {
     let Symbol: String
     let Bid: Float
@@ -124,10 +142,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //http://rates.fxcm.com/RatesXML
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
-     var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format:
+//     var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format:
     
     var selectedCryptCell = CryptoCurrency()
     var crypCurrencyList = [CryptoCurrency]()
+    
+    //Currencies variable
+    var Currencies = [currency]()
+
     
     var backgroundImage = UIImage()
     var backgroundImageView = UIImageView()
@@ -141,8 +163,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         backgroundImageName = "Background4.png"
         setBackgroundImage()
-        getData()
-        
+        getData()//get crypto data
+        getCurrency()//get currency data
         cryptTableView.delegate = self
         cryptTableView.dataSource = self
         // Do any additional setup after loading the view.
@@ -175,6 +197,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    //get crypto function
     func getData(){
         var url = URL(string: "https://api.coinmarketcap.com/v1/ticker/?limit=10")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
@@ -200,32 +223,78 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
         task.resume()
     }
-    
+    //get currency function
+    func getCurrency() {
+        let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
+        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            
+            if let data = data {
+                do {
+                    //convert to json
+                    let jsonDecoder = JSONDecoder()
+                    let currList = try jsonDecoder.decode([currency].self, from: data)
+                    self.Currencies = currList
+                    DispatchQueue.main.async {
+                        self.cryptTableView.reloadData()
+                        print("JSON downloaded")
+                      //  print(currList)
+                    }
+                } catch {
+                    print("Can't pull JSON")
+                }
+                
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+            
+        }
+        task.resume()
+        
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return cryptArrFin.count
-        return crypCurrencyList.count
+        let cell = cryptTableView
+
+        if(cell?.tag == 1)
+        {
+           // print(crypCurrencyList.count + Currencies.count)
+
+            return crypCurrencyList.count //+ Currencies.count)
+        }
+        else
+        {
+            return Currencies.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath) as! MainViewTableViewCell
-        
-        let currLbl = cell.viewWithTag(1) as! UILabel
-        let priceLbl = cell.viewWithTag(2) as! UILabel
-        
-        currLbl.text = crypCurrencyList[indexPath.row].symbol
-        priceLbl.text = crypCurrencyList[indexPath.row].price_usd
-        
-        return cell
-        
-   /*     //cell.currencyLabelLbl.text = cryptArrFin[indexPath.row].Label
-        var temp = cryptArrFin[indexPath.row].Label
-        
-        let index = temp.index(of: "/") ?? temp.endIndex
-        let temp2 = String(temp[..<index])
-        var temp1 = String(temp.characters.prefix(3))
-        cell.currencyLabelLbl.text = temp2
-        cell.currencyPriceLbl.text = "$\(cryptArrFin[indexPath.row].Price_usd)"
-        return cell*/
+        //let prototypeCell = cryptTableView
+        if (indexPath.row < crypCurrencyList.count)
+        {
+            let cell = cryptTableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath)
+            let currLbl = cell.viewWithTag(1) as! UILabel
+            let priceLbl = cell.viewWithTag(2) as! UILabel
+            
+            currLbl.text = crypCurrencyList[indexPath.row].symbol
+            priceLbl.text = crypCurrencyList[indexPath.row].price_usd
+            
+            return cell
+
+        }
+        else
+        {
+            let cell1 = cryptTableView .dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
+
+            let firstlbl = cell1.viewWithTag(5) as! UILabel
+            let currencyLbl = cell1.viewWithTag(6) as! UILabel
+            let priceLabel = cell1.viewWithTag(7) as! UILabel
+
+            firstlbl.text = String(Currencies[indexPath.row].symbol.characters.prefix(3))
+            currencyLbl.text = String(Currencies[indexPath.row].symbol.characters.suffix(3))
+            priceLabel.text = String(Currencies[indexPath.row].price)
+
+            return cell1
+        }
+    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -256,57 +325,43 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
  // We don't need this part anymore
-    func loadJson() {
-        print("Loading JSON")
-        let url = URL(string: "https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI")
-        guard let downloadURL = url else {return}
-        
-        //get JSON data
-        URLSession.shared.dataTask(with: downloadURL) { data, urlResponse, error in
-            guard let data = data, error == nil, urlResponse != nil else {
-                print("JSON fail")
-                return
-            }
-            print("JSON downloaded")    //error check for success
-            
-            do {
-                let decoder = JSONDecoder()
-                let crypt = try decoder.decode(cryptoCurr.self, from: data)       //decode JSON data
-                print(crypt.Markets[0].Label)
-                
-                DispatchQueue.main.async{
-                    self.cryptTableView.reloadData()
-                }
-                
-                //self.cryptArrFin = [crypt]
-                //print(self.cryptArrFin[0].Markets[1].Label)
-                self.cryptArrFin = crypt.Markets
-                print(self.cryptArrFin[1].Label)
-                print(self.cryptArrFin.count)
-                
-                
-            } catch {
-                print("failed to decode JSON")
-            }
-            }.resume()
-        
-        // updateTable()
-        
-    }
-    
-    func loadXML(){
-        print("Loading XML")
-        let url = URL(string: "http://rates.fxcm.com/RatesXML")
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+//    func loadJson() {
+//        print("Loading JSON")
+//        let url = URL(string: "https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI")
+//        guard let downloadURL = url else {return}
+//
+//        //get JSON data
+//        URLSession.shared.dataTask(with: downloadURL) { data, urlResponse, error in
+//            guard let data = data, error == nil, urlResponse != nil else {
+//                print("JSON fail")
+//                return
+//            }
+//            print("JSON downloaded")    //error check for success
+//
+//            do {
+//                let decoder = JSONDecoder()
+//                let crypt = try decoder.decode(cryptoCurr.self, from: data)       //decode JSON data
+//                print(crypt.Markets[0].Label)
+//
+//                DispatchQueue.main.async{
+//                    self.cryptTableView.reloadData()
+//                }
+//
+//                //self.cryptArrFin = [crypt]
+//                //print(self.cryptArrFin[0].Markets[1].Label)
+//                self.cryptArrFin = crypt.Markets
+//                print(self.cryptArrFin[1].Label)
+//                print(self.cryptArrFin.count)
+//
+//
+//            } catch {
+//                print("failed to decode JSON")
+//            }
+//            }.resume()
+//
+//
+//    }
+  
+   
 
 }
