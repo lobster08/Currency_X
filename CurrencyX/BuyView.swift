@@ -35,6 +35,9 @@ class BuyView: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var fromCurrency: UILabel!
     @IBOutlet weak var toCurrency: UILabel!
+    var backgroundImage = UIImage()
+    var backgroundImageView = UIImageView()
+    var backgroundImageName = ""
     
     // Data Variable Initialize
     let date = Date()
@@ -52,6 +55,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        backgroundImageName = "Background5.png"
+        setBackgroundImage()
         buyInput.delegate = self
         totalLabel.text = "0.0"
         fromCurrency.text = String(buyData.Price_usd)
@@ -61,6 +66,17 @@ class BuyView: UIViewController, UITextFieldDelegate {
         
     }
 
+    func setBackgroundImage() {
+        if backgroundImageName > "" {
+            backgroundImageView.removeFromSuperview()
+            backgroundImage = UIImage(named: backgroundImageName)!
+            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView.image = backgroundImage
+            self.view.addSubview(backgroundImageView)
+            self.view.sendSubview(toBack: backgroundImageView)
+        }
+    }
+    
     func addPurchase()
     {
         refPurchase = Database.database().reference()
