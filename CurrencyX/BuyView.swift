@@ -33,7 +33,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     // UI Variable Initailize
     @IBOutlet weak var buyInput: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
-    //@IBOutlet weak var fromCurrency: UILabel!
+    @IBOutlet weak var currNameLbl: UILabel!
     @IBOutlet weak var toCurrency: UILabel!
     var backgroundImage = UIImage()
     var backgroundImageView = UIImageView()
@@ -44,8 +44,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
     let calendar = Calendar.current
     var purchaseHist = [PurchaseInfo]()
     var purchaseItem = PurchaseInfo()
-    var buyData = worldCoinIndex()
-    //var currenyPassItem = worldCoinIndex()
+    var buyData = CryptoCurrency()
+    
     
     // Firebase Variable Initailize
     var refPurchase: DatabaseReference!
@@ -55,12 +55,17 @@ class BuyView: UIViewController, UITextFieldDelegate {
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        backgroundImageName = "Background5.png"
+        backgroundImageName = "background6.png"
         setBackgroundImage()
         buyInput.delegate = self
         totalLabel.text = "0.0"
-        //fromCurrency.text = String(buyData.Price_usd)
-        toCurrency.text = String(buyData.Price_btc)
+        currNameLbl.text = buyData.symbol
+        toCurrency.text = "$" + String(buyData.price_usd)
+        buyInput.keyboardType = UIKeyboardType.decimalPad
+        
+//        let tap = UITapGestureRecognizer()
+//        tap.addTarget(self, action: "dismissKeyboard")
+//        self.view.addGestureRecognizer(tap)
         //FirebaseApp.configure()
         //refPurchase = Database.database().reference()
         
@@ -99,6 +104,12 @@ class BuyView: UIViewController, UITextFieldDelegate {
         return true
     }
     
+//    func dismissKeyboard()
+//    {
+//        view.endEditing(true)
+//        //ConvertCurrency()
+//    }
+    
     @IBAction func clearButton(_ sender: Any)
     {
         buyInput.text = ""
@@ -135,7 +146,9 @@ class BuyView: UIViewController, UITextFieldDelegate {
     
     func ConvertCurrency()
     {
-        totalLabel.text = String((Double(buyInput.text!)! * Double(buyData.Price_usd))/Double(buyData.Price_btc))
+        //var fromCurr = Double(buyData.price_usd)
+        var toCurr = Double(buyData.price_usd)
+        totalLabel.text = "$" + String((Double(buyInput.text!)! * toCurr!))
     }
     
     override func didReceiveMemoryWarning() {

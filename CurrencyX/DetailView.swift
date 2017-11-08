@@ -16,7 +16,7 @@ class DetailView: UIViewController {
     var backgroundImageName = ""
     
     // Variable Initialize
-    var cryptCurrency = worldCoinIndex()
+    var cryptCurrency = CryptoCurrency()
    
     // UI variable initialize
     
@@ -32,8 +32,8 @@ class DetailView: UIViewController {
         super.viewDidLoad()
         backgroundImageName = "Background5.png"
         setBackgroundImage()
-        fromCurrAmount.text = String(cryptCurrency.Price_usd)
-        toCurrAmount.text = String(cryptCurrency.Price_btc)
+        fromCurrAmount.text = "1.0"
+        toCurrAmount.text = String(cryptCurrency.price_usd)
     }
 
     func setBackgroundImage() {
