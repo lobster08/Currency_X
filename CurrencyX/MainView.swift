@@ -167,7 +167,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         backgroundImageName = "Background4.png"
         setBackgroundImage()
         getData()//get crypto data
-        getCurrency()//get currency data
+ //       getCurrency()//get currency data
         cryptTableView.delegate = self
         cryptTableView.dataSource = self
         // Do any additional setup after loading the view.
