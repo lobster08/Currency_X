@@ -43,13 +43,14 @@ class CryptoCurrency{
     var volume_usd : String
     var market_cap_usd : String
     var available_supply : String
+    var max_supply : String
     var total_supply : String
     var percent_change_1h: String
     var percent_change_24h : String
     var percent_change_7d : String
     var last_updated : String
     init (ID : String, Name : String, Symbol : String, Rank: String, Price_USD: String, Price_BTC: String, Volume_USD: String,
-          Market_cap : String, Available_Supply: String, Total_Supply: String, Percent_1h: String, Percent_24h: String, Percent_7d: String, LastUpdated : String){
+          Market_cap : String, Available_Supply: String, Total_Supply: String, Max_Supply : String, Percent_1h: String, Percent_24h: String, Percent_7d: String, LastUpdated : String){
         id = ID;
         name = Name
         symbol = Symbol
@@ -59,6 +60,7 @@ class CryptoCurrency{
         volume_usd = Volume_USD
         market_cap_usd = Market_cap
         available_supply = Available_Supply
+        max_supply = Max_Supply
         total_supply = Total_Supply
         percent_change_1h = Percent_1h
         percent_change_24h = Percent_24h
@@ -76,6 +78,7 @@ class CryptoCurrency{
         market_cap_usd = ""
         available_supply = ""
         total_supply = ""
+        max_supply = ""
         percent_change_1h = ""
         percent_change_24h = ""
         percent_change_7d = ""
@@ -176,14 +179,27 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func getData(){
+        var available_supply : String = ""
+        var total_supply : String = ""
+        var max_supply : String = ""
         var url = URL(string: "https://api.coinmarketcap.com/v1/ticker/?limit=10")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if (error == nil && data != nil) {
                 do{
                     let json : NSArray = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
                     for i in 0..<json.count {
-                        let value : Dictionary = json.object(at: i) as! Dictionary<String,String>
-                        var cryptpInfo = CryptoCurrency(ID: value["id"]!, Name: value["name"]!, Symbol: value["symbol"]!, Rank: value["rank"]!, Price_USD : value["price_usd"]!, Price_BTC: value["price_btc"]!, Volume_USD: value["24h_volume_usd"]!, Market_cap: value["market_cap_usd"]!, Available_Supply: value["available_supply"]!, Total_Supply: value["total_supply"]!, Percent_1h: value["percent_change_1h"]!, Percent_24h: value["percent_change_24h"]!, Percent_7d: value["percent_change_7d"]!, LastUpdated: value["last_updated"]!)
+                        let value : Dictionary = json.object(at: i) as! Dictionary<String,AnyObject>
+                        var ret_value = self.nullToNil(value: value["available_supply"] as? AnyObject)
+                        if ret_value == nil { available_supply = "0"}
+                        else{ available_supply = value["available_supply"]! as! String}
+                        ret_value = self.nullToNil(value: value["total_supply"] as? AnyObject)
+                        if ret_value == nil { total_supply = "0"}
+                        else{ total_supply = value["total_supply"]! as! String}
+                        ret_value = self.nullToNil(value: value["max_supply"] as? AnyObject)
+                        if ret_value == nil { max_supply = "0"}
+                        else{ total_supply = value["max_supply"]! as! String}
+                        
+                        var cryptpInfo = CryptoCurrency(ID: value["id"]! as! String, Name: value["name"]! as! String, Symbol: value["symbol"]! as! String, Rank: value["rank"]! as! String, Price_USD : value["price_usd"]! as! String, Price_BTC: value["price_btc"]! as! String, Volume_USD: value["24h_volume_usd"]! as! String, Market_cap: value["market_cap_usd"]! as! String, Available_Supply: available_supply, Total_Supply: total_supply, Max_Supply : max_supply, Percent_1h: value["percent_change_1h"]! as! String, Percent_24h: value["percent_change_24h"]! as! String, Percent_7d: value["percent_change_7d"]! as! String, LastUpdated: value["last_updated"]! as! String)
                         self.crypCurrencyList.append(cryptpInfo)
                     }
                     DispatchQueue.main.async {
@@ -199,6 +215,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }
         }
         task.resume()
+    }
+    func nullToNil(value : AnyObject?) -> AnyObject?{
+        if value is NSNull {
+            return nil
+        }
+        else{
+            return value
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
