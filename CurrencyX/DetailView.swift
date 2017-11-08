@@ -30,7 +30,7 @@ class DetailView: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        backgroundImageName = "Background4.png"
+        backgroundImageName = "Background5.png"
         setBackgroundImage()
         fromCurrAmount.text = String(cryptCurrency.Price_usd)
         toCurrAmount.text = String(cryptCurrency.Price_btc)

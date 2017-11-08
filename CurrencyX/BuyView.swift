@@ -33,7 +33,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     // UI Variable Initailize
     @IBOutlet weak var buyInput: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet weak var fromCurrency: UILabel!
+    //@IBOutlet weak var fromCurrency: UILabel!
     @IBOutlet weak var toCurrency: UILabel!
     var backgroundImage = UIImage()
     var backgroundImageView = UIImageView()
@@ -59,7 +59,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         setBackgroundImage()
         buyInput.delegate = self
         totalLabel.text = "0.0"
-        fromCurrency.text = String(buyData.Price_usd)
+        //fromCurrency.text = String(buyData.Price_usd)
         toCurrency.text = String(buyData.Price_btc)
         //FirebaseApp.configure()
         //refPurchase = Database.database().reference()
@@ -113,7 +113,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         purchaseItem.amountPurchased = Double(buyInput.text!)!
         purchaseItem.pricePurchase = Double(totalLabel.text!)!
         purchaseItem.purchaseCurrency = toCurrency.text!
-        purchaseItem.usedCurrency = fromCurrency.text!
+        //purchaseItem.usedCurrency = fromCurrency.text!
         purchaseItem.datePurchase = "Date: \(day) - \(month) - \(year)"
         
         addPurchase()
