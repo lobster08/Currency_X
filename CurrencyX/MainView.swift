@@ -140,18 +140,27 @@ class regCurrency: Codable {
     }
 }
 
-class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     //http://rates.fxcm.com/RatesXML
     //http://api.fixer.io/latest
     //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
 //     var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format:
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+
+    
+    
     var selectedCryptCell = CryptoCurrency()
     var crypCurrencyList = [CryptoCurrency]()
     
     //Currencies variable
     var Currencies = [currency]()
+    
+    var isSearching = false
+    var filteredCrypt = [CryptoCurrency]()
+    
 
     
     var backgroundImage = UIImage()
@@ -170,6 +179,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
  //       getCurrency()//get currency data
         cryptTableView.delegate = self
         cryptTableView.dataSource = self
+        
+        searchBar.delegate = self
+        searchBar.returnKeyType = UIReturnKeyType.done
         // Do any additional setup after loading the view.
     }
     
@@ -249,7 +261,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
+        if isSearching {
+            return filteredCrypt.count
+        }
             return (crypCurrencyList.count + Currencies.count)
     }
     
@@ -261,8 +276,16 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
             let currLbl = cell.contentView.viewWithTag(1) as! UILabel
             let priceLbl = cell.contentView.viewWithTag(2) as! UILabel
             
-            currLbl.text = crypCurrencyList[indexPath.row].symbol
-            priceLbl.text = crypCurrencyList[indexPath.row].price_usd
+
+            
+            if isSearching {
+                currLbl.text = filteredCrypt[indexPath.row].symbol           //from filtered list
+                priceLbl.text = filteredCrypt[indexPath.row].price_usd       //from filtered list
+            } else {
+                currLbl.text = crypCurrencyList[indexPath.row].symbol         //raw data
+                priceLbl.text = crypCurrencyList[indexPath.row].price_usd     //raw data
+                
+            }
             
             return cell
 
@@ -306,6 +329,17 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if segue.identifier == "MainToDetail" {
             let dvc = segue.destination as! DetailView
             dvc.cryptCurrency = selectedCryptCell
+        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == nil || searchBar.text == "" {
+            isSearching = false
+            view.endEditing(true)
+            //tableView.reloadData()
+        } else {
+            filteredCrypt = crypCurrencyList.filter({$0.symbol == searchBar.text!})
+            //tableView.reloadData()
         }
     }
     
