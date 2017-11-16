@@ -35,6 +35,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var currNameLbl: UILabel!
     @IBOutlet weak var toCurrency: UILabel!
+    @IBOutlet weak var buyButtonLbl: UIButton!
     var backgroundImage = UIImage()
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
@@ -62,13 +63,21 @@ class BuyView: UIViewController, UITextFieldDelegate {
         currNameLbl.text = buyData.symbol
         toCurrency.text = "$" + String(buyData.price_usd)
         buyInput.keyboardType = UIKeyboardType.decimalPad
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
+        self.view.addGestureRecognizer(tapRecognizer)
+        buyButtonLbl.isHidden = true
         
-//        let tap = UITapGestureRecognizer()
-//        tap.addTarget(self, action: "dismissKeyboard")
-//        self.view.addGestureRecognizer(tap)
         //FirebaseApp.configure()
         //refPurchase = Database.database().reference()
         
+    }
+    
+    @objc func didTapView()
+    {
+        self.view.endEditing(true)
+        ConvertCurrency()
+        buyButtonLbl.isHidden = false
     }
 
     func setBackgroundImage() {
@@ -103,12 +112,6 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ConvertCurrency()
         return true
     }
-    
-//    func dismissKeyboard()
-//    {
-//        view.endEditing(true)
-//        //ConvertCurrency()
-//    }
     
     @IBAction func clearButton(_ sender: Any)
     {
