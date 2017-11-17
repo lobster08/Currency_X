@@ -27,9 +27,21 @@ struct PurchaseInfo
     }
 }
 
+public extension UIView {
+    public func pin(to view: UIView) {
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topAnchor.constraint(equalTo: view.topAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+    }
+}
 
 class BuyView: UIViewController, UITextFieldDelegate {
     
+    
+    @IBOutlet weak var priceStackView: UIStackView!
     // UI Variable Initailize
     @IBOutlet weak var buyInput: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
@@ -58,6 +70,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         backgroundImageName = "background6.png"
         setBackgroundImage()
+        pinBackground(backgroundView, to: priceStackView)
         buyInput.delegate = self
         totalLabel.text = "0.0"
         currNameLbl.text = buyData.symbol
@@ -72,13 +85,31 @@ class BuyView: UIViewController, UITextFieldDelegate {
         //refPurchase = Database.database().reference()
         
     }
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 30.0
+        return view
+    }()
+    
+    private func pinBackground(_ view: UIView, to stackView: UIStackView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        stackView.insertSubview(view, at: 0)
+        view.pin(to: stackView)
+    }
     
     @objc func didTapView()
     {
         self.view.endEditing(true)
-        ConvertCurrency()
+        if(buyInput.text != "")
+        {
+            ConvertCurrency()
+        }
         buyButtonLbl.isHidden = false
     }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.view.endEditing(true)
+//    }
 
     func setBackgroundImage() {
         if backgroundImageName > "" {
