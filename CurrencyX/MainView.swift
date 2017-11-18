@@ -25,32 +25,6 @@ struct currency : Codable
     }
 }
 
-
-class worldCoinIndex : Codable {
-    var Label: String
-    var Name: String
-    var Price_btc: Float
-    var Price_usd: Float
-    var Price_cny: Float
-    var Price_eur: Float
-    var Price_gbp: Float
-    var Price_rur: Float
-    var Volume_24h: Float
-    var Timestamp: Int
-    init(){
-        Label = ""
-        Name = ""
-        Price_btc = 0.0
-        Price_usd = 0.0
-        Price_cny = 0.0
-        Price_eur = 0.0
-        Price_gbp = 0.0
-        Price_rur = 0.0
-        Volume_24h = 0.0
-        Timestamp = 0
-    }
-}
-
 class CryptoCurrency{
     var id : String
     var name : String
@@ -103,23 +77,8 @@ class CryptoCurrency{
         last_updated = ""
     }
 }
-class cryptoCurr : Codable {
-    let Markets: [worldCoinIndex]
 
-    init(Markets: [worldCoinIndex]){
-        self.Markets = Markets
-    }
-}
 
-//for XML data
-//class RegCurrs: Codable {
-//    let regCurrs: [regCurrency]
-//
-//    init(regCurrs: [regCurrency]) {
-//        self.regCurrs = regCurrs
-//    }
-//}
-//
 class regCurrency: Codable {
     let Symbol: String
     let Bid: Float
@@ -141,16 +100,8 @@ class regCurrency: Codable {
 }
 
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-
-    //http://rates.fxcm.com/RatesXML
-    //http://api.fixer.io/latest
-    //https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI
-//     var cryptArrFin = [worldCoinIndex]()        // JSON data for crypto currencies, access format:
-    
     @IBOutlet weak var searchBar: UISearchBar!
-    
-
-    
+    @IBOutlet weak var cryptTableView: UITableView!
     
     var selectedCryptCell = CryptoCurrency()
     var crypCurrencyList = [CryptoCurrency]()
@@ -161,13 +112,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var isSearching = false
     var filteredCrypt = [CryptoCurrency]()
     
-
-    
     var backgroundImage = UIImage()
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
-    
-    @IBOutlet weak var cryptTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,7 +129,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         
         searchBar.delegate = self
         searchBar.returnKeyType = UIReturnKeyType.done
-        // Do any additional setup after loading the view.
+        
+        _ = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -190,6 +138,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         // Dispose of any resources that can be recreated.
     }
     
+    @objc func refresh(){
+        crypCurrencyList.removeAll()
+        getData()
+    }
     func setBackgroundImage() {
         if backgroundImageName > "" {
             backgroundImageView.removeFromSuperview()
@@ -342,47 +294,4 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             //tableView.reloadData()
         }
     }
-    
-    
-    
- // We don't need this part anymore
-//    func loadJson() {
-//        print("Loading JSON")
-//        let url = URL(string: "https://www.worldcoinindex.com/apiservice/json?key=wECsN7y9YetLXQJNwwMQKJFPI")
-//        guard let downloadURL = url else {return}
-//
-//        //get JSON data
-//        URLSession.shared.dataTask(with: downloadURL) { data, urlResponse, error in
-//            guard let data = data, error == nil, urlResponse != nil else {
-//                print("JSON fail")
-//                return
-//            }
-//            print("JSON downloaded")    //error check for success
-//
-//            do {
-//                let decoder = JSONDecoder()
-//                let crypt = try decoder.decode(cryptoCurr.self, from: data)       //decode JSON data
-//                print(crypt.Markets[0].Label)
-//
-//                DispatchQueue.main.async{
-//                    self.cryptTableView.reloadData()
-//                }
-//
-//                //self.cryptArrFin = [crypt]
-//                //print(self.cryptArrFin[0].Markets[1].Label)
-//                self.cryptArrFin = crypt.Markets
-//                print(self.cryptArrFin[1].Label)
-//                print(self.cryptArrFin.count)
-//
-//
-//            } catch {
-//                print("failed to decode JSON")
-//            }
-//            }.resume()
-//
-//
-//    }
-  
-   
-
 }
