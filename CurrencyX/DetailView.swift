@@ -17,7 +17,7 @@ class DetailView: UIViewController {
     
     // Variable Initialize
     var cryptCurrency = CryptoCurrency()
-   
+    var regCurrency = currency()
     // UI variable initialize
     
     @IBOutlet weak var fromCurrencyLbl: UILabel!

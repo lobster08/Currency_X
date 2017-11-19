@@ -79,6 +79,7 @@ class CryptoCurrency{
 }
 
 
+//probable don't need this
 class regCurrency: Codable {
     let Symbol: String
     let Bid: Float
@@ -108,6 +109,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     //Currencies variable
     var Currencies = [currency]()
+    var selectedCurrency = currency()
     
     var isSearching = false
     var filteredCrypt = [CryptoCurrency]()
@@ -123,14 +125,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         backgroundImageName = "Background4.png"
         setBackgroundImage()
         getData()//get crypto data
- //       getCurrency()//get currency data
+        getCurrency()//get currency data
         cryptTableView.delegate = self
         cryptTableView.dataSource = self
         
         searchBar.delegate = self
         searchBar.returnKeyType = UIReturnKeyType.done
         
-        _ = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
+       _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -140,7 +142,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     @objc func refresh(){
         crypCurrencyList.removeAll()
+        Currencies.removeAll()
         getData()
+        getCurrency()
     }
     func setBackgroundImage() {
         if backgroundImageName > "" {
@@ -203,6 +207,36 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         }
         task.resume()
     }
+    
+    
+    //get regular currency function
+      func getCurrency() {
+                let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
+                let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        
+                    if let data = data {
+                        do {
+                            //convert to json
+                            let jsonDecoder = JSONDecoder()
+                            let currList = try jsonDecoder.decode([currency].self, from: data)
+                            self.Currencies = currList
+                            DispatchQueue.main.async {
+                                self.cryptTableView.reloadData()
+                                print("JSON downloaded")
+                              //  print(currList)
+                            }
+                        } catch {
+                            print("Can't pull JSON")
+                        }
+        
+                    } else if let error = error {
+                        print(error.localizedDescription)
+                    }
+        
+                }
+                task.resume()
+        
+           }
     func nullToNil(value : AnyObject?) -> AnyObject?{
         if value is NSNull {
             return nil
@@ -265,7 +299,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //      selectedCryptCell = cryptArrFin[indexPath.row]
-        selectedCryptCell = crypCurrencyList[indexPath.row]
+        if (indexPath.row < crypCurrencyList.count)
+        {
+            selectedCryptCell = crypCurrencyList[indexPath.row]
+        }
+        else
+        {
+            selectedCurrency = Currencies[indexPath.row]
+        }
         self.performSegue(withIdentifier: "MainToDetail", sender: self)
     }
     
@@ -281,6 +322,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         if segue.identifier == "MainToDetail" {
             let dvc = segue.destination as! DetailView
             dvc.cryptCurrency = selectedCryptCell
+            dvc.regCurrency = selectedCurrency
         }
     }
     
