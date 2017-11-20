@@ -103,6 +103,7 @@ class regCurrency: Codable {
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var cryptTableView: UITableView!
+    @IBOutlet weak var menuView: UIView!
     
     var selectedCryptCell = CryptoCurrency()
     var crypCurrencyList = [CryptoCurrency]()
@@ -117,12 +118,15 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var backgroundImage = UIImage()
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
-    
+
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    var menuShowing = false
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "MainView"
-        
         backgroundImageName = "Background4.png"
+        menuView.isHidden = true
         setBackgroundImage()
         getData()//get crypto data
         getCurrency()//get currency data
@@ -132,7 +136,65 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         searchBar.delegate = self
         searchBar.returnKeyType = UIReturnKeyType.done
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menuButton"), style: .done, target: self, action: #selector(openMenuOption))
+        
        _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
+    }
+    
+    @objc func openMenuOption(){
+        menuShowing = !menuShowing
+        if (!menuShowing){
+            topConstraint.constant = -300
+            menuView.isHidden = true
+            setBackgroundImage()
+        }
+        else{
+            menuView.isHidden = false
+            createMenuViewButtons()
+            topConstraint.constant = 0
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    func createMenuViewButtons(){
+        createAccountSettingBtn()
+        createLogOutBtn()
+    }
+    
+    func createAccountSettingBtn() {
+        let button = UIButton(type: .system)
+        button.frame =  CGRect(x: 0, y: 0, width: 160, height: 40)
+        button.setImage(UIImage(named:"customerButton"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 5,bottom: 2,right: 0)
+        button.setTitle("Account Setting", for: .normal)
+        button.layer.borderWidth = 1.0
+        button.backgroundColor = UIColor.white //--> set the background color and check
+        button.layer.borderColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(accountSettingBtn), for: UIControlEvents.touchUpInside)
+        self.menuView.addSubview(button)
+    }
+    @objc func accountSettingBtn(){
+        performSegue(withIdentifier: "MainToAcc", sender: self)
+    }
+    
+    func createLogOutBtn() {
+        let button = UIButton(type: .system)
+        button.frame =  CGRect(x: 0, y: 40, width: 160, height: 40)
+        button.setImage(UIImage(named:"exitButton"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 2,left: -49,bottom: 2,right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 2,left: -44,bottom: 2,right: 0)
+        button.setTitle("Log out", for: .normal)
+        button.layer.borderWidth = 1.0
+        button.backgroundColor = UIColor.white //--> set the background color and check
+        button.layer.borderColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(LogoutBtn), for: UIControlEvents.touchUpInside)
+        self.menuView.addSubview(button)
+    }
+    
+    @objc func LogoutBtn(){
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
