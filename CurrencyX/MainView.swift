@@ -101,9 +101,14 @@ class regCurrency: Codable {
 }
 
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-    @IBOutlet weak var searchBar: UISearchBar!
+
     @IBOutlet weak var cryptTableView: UITableView!
     @IBOutlet weak var menuView: UIView!
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet weak var filterView: UIView!
+    @IBOutlet weak var filterTopConstraint: NSLayoutConstraint!
+    
+    var searchBar: UISearchBar!
     
     var selectedCryptCell = CryptoCurrency()
     var crypCurrencyList = [CryptoCurrency]()
@@ -119,26 +124,60 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
 
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     var menuShowing = false
+    var filterShowing = false
+    
+    var filterButton: UIBarButtonItem!
+    var searchButton: UIBarButtonItem!
+    var menuButton: UIBarButtonItem!
         
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "MainView"
         backgroundImageName = "Background4.png"
         menuView.isHidden = true
+        filterView.isHidden = true
         setBackgroundImage()
         getData()//get crypto data
         getCurrency()//get currency data
         cryptTableView.delegate = self
         cryptTableView.dataSource = self
         
-        searchBar.delegate = self
-        searchBar.returnKeyType = UIReturnKeyType.done
+//        searchBar.delegate = self
+//        searchBar.returnKeyType = UIReturnKeyType.done
+        menuButton = UIBarButtonItem(image: UIImage(named: "menuButton"), style: .done, target: self, action: #selector(openMenuOption))
+        self.navigationItem.leftBarButtonItem = menuButton
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menuButton"), style: .done, target: self, action: #selector(openMenuOption))
+        searchButton = UIBarButtonItem(image: UIImage(named: "searchButton"), style: .done, target: self, action: #selector(searchItem))
+        filterButton = UIBarButtonItem(image: UIImage(named: "filterButton"), style: .done, target: self, action: #selector(filterItems))
+        self.navigationItem.rightBarButtonItems = [filterButton, searchButton]
         
        _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
+    }
+    
+    @objc func searchItem(){
+        
+    }
+    @objc func filterItems(){
+        filterShowing = !filterShowing
+        if (!filterShowing){
+            filterTopConstraint.constant = -300
+            filterView.isHidden = true
+            self.cryptTableView.alpha = 0.8
+            self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
+            self.navigationItem.leftBarButtonItem?.isEnabled = true
+        }
+        else{
+            filterView.isHidden = false
+            self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
+            self.navigationItem.leftBarButtonItem?.isEnabled = false
+            self.cryptTableView.alpha = 0.1
+            createFilterOptionList()
+            filterTopConstraint.constant = 0
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
     }
     
     @objc func openMenuOption(){
@@ -146,10 +185,15 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         if (!menuShowing){
             topConstraint.constant = -300
             menuView.isHidden = true
-            setBackgroundImage()
+            self.cryptTableView.alpha = 0.8
+            self.navigationItem.rightBarButtonItems?.first?.isEnabled = true
+            self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
         }
         else{
             menuView.isHidden = false
+            self.navigationItem.rightBarButtonItems?.first?.isEnabled = false
+            self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
+            self.cryptTableView.alpha = 0.1
             createMenuViewButtons()
             topConstraint.constant = 0
             UIView.animate(withDuration: 0.3, animations: {
@@ -157,9 +201,11 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             })
         }
     }
+    //  Create Drop Down Menu List
     func createMenuViewButtons(){
         createAccountSettingBtn()
         createLogOutBtn()
+        createWalletBtn()
     }
     
     func createAccountSettingBtn() {
@@ -175,6 +221,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         button.addTarget(self, action: #selector(accountSettingBtn), for: UIControlEvents.touchUpInside)
         self.menuView.addSubview(button)
     }
+    
     @objc func accountSettingBtn(){
         performSegue(withIdentifier: "MainToAcc", sender: self)
     }
@@ -197,6 +244,77 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         self.dismiss(animated: true, completion: nil)
     }
     
+    func createWalletBtn(){
+        let button = UIButton(type: .system)
+        button.frame =  CGRect(x: 0, y: 80, width: 160, height: 40)
+        button.setImage(UIImage(named:"wallet"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 2,left: -62,bottom: 2,right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 2,left: -57,bottom: 2,right: 0)
+        button.setTitle("Wallet", for: .normal)
+        button.layer.borderWidth = 1.0
+        button.backgroundColor = UIColor.white //--> set the background color and check
+        button.layer.borderColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(WalletBtn), for: UIControlEvents.touchUpInside)
+        self.menuView.addSubview(button)
+    }
+    
+    @objc func WalletBtn(){
+        performSegue(withIdentifier: "MainToWallet", sender: self)
+    }
+    
+    // Create Filter Option List
+    func createFilterOptionList(){
+        createShowCryptoFilterBtn()
+        createShowCurrencyFilterBtn()
+        createShowAllBtn()
+    }
+    
+    func createShowCryptoFilterBtn(){
+        let button = UIButton(type: .system)
+        button.frame =  CGRect(x: 0, y: 0, width: 160, height: 40)
+        button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
+        button.setTitle("Show CryptoCurrency", for: .normal)
+        button.layer.borderWidth = 1.0
+        button.backgroundColor = UIColor.white //--> set the background color and check
+        button.layer.borderColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(cryptoFilterBtn), for: UIControlEvents.touchUpInside)
+        self.filterView.addSubview(button)
+    }
+    @objc func cryptoFilterBtn(){
+        
+    }
+    
+    func createShowCurrencyFilterBtn(){
+        let button = UIButton(type: .system)
+        button.frame =  CGRect(x: 0, y: 40, width: 160, height: 40)
+        button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
+        button.setTitle("Show Currency", for: .normal)
+        button.layer.borderWidth = 1.0
+        button.backgroundColor = UIColor.white //--> set the background color and check
+        button.layer.borderColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(currencyFilterBtn), for: UIControlEvents.touchUpInside)
+        self.filterView.addSubview(button)
+    }
+    @objc func currencyFilterBtn(){
+        
+    }
+    
+    func createShowAllBtn(){
+        let button = UIButton(type: .system)
+        button.frame =  CGRect(x: 0, y: 80, width: 160, height: 40)
+        button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
+        button.setTitle("Show Currency", for: .normal)
+        button.layer.borderWidth = 1.0
+        button.backgroundColor = UIColor.white //--> set the background color and check
+        button.layer.borderColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(allBtn), for: UIControlEvents.touchUpInside)
+        self.filterView.addSubview(button)
+    }
+    @objc func allBtn(){
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -208,6 +326,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         getData()
         getCurrency()
     }
+    
     func setBackgroundImage() {
         if backgroundImageName > "" {
             backgroundImageView.removeFromSuperview()
@@ -270,7 +389,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         task.resume()
     }
     
-    
     //get regular currency function
       func getCurrency() {
                 let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
@@ -323,20 +441,15 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             let cell = tableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath)
             let currLbl = cell.contentView.viewWithTag(1) as! UILabel
             let priceLbl = cell.contentView.viewWithTag(2) as! UILabel
-            
-
-            
+        
             if isSearching {
                 currLbl.text = filteredCrypt[indexPath.row].symbol           //from filtered list
                 priceLbl.text = filteredCrypt[indexPath.row].price_usd       //from filtered list
             } else {
                 currLbl.text = crypCurrencyList[indexPath.row].symbol         //raw data
                 priceLbl.text = crypCurrencyList[indexPath.row].price_usd     //raw data
-                
             }
-            
             return cell
-
         }
         else
         {
@@ -352,7 +465,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
 
             return cell1
         }
-    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -373,7 +485,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     @IBAction func sendBtn(_ sender: Any) {
-        performSegue(withIdentifier: "MainToWallet", sender: self)
+        
     }
     
     @IBAction func NotificationSetting(_ sender: Any) {
