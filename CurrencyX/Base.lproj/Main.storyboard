@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -551,12 +552,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9m5-cU-JA6">
-                                <rect key="frame" x="0.0" y="354" width="375" height="186"/>
+                                <rect key="frame" x="0.0" y="377" width="375" height="163"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="375" id="Hr3-h7-17h"/>
-                                    <constraint firstAttribute="height" constant="186" id="cwO-mR-2zI"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="375" id="rgQ-Kx-fqV"/>
+                                    <constraint firstAttribute="height" constant="163" id="RnR-v8-EuQ"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KlX-Nn-rZx">
@@ -569,10 +568,10 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="hc9-zz-tqN">
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="hc9-zz-tqN">
                                 <rect key="frame" x="34" y="561" width="308" height="53"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARQ-WZ-bdd">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARQ-WZ-bdd">
                                         <rect key="frame" x="0.0" y="0.0" width="124" height="53"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="53" id="2f8-jQ-Xsh"/>
@@ -583,7 +582,7 @@
                                             <action selector="purchaseButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="eq1-RN-NMa"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sWj-RH-ljE">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sWj-RH-ljE">
                                         <rect key="frame" x="184" y="0.0" width="124" height="53"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="124" id="aYj-m9-yLh"/>
@@ -668,28 +667,36 @@
                                     <constraint firstAttribute="height" constant="84" id="3GB-7I-uRI"/>
                                 </constraints>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VKF-oh-V4r" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="16" y="183" width="343" height="171"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hc9-zz-tqN" firstAttribute="top" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="21" id="0Sx-le-RvE"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="VKF-oh-V4r" secondAttribute="bottom" constant="23" id="DS0-el-Q4K"/>
+                            <constraint firstItem="hc9-zz-tqN" firstAttribute="top" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="21" id="E83-5q-PDc"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="leading" secondItem="dt5-bA-DOv" secondAttribute="leading" id="Iuy-br-FYq"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" id="JkM-5l-k8v"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="35" id="Kt2-yM-CSa"/>
-                            <constraint firstItem="9m5-cU-JA6" firstAttribute="trailing" secondItem="VUD-lI-pwr" secondAttribute="trailing" id="LYU-ju-fp2"/>
-                            <constraint firstItem="9m5-cU-JA6" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" id="MvD-el-Phh"/>
+                            <constraint firstItem="VKF-oh-V4r" firstAttribute="top" secondItem="pDA-0k-PBo" secondAttribute="bottom" constant="8" symbolic="YES" id="Mkr-b9-6ha"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="top" secondItem="VUD-lI-pwr" secondAttribute="top" constant="27" id="Qcc-W8-sQT"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="trailing" secondItem="pDA-0k-PBo" secondAttribute="trailing" constant="35" id="VcS-fQ-Qk7"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="bottom" secondItem="hc9-zz-tqN" secondAttribute="bottom" constant="53" id="Vn6-u1-5SS"/>
-                            <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="pDA-0k-PBo" secondAttribute="bottom" constant="179" id="YBc-10-2tC"/>
-                            <constraint firstItem="hc9-zz-tqN" firstAttribute="top" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="21" id="gpS-3v-zTV"/>
+                            <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="hc9-zz-tqN" secondAttribute="centerX" id="gG1-nl-96T"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="trailing" secondItem="VUD-lI-pwr" secondAttribute="trailing" id="kRu-T5-dc8"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="top" secondItem="6qU-m9-WgR" secondAttribute="top" id="lQ5-V4-rVC"/>
+                            <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="pDA-0k-PBo" secondAttribute="centerX" id="p9I-MF-k24"/>
+                            <constraint firstItem="VKF-oh-V4r" firstAttribute="leading" secondItem="6qU-m9-WgR" secondAttribute="leadingMargin" id="pW7-k0-c8e"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="bottom" secondItem="VUD-lI-pwr" secondAttribute="bottom" id="xfc-1o-hq5"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="trailing" secondItem="dt5-bA-DOv" secondAttribute="trailing" id="yh1-j0-PFl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VUD-lI-pwr"/>
                     </view>
                     <connections>
                         <outlet property="fromCurrAmount" destination="SMC-Jc-qyy" id="mMC-Hs-WgB"/>
                         <outlet property="fromCurrencyLbl" destination="ehH-ha-wpd" id="ysp-Xw-luA"/>
+                        <outlet property="lineChart" destination="VKF-oh-V4r" id="c77-pe-Qj5"/>
                         <outlet property="toCurrAmount" destination="Eiq-3l-VHJ" id="myB-lh-5zK"/>
                         <outlet property="toCurrencyLbl" destination="C66-27-qCR" id="Av5-ew-9vr"/>
                         <segue destination="SAF-vU-wkn" kind="show" identifier="DetailToBuy" id="qTe-ry-X6d"/>
@@ -698,7 +705,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ez7-HO-oQD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2858" y="-300"/>
+            <point key="canvasLocation" x="2856.8000000000002" y="-300"/>
         </scene>
         <!--BuyView-->
         <scene sceneID="GV6-V4-5Gc">

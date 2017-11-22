@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Charts
 
 class DetailView: UIViewController {
 
@@ -15,18 +16,19 @@ class DetailView: UIViewController {
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
     
+    var cryptoPrice = [Double]()
+    var currencyPrice = [Double]()
     // Variable Initialize
     var cryptCurrency = CryptoCurrency()
     var regCurrency = currency()
     // UI variable initialize
     
+    @IBOutlet weak var lineChart: LineChartView!
     @IBOutlet weak var fromCurrencyLbl: UILabel!
     @IBOutlet weak var toCurrencyLbl: UILabel!
     @IBOutlet weak var fromCurrAmount: UILabel!
     @IBOutlet weak var toCurrAmount: UILabel!
     
-    //
-    var mainView = MainView()
     
     // Process
     override func viewDidLoad()
@@ -39,15 +41,35 @@ class DetailView: UIViewController {
         if(MainView.isCryptoSelect == true)
         {
             displayCrypto()
+            updateCryptChart()
         }
         else
         {
             displayCurrency()
+            updateCurrencyChart()
         }
-        //fromCurrAmount.text = "1.0"
-        //toCurrAmount.text = String(cryptCurrency.price_usd)
-    }
+        _ = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(DetailView.refresh), userInfo: nil, repeats: true)
 
+    }
+    @objc func refresh(){
+        cryptoPrice.append(Double(cryptCurrency.price_usd)!)
+        currencyPrice.append(Double(regCurrency.price))
+        
+        if(MainView.isCryptoSelect == true)
+        {
+            displayCrypto()
+            updateCryptChart()
+        }
+        else
+        {
+            displayCurrency()
+            updateCurrencyChart()
+        }
+
+       // updateCryptChart()
+        //updateCurrencyChart()
+        
+    }
     func setBackgroundImage() {
         if backgroundImageName > "" {
             backgroundImageView.removeFromSuperview()
@@ -84,6 +106,52 @@ class DetailView: UIViewController {
         fromCurrAmount.text = "1"
         toCurrAmount.text = String(regCurrency.price)
         
+    }
+    func updateCurrencyChart()
+    {
+        //array displays on the graph
+        var lineChartEntry = [ChartDataEntry]()
+        
+        //loop
+        for i in 0..<currencyPrice.count
+        {
+            let value = ChartDataEntry(x: Double(i), y: currencyPrice[i] ) //set x and y
+            lineChartEntry.append(value)//add info to chart
+        }
+        let line1 = LineChartDataSet(values: lineChartEntry, label: "Price") //convert lineChartEntry to a LineChartDataSet
+        
+        line1.colors = [NSUIColor.blue]  //sets color to blue
+        
+        let data = LineChartData() //this is the object that will be added to the chart
+        
+        data.addDataSet(line1) //adds the line to the dataset
+        
+        self.lineChart.data = data
+        self.lineChart.gridBackgroundColor = NSUIColor.white
+        self.lineChart.chartDescription?.text = "Price Chart" //set title for the graph
+    }
+    func updateCryptChart()
+    {
+        //array displays on the graph
+        var lineChartEntry = [ChartDataEntry]()
+        
+        //loop
+        for i in 0..<cryptoPrice.count
+        {
+            let value = ChartDataEntry(x: Double(i), y: cryptoPrice[i] ) //set x and y
+            lineChartEntry.append(value)//add info to chart
+        }
+        let line1 = LineChartDataSet(values: lineChartEntry, label: "Price") //convert lineChartEntry to a LineChartDataSet
+        
+        line1.colors = [NSUIColor.blue]  //sets color to blue
+        
+        let data = LineChartData() //this is the object that will be added to the chart
+        
+        data.addDataSet(line1) //adds the line to the dataset
+        
+        self.lineChart.data = data
+        self.lineChart.gridBackgroundColor = NSUIColor.white
+        self.lineChart.chartDescription?.text = "Price Chart" //set title for the graph
     }
     @IBAction func purchaseButton(_ sender: Any)
     {

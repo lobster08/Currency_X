@@ -78,28 +78,6 @@ class CryptoCurrency{
     }
 }
 
-
-//probable don't need this
-//class regCurrency: Codable {
-//    let Symbol: String
-//    let Bid: Float
-//    let Ask: Float
-//    let High: Float
-//    let Low: Float
-//    let Direction: Float
-//    let Last: String
-//
-//    init(Symbol: String, Bid: Float, Ask: Float, High: Float, Low: Float, Direction: Float, Last: String) {
-//        self.Symbol = Symbol
-//        self.Bid = Bid
-//        self.Ask = Ask
-//        self.High = High
-//        self.Low = Low
-//        self.Direction = Direction
-//        self.Last = Last
-//    }
-//}
-
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var cryptTableView: UITableView!
@@ -159,7 +137,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         filterButton = UIBarButtonItem(image: UIImage(named: "filterButton"), style: .done, target: self, action: #selector(filterItems))
         self.navigationItem.rightBarButtonItems = [filterButton, searchButton]
         
-       _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
+       _ = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
     }
     
     @objc func searchItem(){
