@@ -25,6 +25,8 @@ class DetailView: UIViewController {
     @IBOutlet weak var fromCurrAmount: UILabel!
     @IBOutlet weak var toCurrAmount: UILabel!
     
+    //
+    var mainView = MainView()
     
     // Process
     override func viewDidLoad()
@@ -32,8 +34,18 @@ class DetailView: UIViewController {
         super.viewDidLoad()
         backgroundImageName = "Background5.png"
         setBackgroundImage()
-        fromCurrAmount.text = "1.0"
-        toCurrAmount.text = String(cryptCurrency.price_usd)
+       
+        
+        if(MainView.isCryptoSelect == true)
+        {
+            displayCrypto()
+        }
+        else
+        {
+            displayCurrency()
+        }
+        //fromCurrAmount.text = "1.0"
+        //toCurrAmount.text = String(cryptCurrency.price_usd)
     }
 
     func setBackgroundImage() {
@@ -57,7 +69,22 @@ class DetailView: UIViewController {
             setBackgroundImage()
         }
     }
-    
+    func displayCrypto()
+    {
+        fromCurrencyLbl.text = cryptCurrency.name
+        toCurrencyLbl.text = "USD"
+        fromCurrAmount.text = "1"
+        toCurrAmount.text = String(cryptCurrency.price_usd)
+
+    }
+    func displayCurrency()
+    {
+        fromCurrencyLbl.text = String(regCurrency.symbol.characters.prefix(3))
+        toCurrencyLbl.text = String(regCurrency.symbol.characters.suffix(3))
+        fromCurrAmount.text = "1"
+        toCurrAmount.text = String(regCurrency.price)
+        
+    }
     @IBAction func purchaseButton(_ sender: Any)
     {
         performSegue(withIdentifier: "DetailToBuy", sender: self)

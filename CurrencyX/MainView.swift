@@ -80,25 +80,25 @@ class CryptoCurrency{
 
 
 //probable don't need this
-class regCurrency: Codable {
-    let Symbol: String
-    let Bid: Float
-    let Ask: Float
-    let High: Float
-    let Low: Float
-    let Direction: Float
-    let Last: String
-    
-    init(Symbol: String, Bid: Float, Ask: Float, High: Float, Low: Float, Direction: Float, Last: String) {
-        self.Symbol = Symbol
-        self.Bid = Bid
-        self.Ask = Ask
-        self.High = High
-        self.Low = Low
-        self.Direction = Direction
-        self.Last = Last
-    }
-}
+//class regCurrency: Codable {
+//    let Symbol: String
+//    let Bid: Float
+//    let Ask: Float
+//    let High: Float
+//    let Low: Float
+//    let Direction: Float
+//    let Last: String
+//
+//    init(Symbol: String, Bid: Float, Ask: Float, High: Float, Low: Float, Direction: Float, Last: String) {
+//        self.Symbol = Symbol
+//        self.Bid = Bid
+//        self.Ask = Ask
+//        self.High = High
+//        self.Low = Low
+//        self.Direction = Direction
+//        self.Last = Last
+//    }
+//}
 
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
@@ -133,6 +133,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     var isShowCrypto = true
     var isShowCurrency = true
+    
+    // sees if user clicks on crypto cell or regcurrency cell
+    static var isCryptoSelect = false;
+    static var isCurrencySelect = false;
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -502,10 +506,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         //      selectedCryptCell = cryptArrFin[indexPath.row]
         if (indexPath.row < crypCurrencyList.count)
         {
+            MainView.isCryptoSelect = true;
+            MainView.isCurrencySelect = false;
             selectedCryptCell = crypCurrencyList[indexPath.row]
         }
         else
         {
+            MainView.isCurrencySelect = true;
+            MainView.isCryptoSelect = false;
             selectedCurrency = Currencies[indexPath.row]
         }
         self.performSegue(withIdentifier: "MainToDetail", sender: self)
