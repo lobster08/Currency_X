@@ -130,6 +130,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var filterButton: UIBarButtonItem!
     var searchButton: UIBarButtonItem!
     var menuButton: UIBarButtonItem!
+    
+    var isShowCrypto = true
+    var isShowCurrency = true
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,11 +169,13 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.cryptTableView.alpha = 0.8
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
             self.navigationItem.leftBarButtonItem?.isEnabled = true
+            self.cryptTableView.isUserInteractionEnabled = true
         }
         else{
             filterView.isHidden = false
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.navigationItem.leftBarButtonItem?.isEnabled = false
+            self.cryptTableView.isUserInteractionEnabled = false
             self.cryptTableView.alpha = 0.1
             createFilterOptionList()
             filterTopConstraint.constant = 0
@@ -188,11 +193,13 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.cryptTableView.alpha = 0.8
             self.navigationItem.rightBarButtonItems?.first?.isEnabled = true
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
+            self.cryptTableView.isUserInteractionEnabled = true
         }
         else{
             menuView.isHidden = false
             self.navigationItem.rightBarButtonItems?.first?.isEnabled = false
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
+            self.cryptTableView.isUserInteractionEnabled = false
             self.cryptTableView.alpha = 0.1
             createMenuViewButtons()
             topConstraint.constant = 0
@@ -281,7 +288,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         self.filterView.addSubview(button)
     }
     @objc func cryptoFilterBtn(){
-        
+        isShowCrypto = true
+        isShowCurrency = false
+        self.refresh()
+        endFilter()
     }
     
     func createShowCurrencyFilterBtn(){
@@ -296,14 +306,17 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         self.filterView.addSubview(button)
     }
     @objc func currencyFilterBtn(){
-        
+        isShowCrypto = false
+        isShowCurrency = true
+        self.refresh()
+        endFilter()
     }
     
     func createShowAllBtn(){
         let button = UIButton(type: .system)
         button.frame =  CGRect(x: 0, y: 80, width: 160, height: 40)
         button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
-        button.setTitle("Show Currency", for: .normal)
+        button.setTitle("Show All", for: .normal)
         button.layer.borderWidth = 1.0
         button.backgroundColor = UIColor.white //--> set the background color and check
         button.layer.borderColor = UIColor.black.cgColor
@@ -311,9 +324,20 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         self.filterView.addSubview(button)
     }
     @objc func allBtn(){
-        
+        isShowCrypto = true
+        isShowCurrency = true
+        self.refresh()
+        endFilter()
     }
-    
+    func endFilter(){
+        filterShowing = !filterShowing
+        filterTopConstraint.constant = -300
+        filterView.isHidden = true
+        self.cryptTableView.alpha = 0.8
+        self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
+        self.navigationItem.leftBarButtonItem?.isEnabled = true
+        self.cryptTableView.isUserInteractionEnabled = true
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -412,7 +436,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                     } else if let error = error {
                         print(error.localizedDescription)
                     }
-        
                 }
                 task.resume()
         
@@ -427,16 +450,21 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if isSearching {
             return filteredCrypt.count
+        }
+        else if (isShowCrypto && !isShowCurrency) {
+            return crypCurrencyList.count
+        }
+        else if (isShowCurrency && !isShowCrypto){
+            return Currencies.count
         }
             return (crypCurrencyList.count + Currencies.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let prototypeCell = cryptTableView
-        if (indexPath.row < crypCurrencyList.count)
+        if (isShowCrypto && indexPath.row < crypCurrencyList.count)
         {
             let cell = tableView .dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath)
             let currLbl = cell.contentView.viewWithTag(1) as! UILabel
@@ -462,7 +490,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             firstlbl.text = String(Currencies[indexPath.row].symbol.characters.prefix(3))
             currencyLbl.text = String(Currencies[indexPath.row].symbol.characters.suffix(3))
             priceLabel.text = String(Currencies[indexPath.row].price)
-
             return cell1
         }
     }
@@ -482,10 +509,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             selectedCurrency = Currencies[indexPath.row]
         }
         self.performSegue(withIdentifier: "MainToDetail", sender: self)
-    }
-    
-    @IBAction func sendBtn(_ sender: Any) {
-        
     }
     
     @IBAction func NotificationSetting(_ sender: Any) {
