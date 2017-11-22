@@ -120,6 +120,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     //  variables to check which type of currency is chosen to display (Crypto/Currency/All)
     var isShowCrypto = true
     var isShowCurrency = true
+    
+    // sees if user clicks on crypto cell or regcurrency cell
+    static var isCryptoSelect = false;
+    static var isCurrencySelect = false;
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -556,10 +560,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         //      selectedCryptCell = cryptArrFin[indexPath.row]
         if (indexPath.row < crypCurrencyList.count)
         {
+            MainView.isCryptoSelect = true;
+            MainView.isCurrencySelect = false;
             selectedCryptCell = crypCurrencyList[indexPath.row]
         }
         else
         {
+            MainView.isCurrencySelect = true;
+            MainView.isCryptoSelect = false;
             selectedCurrency = Currencies[indexPath.row]
         }
         self.performSegue(withIdentifier: "MainToDetail", sender: self)

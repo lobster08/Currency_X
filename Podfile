@@ -9,4 +9,7 @@ target 'CurrencyX' do
   pod ‘Firebase/Core’
   pod ‘Firebase/Auth’ 
   pod ‘Firebase/Database’
+  
+  # use for making chart
+  pod 'Charts'
 end
