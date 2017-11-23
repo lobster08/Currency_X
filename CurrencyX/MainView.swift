@@ -78,6 +78,16 @@ class CryptoCurrency{
         last_updated = ""
     }
 }
+struct delta{
+    var symbol : String
+    var deltaValue : Double
+    var percentage : Double
+    init(){
+        symbol = ""
+        deltaValue = 0.0
+        percentage = 0.0
+    }
+}
 
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UITextFieldDelegate {
 
@@ -89,6 +99,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     var searchController = UISearchController()
     var resultsController = UITableViewController()
+    var isStartUp : Bool = true
+    
     //  Variables using in searching
     var searchBar = UISearchBar()
     var isSearching = false
@@ -98,10 +110,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     //  Cryptocurrency variables
     var selectedCryptCell = CryptoCurrency()
     var crypCurrencyList = [CryptoCurrency]()
+    var prevCrypCurrencyList = [CryptoCurrency]()
+    var crypDeltaList = [delta]()
     
     //  Currencies variable
     var Currencies = [currency]()
     var selectedCurrency = currency()
+    var prevCurrency = [currency]()
+    var currencyDeltaList = [delta]()
     
     //  variables to set background image
     var backgroundImage = UIImage()
@@ -124,7 +140,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     // sees if user clicks on crypto cell or regcurrency cell
     static var isCryptoSelect = false;
     static var isCurrencySelect = false;
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundImageName = "Background4.png"
@@ -154,6 +170,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     //  Function to refresh Table View to be displayed
     //  It will be called to fetch new data frop API and update on Table View
     @objc func refresh(){
+        isStartUp = false
         crypCurrencyList.removeAll()
         Currencies.removeAll()
         getData()
@@ -425,6 +442,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                         
                         var cryptpInfo = CryptoCurrency(ID: value["id"]! as! String, Name: value["name"]! as! String, Symbol: value["symbol"]! as! String, Rank: value["rank"]! as! String, Price_USD : value["price_usd"]! as! String, Price_BTC: value["price_btc"]! as! String, Volume_USD: value["24h_volume_usd"]! as! String, Market_cap: value["market_cap_usd"]! as! String, Available_Supply: available_supply, Total_Supply: total_supply, Max_Supply : max_supply, Percent_1h: value["percent_change_1h"]! as! String, Percent_24h: value["percent_change_24h"]! as! String, Percent_7d: value["percent_change_7d"]! as! String, LastUpdated: value["last_updated"]! as! String)
                         self.crypCurrencyList.append(cryptpInfo)
+                        if (self.isStartUp){
+                            self.prevCrypCurrencyList.append(cryptpInfo)
+                        }
                     }
                     DispatchQueue.main.async {
                         self.cryptTableView.reloadData()
@@ -440,6 +460,24 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         }
         task.resume()
     }
+    func calculateDeltaCrypto(){
+        if (isStartUp){
+            for i in 0..<crypCurrencyList.count{
+                prevCrypCurrencyList.append(crypCurrencyList[i])
+            }
+        }
+        else{
+            for i in 0..<crypCurrencyList.count{
+                if (crypCurrencyList[i].price_usd != prevCrypCurrencyList[i].price_usd){
+                    crypDeltaList[i].symbol = crypCurrencyList[i].symbol
+                    crypDeltaList[i].deltaValue = Double(crypCurrencyList[i].price_usd)! - Double(prevCrypCurrencyList[i].price_usd)!
+                    var abs_value = abs(crypDeltaList[i].deltaValue)
+                    crypDeltaList[i].percentage = (abs_value / Double(prevCrypCurrencyList[i].price_usd)!) * 100
+                }
+                prevCrypCurrencyList[i] = crypCurrencyList[i]
+            }
+        }
+    }
     
     //get regular currency function
     func getCurrency() {
@@ -451,20 +489,41 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                     let jsonDecoder = JSONDecoder()
                     let currList = try jsonDecoder.decode([currency].self, from: data)
                     self.Currencies = currList
+                    if (self.isStartUp){
+                        self.prevCurrency = currList
+                    }
                     DispatchQueue.main.async {
                         self.cryptTableView.reloadData()
                         print("JSON downloaded")
-                            //  print(currList)
                     }
-                } catch {
+                }
+                catch {
                     print("Can't pull JSON")
                 }
-
             } else if let error = error {
                 print(error.localizedDescription)
             }
         }
         task.resume()
+    }
+    func calculateDeltaCurrency(){
+        if (isStartUp){
+            for i in 0..<Currencies.count{
+                prevCurrency.append(Currencies[i])
+            }
+            isStartUp = !isStartUp
+        }
+        else{
+            for i in 0..<Currencies.count{
+                if (Currencies[i].price != prevCurrency[i].price){
+                    currencyDeltaList[i].symbol = Currencies[i].symbol
+                    currencyDeltaList[i].deltaValue = Double(Currencies[i].price - prevCurrency[i].price)
+                    var abs_value = abs(currencyDeltaList[i].deltaValue)
+                    currencyDeltaList[i].percentage = (abs_value / Double(prevCurrency[i].price)) * 100
+                }
+                prevCurrency[i] = Currencies[i]
+            }
+        }
     }
     
     func nullToNil(value : AnyObject?) -> AnyObject?{
@@ -478,6 +537,24 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     /**********************************************************************************************/
     /*              These following functions belong to Table View display and reload             */
     /**********************************************************************************************/
+    func findDelta(symbol: String, isCrypto: Bool) -> delta {
+        var found : delta!
+        if (isCrypto){
+            for i in 0..<crypDeltaList.count{
+                if (crypDeltaList[i].symbol == symbol){
+                    found = crypDeltaList[i]
+                }
+            }
+        }
+        else{
+            for i in 0..<currencyDeltaList.count{
+                if (currencyDeltaList[i].symbol == symbol){
+                    found = currencyDeltaList[i]
+                }
+            }
+        }
+        return found
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
             if (isShowCrypto && !isShowCurrency){
@@ -530,7 +607,23 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath)
                 let currLbl = cell.contentView.viewWithTag(1) as! UILabel
                 let priceLbl = cell.contentView.viewWithTag(2) as! UILabel
+                let status = cell.contentView.viewWithTag(3) as! UIImageView
+                let percentage = cell.contentView.viewWithTag(4) as! UILabel
                 
+                if (!isStartUp){
+                    let value = Double(crypCurrencyList[indexPath.row].price_usd)! - Double(prevCrypCurrencyList[indexPath.row].price_usd)!
+                    if (value < 0){
+                        status.image = UIImage(named: "down.png")
+                    }
+                    else if (value > 0){
+                        status.image = UIImage(named: "up.png")
+                    }
+                    if (value != 0){
+                        let percent = abs(value) / Double(prevCrypCurrencyList[indexPath.row].price_usd)! * 100
+                        percentage.text = String(format: "%.6f", percent) + " %"
+                    }
+                    prevCrypCurrencyList[indexPath.row] = crypCurrencyList[indexPath.row]
+                }
                 currLbl.text = crypCurrencyList[indexPath.row].symbol         //raw data
                 priceLbl.text = crypCurrencyList[indexPath.row].price_usd     //raw data
                 return cell
@@ -542,7 +635,23 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let firstlbl = cell.contentView.viewWithTag(5) as! UILabel
                 let currencyLbl = cell.contentView.viewWithTag(6) as! UILabel
                 let priceLabel = cell.contentView.viewWithTag(7) as! UILabel
+                let status = cell.contentView.viewWithTag(8) as! UIImageView
+                let percentage = cell.contentView.viewWithTag(9) as! UILabel
                 
+                if (!isStartUp){
+                    let value = Double(Currencies[indexPath.row].price) - Double(prevCurrency[indexPath.row].price)
+                    if (value < 0){
+                         status.image = UIImage(named: "down.png")
+                    }
+                    else if (value > 0){
+                        status.image = UIImage(named: "up.png")
+                    }
+                    if (value != 0){
+                        let percent = abs(value) / Double(prevCurrency[indexPath.row].price) * 100
+                        percentage.text = String(format: "%.6f", percent) + " %"
+                    }
+                    prevCurrency[indexPath.row] = Currencies[indexPath.row]
+                }
                 firstlbl.text = String(Currencies[indexPath.row].symbol.characters.prefix(3))
                 currencyLbl.text = String(Currencies[indexPath.row].symbol.characters.suffix(3))
                 priceLabel.text = String(Currencies[indexPath.row].price)
