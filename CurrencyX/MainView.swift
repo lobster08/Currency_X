@@ -78,16 +78,6 @@ class CryptoCurrency{
         last_updated = ""
     }
 }
-struct delta{
-    var symbol : String
-    var deltaValue : Double
-    var percentage : Double
-    init(){
-        symbol = ""
-        deltaValue = 0.0
-        percentage = 0.0
-    }
-}
 
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UITextFieldDelegate {
 
@@ -111,13 +101,11 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var selectedCryptCell = CryptoCurrency()
     var crypCurrencyList = [CryptoCurrency]()
     var prevCrypCurrencyList = [CryptoCurrency]()
-    var crypDeltaList = [delta]()
     
     //  Currencies variable
     var Currencies = [currency]()
     var selectedCurrency = currency()
     var prevCurrency = [currency]()
-    var currencyDeltaList = [delta]()
     
     //  variables to set background image
     var backgroundImage = UIImage()
@@ -460,24 +448,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         }
         task.resume()
     }
-    func calculateDeltaCrypto(){
-        if (isStartUp){
-            for i in 0..<crypCurrencyList.count{
-                prevCrypCurrencyList.append(crypCurrencyList[i])
-            }
-        }
-        else{
-            for i in 0..<crypCurrencyList.count{
-                if (crypCurrencyList[i].price_usd != prevCrypCurrencyList[i].price_usd){
-                    crypDeltaList[i].symbol = crypCurrencyList[i].symbol
-                    crypDeltaList[i].deltaValue = Double(crypCurrencyList[i].price_usd)! - Double(prevCrypCurrencyList[i].price_usd)!
-                    var abs_value = abs(crypDeltaList[i].deltaValue)
-                    crypDeltaList[i].percentage = (abs_value / Double(prevCrypCurrencyList[i].price_usd)!) * 100
-                }
-                prevCrypCurrencyList[i] = crypCurrencyList[i]
-            }
-        }
-    }
     
     //get regular currency function
     func getCurrency() {
@@ -506,25 +476,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         }
         task.resume()
     }
-    func calculateDeltaCurrency(){
-        if (isStartUp){
-            for i in 0..<Currencies.count{
-                prevCurrency.append(Currencies[i])
-            }
-            isStartUp = !isStartUp
-        }
-        else{
-            for i in 0..<Currencies.count{
-                if (Currencies[i].price != prevCurrency[i].price){
-                    currencyDeltaList[i].symbol = Currencies[i].symbol
-                    currencyDeltaList[i].deltaValue = Double(Currencies[i].price - prevCurrency[i].price)
-                    var abs_value = abs(currencyDeltaList[i].deltaValue)
-                    currencyDeltaList[i].percentage = (abs_value / Double(prevCurrency[i].price)) * 100
-                }
-                prevCurrency[i] = Currencies[i]
-            }
-        }
-    }
     
     func nullToNil(value : AnyObject?) -> AnyObject?{
         if value is NSNull {
@@ -537,24 +488,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     /**********************************************************************************************/
     /*              These following functions belong to Table View display and reload             */
     /**********************************************************************************************/
-    func findDelta(symbol: String, isCrypto: Bool) -> delta {
-        var found : delta!
-        if (isCrypto){
-            for i in 0..<crypDeltaList.count{
-                if (crypDeltaList[i].symbol == symbol){
-                    found = crypDeltaList[i]
-                }
-            }
-        }
-        else{
-            for i in 0..<currencyDeltaList.count{
-                if (currencyDeltaList[i].symbol == symbol){
-                    found = currencyDeltaList[i]
-                }
-            }
-        }
-        return found
-    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
             if (isShowCrypto && !isShowCurrency){
