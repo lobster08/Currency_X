@@ -80,7 +80,7 @@ class CryptoCurrency{
 }
 
 class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UITextFieldDelegate {
-
+    
     @IBOutlet weak var cryptTableView: UITableView!
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -152,7 +152,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         createButtonsOnNavigationBar()
         
         //  Set up timer to fetch data (Crypto + Currency) and update on Table View every 90 seconds
-       _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)
     }
     
     //  Function to refresh Table View to be displayed
@@ -170,12 +170,12 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func createButtonsOnNavigationBar(){
-//        menuButton = UIBarButtonItem(image: UIImage(named: "menuButton"), style: .done, target: self, action: #selector(openMenuOption))
+        //        menuButton = UIBarButtonItem(image: UIImage(named: "menuButton"), style: .done, target: self, action: #selector(openMenuOption))
         menuButton = resizeButton(image: "menuButton", function: "openMenuOption")
         self.navigationItem.leftBarButtonItem = menuButton
         
-//        searchButton = UIBarButtonItem(image: UIImage(named: "searchButton"), style: .done, target: self, action: #selector(searchItem))
-//        filterButton = UIBarButtonItem(image: UIImage(named: "filterButton"), style: .done, target: self, action: #selector(filterItems))
+        //        searchButton = UIBarButtonItem(image: UIImage(named: "searchButton"), style: .done, target: self, action: #selector(searchItem))
+        //        filterButton = UIBarButtonItem(image: UIImage(named: "filterButton"), style: .done, target: self, action: #selector(filterItems))
         searchButton = resizeButton(image: "searchButton", function: "searchItem")
         filterButton = resizeButton(image: "filterButton", function: "filterItems")
         self.navigationItem.rightBarButtonItems = [filterButton, searchButton]
@@ -193,21 +193,21 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         isSearching = true
         self.navigationItem.setLeftBarButton(nil, animated: true)
         self.navigationItem.setRightBarButtonItems(nil, animated: true)
-//        searchController = UISearchController(searchResultsController: resultsController)
-//        searchController.searchResultsUpdater = self
-//        resultsController.tableView.delegate = self
-//        resultsController.tableView.dataSource = self
-//        self.searchController.dimsBackgroundDuringPresentation = true
-//        definesPresentationContext = true
+        //        searchController = UISearchController(searchResultsController: resultsController)
+        //        searchController.searchResultsUpdater = self
+        //        resultsController.tableView.delegate = self
+        //        resultsController.tableView.dataSource = self
+        //        self.searchController.dimsBackgroundDuringPresentation = true
+        //        definesPresentationContext = true
         
         self.navigationItem.titleView = searchBar
         self.searchBar.isHidden = false
         self.searchBar.showsCancelButton = true
         self.searchBar.placeholder = "Enter your search here"
-  //      cryptTableView.tableHeaderView = searchBar
-  //      searchController.searchBar.showsCancelButton = true
+        //      cryptTableView.tableHeaderView = searchBar
+        //      searchController.searchBar.showsCancelButton = true
     }
-   
+    
     @objc func filterItems(){
         filterShowing = !filterShowing
         if (!filterShowing){
@@ -451,7 +451,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     //get regular currency function
     func getCurrency() {
-        let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
+        let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?pairs=USDJPY,USDCHF,USDCAD,USDSEK,USDNOK,USDMXN,USDZAR,USDCNH,USDEUR,USDGBP,USDAUD,USDNZD,USDXAU,USDXAG&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if let data = data {
                 do {
@@ -506,7 +506,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         else if (isShowCurrency && !isShowCrypto){
             return Currencies.count
         }
-            return (crypCurrencyList.count + Currencies.count)
+        return (crypCurrencyList.count + Currencies.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -523,7 +523,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             }
             if (isShowCurrency && filteredCurr.count != 0){
                 let cell = cryptTableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
-        
+                
                 let firstlbl = cell.contentView.viewWithTag(5) as! UILabel
                 let currencyLbl = cell.contentView.viewWithTag(6) as! UILabel
                 let priceLabel = cell.contentView.viewWithTag(7) as! UILabel
@@ -561,7 +561,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 priceLbl.text = crypCurrencyList[indexPath.row].price_usd     //raw data
                 return cell
             }
-            else
+            else if (indexPath.row <  Currencies.count)
             {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
                 
@@ -574,7 +574,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 if (!isStartUp){
                     let value = Double(Currencies[indexPath.row].price) - Double(prevCurrency[indexPath.row].price)
                     if (value < 0){
-                         status.image = UIImage(named: "down.png")
+                        status.image = UIImage(named: "down.png")
                     }
                     else if (value > 0){
                         status.image = UIImage(named: "up.png")
