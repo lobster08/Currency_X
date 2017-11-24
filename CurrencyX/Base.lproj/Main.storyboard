@@ -552,7 +552,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9m5-cU-JA6">
-                                <rect key="frame" x="0.0" y="377" width="375" height="163"/>
+                                <rect key="frame" x="-1" y="423" width="375" height="163"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="163" id="RnR-v8-EuQ"/>
@@ -569,7 +569,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="hc9-zz-tqN">
-                                <rect key="frame" x="34" y="561" width="308" height="53"/>
+                                <rect key="frame" x="32" y="594" width="308" height="53"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARQ-WZ-bdd">
                                         <rect key="frame" x="0.0" y="0.0" width="124" height="53"/>
@@ -668,28 +668,39 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VKF-oh-V4r" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="16" y="183" width="343" height="171"/>
+                                <rect key="frame" x="16" y="244" width="343" height="171"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PY5-pR-gJC">
+                                <rect key="frame" x="126" y="194" width="121" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Daily"/>
+                                    <segment title="Weekly"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentButton:" destination="4Yn-zT-TBa" eventType="valueChanged" id="83w-e0-evd"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="VKF-oh-V4r" secondAttribute="bottom" constant="23" id="DS0-el-Q4K"/>
-                            <constraint firstItem="hc9-zz-tqN" firstAttribute="top" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="21" id="E83-5q-PDc"/>
-                            <constraint firstItem="9m5-cU-JA6" firstAttribute="leading" secondItem="dt5-bA-DOv" secondAttribute="leading" id="Iuy-br-FYq"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="VKF-oh-V4r" secondAttribute="bottom" constant="8" id="DS0-el-Q4K"/>
+                            <constraint firstItem="hc9-zz-tqN" firstAttribute="top" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="8" id="E83-5q-PDc"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="leading" secondItem="dt5-bA-DOv" secondAttribute="leading" constant="-1" id="Iuy-br-FYq"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" id="JkM-5l-k8v"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="35" id="Kt2-yM-CSa"/>
-                            <constraint firstItem="VKF-oh-V4r" firstAttribute="top" secondItem="pDA-0k-PBo" secondAttribute="bottom" constant="8" symbolic="YES" id="Mkr-b9-6ha"/>
+                            <constraint firstItem="VKF-oh-V4r" firstAttribute="top" secondItem="pDA-0k-PBo" secondAttribute="bottom" constant="69" id="Mkr-b9-6ha"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="top" secondItem="VUD-lI-pwr" secondAttribute="top" constant="27" id="Qcc-W8-sQT"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="trailing" secondItem="pDA-0k-PBo" secondAttribute="trailing" constant="35" id="VcS-fQ-Qk7"/>
-                            <constraint firstItem="VUD-lI-pwr" firstAttribute="bottom" secondItem="hc9-zz-tqN" secondAttribute="bottom" constant="53" id="Vn6-u1-5SS"/>
-                            <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="hc9-zz-tqN" secondAttribute="centerX" id="gG1-nl-96T"/>
+                            <constraint firstItem="VUD-lI-pwr" firstAttribute="bottom" secondItem="hc9-zz-tqN" secondAttribute="bottom" constant="20" id="Vn6-u1-5SS"/>
+                            <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="hc9-zz-tqN" secondAttribute="centerX" constant="1.5" id="gG1-nl-96T"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="trailing" secondItem="VUD-lI-pwr" secondAttribute="trailing" id="kRu-T5-dc8"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="top" secondItem="6qU-m9-WgR" secondAttribute="top" id="lQ5-V4-rVC"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="pDA-0k-PBo" secondAttribute="centerX" id="p9I-MF-k24"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="leading" secondItem="6qU-m9-WgR" secondAttribute="leadingMargin" id="pW7-k0-c8e"/>
                             <constraint firstItem="dt5-bA-DOv" firstAttribute="bottom" secondItem="VUD-lI-pwr" secondAttribute="bottom" id="xfc-1o-hq5"/>
-                            <constraint firstItem="9m5-cU-JA6" firstAttribute="trailing" secondItem="dt5-bA-DOv" secondAttribute="trailing" id="yh1-j0-PFl"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="trailing" secondItem="dt5-bA-DOv" secondAttribute="trailing" constant="-1" id="yh1-j0-PFl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VUD-lI-pwr"/>
                     </view>
