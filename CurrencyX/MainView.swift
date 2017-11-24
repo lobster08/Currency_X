@@ -541,7 +541,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let currLbl = cell.contentView.viewWithTag(1) as! UILabel
                 let priceLbl = cell.contentView.viewWithTag(2) as! UILabel
                 let status = cell.contentView.viewWithTag(3) as! UIImageView
-                let percentage = cell.contentView.viewWithTag(4) as! UILabel
+                let delta = cell.contentView.viewWithTag(4) as! UILabel
                 
                 if (!isStartUp){
                     let value = Double(crypCurrencyList[indexPath.row].price_usd)! - Double(prevCrypCurrencyList[indexPath.row].price_usd)!
@@ -552,8 +552,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                         status.image = UIImage(named: "up.png")
                     }
                     if (value != 0){
-                        let percent = abs(value) / Double(prevCrypCurrencyList[indexPath.row].price_usd)! * 100
-                        percentage.text = String(format: "%.6f", percent) + " %"
+                        delta.text = String(format: "%.5f", abs(value))
                     }
                     prevCrypCurrencyList[indexPath.row] = crypCurrencyList[indexPath.row]
                 }
@@ -569,7 +568,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let currencyLbl = cell.contentView.viewWithTag(6) as! UILabel
                 let priceLabel = cell.contentView.viewWithTag(7) as! UILabel
                 let status = cell.contentView.viewWithTag(8) as! UIImageView
-                let percentage = cell.contentView.viewWithTag(9) as! UILabel
+                let delta = cell.contentView.viewWithTag(9) as! UILabel
                 
                 if (!isStartUp){
                     let value = Double(Currencies[indexPath.row].price) - Double(prevCurrency[indexPath.row].price)
@@ -580,8 +579,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                         status.image = UIImage(named: "up.png")
                     }
                     if (value != 0){
-                        let percent = abs(value) / Double(prevCurrency[indexPath.row].price) * 100
-                        percentage.text = String(format: "%.6f", percent) + " %"
+                        delta.text = String(format: "%.5f", abs(value))
                     }
                     prevCurrency[indexPath.row] = Currencies[indexPath.row]
                 }
