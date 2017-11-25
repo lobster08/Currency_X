@@ -12,13 +12,27 @@ import AudioToolbox
 import Foundation
 import MessageUI
 
-class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate {
+struct Notify{
+    var symbol : String
+    var set_price : Double
+    init(){
+        symbol = ""
+        set_price = 0.0
+    }
+}
+
+class NotificationController: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate {
     
     var isSwitch: Bool = false;
     @IBOutlet weak var Switch: UISwitch!
     @IBOutlet weak var SellP: UITextField!
     @IBOutlet weak var BuyP: UITextField!
     @IBOutlet var mainView: UIView!
+    
+    var cryptCurrency = [CryptoCurrency]()
+    var regCurrency = [currency]()
+    var cryptCurrencyNotify = [Notify]()
+    var regCurrencyNotify = [Notify]()
     
     var currentPriceB : Double = 1.2445
     var currentPriceS : Double = 1.3453
@@ -27,13 +41,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
     
-    var currentPrice : Double!
-    var symbol : String!
-    var timer : Timer!
-    
-    var setBuyPrice : Double!
-    var setSellPrice : Double!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,6 +56,8 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         else{
             Switch.setOn(true, animated: true)
         }
+        print(cryptCurrency)
+        print(regCurrency)
     }
 
     func setBackgroundImage() {
@@ -61,6 +71,11 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         }
     }
     
+    @objc func updateCurrentPrice(){
+        print(cryptCurrency)
+        print(regCurrency)
+    }
+    
     // detect device orientation changes
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if UIDevice.current.orientation.isLandscape {
@@ -71,6 +86,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
             setBackgroundImage()
         }
     }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -101,7 +117,6 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
                         alert(msg: "Please enter number only!")
                         return
                 }
-                setBuyPrice = price
                 if (price >= currentPriceS && isSwitch == true){
                     AudioServicesPlayAlertSound(SystemSoundID(1336))
                     let sendEmail = configureMailController(option: 1)
@@ -126,7 +141,6 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
                         alert(msg: "Please enter number only!")
                         return
                 }
-                setSellPrice = price
                 if (price <= currentPriceB && isSwitch == true){
                     AudioServicesPlayAlertSound(SystemSoundID(1336))
                     let sendEmail = configureMailController(option: 2)

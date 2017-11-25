@@ -946,7 +946,7 @@
                                                     </constraints>
                                                     <state key="normal" title="Noti" image="bellButtonVer2"/>
                                                     <connections>
-                                                        <action selector="NotificationSetting:" destination="hpy-jP-EgC" eventType="touchUpInside" id="r7j-X4-M6Q"/>
+                                                        <action selector="NotificationSetting:" destination="hpy-jP-EgC" eventType="touchUpInside" id="qGF-eB-UZV"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1045,7 +1045,7 @@
                                                     </constraints>
                                                     <state key="normal" title="Noti" image="bellButtonVer2"/>
                                                     <connections>
-                                                        <action selector="NotificationSetting:" destination="hpy-jP-EgC" eventType="touchUpInside" id="LFw-If-uTk"/>
+                                                        <action selector="CurrencyNotification:" destination="hpy-jP-EgC" eventType="touchUpInside" id="qnk-zv-OQm"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

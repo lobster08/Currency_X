@@ -15,8 +15,15 @@ struct currency : Codable
     var bid : Float
     var ask : Float
     var timestamp : Int
-    init()
+    init(Symbol: String, Price: Float, Bid: Float, Ask: Float, Timestamp: Int)
     {
+        symbol = Symbol
+        price = Price
+        bid = Bid
+        ask = Ask
+        timestamp = Timestamp
+    }
+    init(){
         symbol = ""
         price = 0.0
         bid = 0.0
@@ -126,13 +133,16 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var isShowCurrency = true
     
     // sees if user clicks on crypto cell or regcurrency cell
-    static var isCryptoSelect = false;
-    static var isCurrencySelect = false;
+    static var isCryptoSelect = false
+    static var isCurrencySelect = false
+    
+    //  Create User Defaults
+    var default_data : UserDefaults!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundImageName = "Background4.png"
-        
+        default_data = UserDefaults.init(suiteName: "Fetch Data API")
         //  Hide Menu List and Filter List
         menuView.isHidden = true
         filterView.isHidden = true
@@ -430,6 +440,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                         
                         var cryptpInfo = CryptoCurrency(ID: value["id"]! as! String, Name: value["name"]! as! String, Symbol: value["symbol"]! as! String, Rank: value["rank"]! as! String, Price_USD : value["price_usd"]! as! String, Price_BTC: value["price_btc"]! as! String, Volume_USD: value["24h_volume_usd"]! as! String, Market_cap: value["market_cap_usd"]! as! String, Available_Supply: available_supply, Total_Supply: total_supply, Max_Supply : max_supply, Percent_1h: value["percent_change_1h"]! as! String, Percent_24h: value["percent_change_24h"]! as! String, Percent_7d: value["percent_change_7d"]! as! String, LastUpdated: value["last_updated"]! as! String)
                         self.crypCurrencyList.append(cryptpInfo)
+                        self.default_data?.setValue(Double(cryptpInfo.price_usd)!, forKey: cryptpInfo.symbol)
                         if (self.isStartUp){
                             self.prevCrypCurrencyList.append(cryptpInfo)
                         }
@@ -453,14 +464,18 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func getCurrency() {
         let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?pairs=USDJPY,USDCHF,USDCAD,USDSEK,USDNOK,USDMXN,USDZAR,USDCNH,USDEUR,USDGBP,USDAUD,USDNZD,USDXAU,USDXAG&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if let data = data {
+            if (error == nil && data != nil){
                 do {
                     //convert to json
-                    let jsonDecoder = JSONDecoder()
-                    let currList = try jsonDecoder.decode([currency].self, from: data)
-                    self.Currencies = currList
-                    if (self.isStartUp){
-                        self.prevCurrency = currList
+                    let json : NSArray = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
+                    for i in 0..<json.count{
+                        let value : Dictionary = json.object(at: i) as! Dictionary<String,AnyObject>
+                        var currencyInfo = currency(Symbol: value["symbol"] as! String, Price: value["price"] as! Float, Bid: value["bid"] as! Float, Ask: value["ask"] as! Float, Timestamp: value["timestamp"] as! Int)
+                        self.Currencies.append(currencyInfo)
+                        self.default_data?.setValue(Double(currencyInfo.price), forKey: currencyInfo.symbol)
+                        if (self.isStartUp){
+                            self.prevCurrency.append(currencyInfo)
+                        }
                     }
                     DispatchQueue.main.async {
                         self.cryptTableView.reloadData()
@@ -470,7 +485,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 catch {
                     print("Can't pull JSON")
                 }
-            } else if let error = error {
+            }
+            else if let error = error {
                 print(error.localizedDescription)
             }
         }
@@ -610,19 +626,34 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             MainView.isCryptoSelect = false;
             selectedCurrency = Currencies[indexPath.row]
         }
-        self.performSegue(withIdentifier: "MainToDetail", sender: self)
+        self.performSegue(withIdentifier: "MainToNotification", sender: self)
     }
     
     @IBAction func NotificationSetting(_ sender: Any) {
-        performSegue(withIdentifier: "MainToAcc", sender: self)
+        performSegue(withIdentifier: "MainToNotification", sender: self)
     }
     
+    @IBAction func CurrencyNotification(_ sender: Any) {
+        performSegue(withIdentifier: "MainToNotification", sender: self)
+    }
     //  Function to perform Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MainToDetail" {
             let dvc = segue.destination as! DetailView
             dvc.cryptCurrency = selectedCryptCell
             dvc.regCurrency = selectedCurrency
+        }
+        else if segue.identifier == "MainToNotification" {
+            let dvc = segue.destination as! Notification
+            if (MainView.isCryptoSelect){
+                MainView.isCryptoSelect = !MainView.isCryptoSelect
+                dvc.symbol = selectedCryptCell.symbol
+                dvc.currentPrice = Double(selectedCryptCell.price_usd)!
+            }else if (MainView.isCurrencySelect){
+                MainView.isCurrencySelect = !MainView.isCurrencySelect
+                dvc.symbol = selectedCurrency.symbol
+                dvc.currentPrice = Double(selectedCurrency.price)
+            }
         }
     }
     /**********************************************************************************************/
