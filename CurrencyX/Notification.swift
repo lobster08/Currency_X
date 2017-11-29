@@ -11,8 +11,9 @@ import AVFoundation
 import AudioToolbox
 import Foundation
 import MessageUI
+import UserNotifications
 
-class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate {
+class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UNUserNotificationCenterDelegate {
     
     var isSwitch: Bool = false;
     @IBOutlet weak var Switch: UISwitch!
@@ -34,6 +35,12 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     var setBuyPrice : Double!
     var setSellPrice : Double!
     
+    //  Create variable to access User Defaults Data
+    var default_data : UserDefaults!
+    
+    var counter1 = 0
+    var counter2 = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +48,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         setBackgroundImage()
         self.SellP.delegate = self
         self.BuyP.delegate = self
+        default_data = UserDefaults.init(suiteName: "Fetch Data API")
         
         if isSwitch == false{
             Switch.setOn(false, animated: true)
@@ -48,8 +56,22 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         else{
             Switch.setOn(true, animated: true)
         }
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { didAllow, error in})
+        checkExpectedPriceReach()
+        timer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(Notification.updateCurrPriceAndCheck), userInfo: nil, repeats: true)
     }
-
+    
+    func setNotify(){
+        let content = UNMutableNotificationContent()
+        content.title = "CurrencyX"
+        content.subtitle = "Notification"
+        content.body = "Your expected price has been reached. The current price is \(String(currentPrice))"
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "target reached", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    //  Function to set Background image, automatically fit to any screen size and rotation
     func setBackgroundImage() {
         if backgroundImageName > "" {
             backgroundImageView.removeFromSuperview()
@@ -71,6 +93,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
             setBackgroundImage()
         }
     }
+    //  Function to end keyboard when user touch anywhere on screen
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -102,23 +125,23 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
                         return
                 }
                 setBuyPrice = price
-                if (price >= currentPriceS && isSwitch == true){
-                    AudioServicesPlayAlertSound(SystemSoundID(1336))
-                    let sendEmail = configureMailController(option: 1)
-                    if MFMailComposeViewController.canSendMail(){
-                        self.present(sendEmail, animated: true, completion: nil)
-                    }
-                    else{
-                        showMailError()
-                    }
-                    let sendSMS = configureMessageController(option: 1)
-                    if MFMessageComposeViewController.canSendText(){
-                        self.present(sendSMS, animated: true, completion: nil)
-                    }
-                    else{
-                        showMessageError()
-                    }
-                }
+//                if (price >= currentPriceS && isSwitch == true){
+//                    AudioServicesPlayAlertSound(SystemSoundID(1336))
+//                    let sendEmail = configureMailController(option: 1)
+//                    if MFMailComposeViewController.canSendMail(){
+//                        self.present(sendEmail, animated: true, completion: nil)
+//                    }
+//                    else{
+//                        showMailError()
+//                    }
+//                    let sendSMS = configureMessageController(option: 1)
+//                    if MFMessageComposeViewController.canSendText(){
+//                        self.present(sendSMS, animated: true, completion: nil)
+//                    }
+//                    else{
+//                        showMessageError()
+//                    }
+//                }
             }
             if SellP.text != ""{
                 guard let price = Double(SellP.text!)
@@ -127,25 +150,57 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
                         return
                 }
                 setSellPrice = price
-                if (price <= currentPriceB && isSwitch == true){
-                    AudioServicesPlayAlertSound(SystemSoundID(1336))
-                    let sendEmail = configureMailController(option: 2)
-                    if MFMailComposeViewController.canSendMail(){
-                        self.present(sendEmail, animated: true, completion: nil)
-                    }
-                    else{
-                        showMailError()
-                    }
-                    let sendSMS = configureMessageController(option: 2)
-                    if MFMessageComposeViewController.canSendText(){
-                        self.present(sendSMS, animated: true, completion: nil)
-                    }
-                    else{
-                        showMessageError()
-                    }
-                }
+//                if (price <= currentPriceB && isSwitch == true){
+//                    AudioServicesPlayAlertSound(SystemSoundID(1336))
+//                    let sendEmail = configureMailController(option: 2)
+//                    if MFMailComposeViewController.canSendMail(){
+//                        self.present(sendEmail, animated: true, completion: nil)
+//                    }
+//                    else{
+//                        showMailError()
+//                    }
+//                    let sendSMS = configureMessageController(option: 2)
+//                    if MFMessageComposeViewController.canSendText(){
+//                        self.present(sendSMS, animated: true, completion: nil)
+//                    }
+//                    else{
+//                        showMessageError()
+//                    }
+//                }
             }
         }
+    }
+    
+    @objc func updateCurrPriceAndCheck(){
+        self.currentPrice = self.default_data?.double(forKey: symbol)
+        checkExpectedPriceReach()
+    }
+    
+    func checkExpectedPriceReach(){
+        if (setBuyPrice != nil && setBuyPrice >= currentPrice && isSwitch == true){
+            AudioServicesPlayAlertSound(SystemSoundID(1336))
+            if (timer != nil && setSellPrice == nil){
+                setNotify()
+                alert(msg: "Your expected buying price has been reached! The current price is \(String(currentPrice))")
+                setBuyPrice = nil
+                timer.invalidate()
+                counter1 = 0
+            }
+        }
+        if (setSellPrice != nil && setSellPrice <= currentPrice && isSwitch == true){
+            AudioServicesPlayAlertSound(SystemSoundID(1336))
+            if (timer != nil && setBuyPrice == nil){
+                setNotify()
+                alert(msg: "Your expected selling price has been reached! The current price is \(String(currentPrice))")
+                setSellPrice = nil
+                timer.invalidate()
+                counter2 = 0
+            }
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
     }
     
     func alert (msg : String){
