@@ -138,6 +138,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     //  Create User Defaults
     var default_data : UserDefaults!
+
+    var backgroundTaskIdentifier : UIBackgroundTaskIdentifier!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,6 +162,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         
         //  Create buttons (Menu + Search + Filter) on Navigation Bar
         createButtonsOnNavigationBar()
+        
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)})
         
         //  Set up timer to fetch data (Crypto + Currency) and update on Table View every 90 seconds
         _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(MainView.refresh), userInfo: nil, repeats: true)

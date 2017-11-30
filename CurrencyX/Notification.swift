@@ -38,8 +38,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     //  Create variable to access User Defaults Data
     var default_data : UserDefaults!
     
-    var counter1 = 0
-    var counter2 = 0
+    var backgroundTaskIdentifier : UIBackgroundTaskIdentifier!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +58,8 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { didAllow, error in})
         checkExpectedPriceReach()
+        
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)})
         timer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(Notification.updateCurrPriceAndCheck), userInfo: nil, repeats: true)
     }
     
@@ -184,7 +185,6 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
                 alert(msg: "Your expected buying price has been reached! The current price is \(String(currentPrice))")
                 setBuyPrice = nil
                 timer.invalidate()
-                counter1 = 0
             }
         }
         if (setSellPrice != nil && setSellPrice <= currentPrice && isSwitch == true){
@@ -194,7 +194,6 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
                 alert(msg: "Your expected selling price has been reached! The current price is \(String(currentPrice))")
                 setSellPrice = nil
                 timer.invalidate()
-                counter2 = 0
             }
         }
     }
