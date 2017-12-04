@@ -617,7 +617,6 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //      selectedCryptCell = cryptArrFin[indexPath.row]
         if (indexPath.row < crypCurrencyList.count)
         {
             MainView.isCryptoSelect = true;

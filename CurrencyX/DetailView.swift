@@ -122,9 +122,11 @@ struct CurrencyPrices
 }
 class DetailView: UIViewController {
     
-    // daily cryptocurrencies urls: Order: BTC, ETH, BCH,XRP, DASH,LTC,BGT, MIOTA, ADA, XMR
-//    var dailyCryptoUrls : [String: Any] = ["https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG":"https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=24&aggregate=3&e=CCCAGG","https://min-api.cryptocompare.com/data/histohour?fsym=BCH&tsym=USD&limit=24&aggregate=3&e=CCCAGG":"https://min-api.cryptocompare.com/data/histohour?fsym=XRP&tsym=USD&limit=24&aggregate=3&e=CCCAGG","https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=24&aggregate=3&e=CCCAGG":"https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG","https://min-api.cryptocompare.com/data/histohour?fsym=BGT&tsym=USD&limit=24&aggregate=3&e=CCCAGG":"https://min-api.cryptocompare.com/data/histohour?fsym=MIOTA&tsym=USD&limit=24&aggregate=3&e=CCCAGG","https://min-api.cryptocompare.com/data/histohour?fsym=ADA&tsym=USD&limit=24&aggregate=3&e=CCCAGG":"https://min-api.cryptocompare.com/data/histohour?fsym=XMR&tsym=USD&limit=24&aggregate=3&e=CCCAGG"]
-    var dailyCryptoUrls : [String: String] = ["Bitcoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ethereum" : "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Cash" : "https://min-api.cryptocompare.com/data/histohour?fsym=BCH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ripple" : "https://min-api.cryptocompare.com/data/histohour?fsym=XRP&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Dash" : "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Litecoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Gold" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTG&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "IOTA" : "https://min-api.cryptocompare.com/data/histohour?fsym=IOTA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Cardano" : "https://min-api.cryptocompare.com/data/histohour?fsym=ADA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Monero" : "https://min-api.cryptocompare.com/data/histohour?fsym=XMR&tsym=USD&limit=24&aggregate=3&e=CCCAGG" ]
+    // daily cryptocurrencies urls
+    var dailyCryptoUrls : [String: String] = ["Bitcoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ethereum" : "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Cash" : "https://min-api.cryptocompare.com/data/histohour?fsym=BCH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ripple" : "https://min-api.cryptocompare.com/data/histohour?fsym=XRP&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Dash" : "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Litecoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Gold" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTG&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "IOTA" : "https://min-api.cryptocompare.com/data/histohour?fsym=IOTA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Cardano" : "https://min-api.cryptocompare.com/data/histohour?fsym=ADA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Monero" : "https://min-api.cryptocompare.com/data/histohour?fsym=XMR&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ethereum Classic" : "https://min-api.cryptocompare.com/data/histohour?fsym=ETC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "NEO" : "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "NEM"  : "https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "EOS" : "https://min-api.cryptocompare.com/data/histohour?fsym=EOS&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Stellar Lumens" : "https://min-api.cryptocompare.com/data/histohour?fsym=XLM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "BitConnect" : "https://min-api.cryptocompare.com/data/histohour?fsym=BCCOIN&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "OmiseGO" : "https://min-api.cryptocompare.com/data/histohour?fsym=OMG&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Qtum" : "https://min-api.cryptocompare.com/data/histohour?fsym=QTUM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Lisk" : "https://min-api.cryptocompare.com/data/histohour?fsym=LSK&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Zcash" : "https://min-api.cryptocompare.com/data/histohour?fsym=ZEC&tsym=USD&limit=24&aggregate=3&e=CCCAGG"]
+    
+    //weekly cryptocurrencies urls
+    var weeklyCryptoUrls : [String: String] = ["Bitcoin" : "https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Ethereum" : "https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Bitcoin Cash" : "https://min-api.cryptocompare.com/data/histoday?fsym=BCH&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Ripple" : "https://min-api.cryptocompare.com/data/histoday?fsym=XRP&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Dash" : "https://min-api.cryptocompare.com/data/histoday?fsym=DASH&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Litecoin" : "https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Bitcoin Gold" : "https://min-api.cryptocompare.com/data/histoday?fsym=BTG&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "IOTA" : "https://min-api.cryptocompare.com/data/histoday?fsym=IOTA&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Cardano" : "https://min-api.cryptocompare.com/data/histoday?fsym=ADA&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Monero" : "https://min-api.cryptocompare.com/data/histoday?fsym=XMR&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Ethereum Classic" : "https://min-api.cryptocompare.com/data/histoday?fsym=ETC&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "NEO" : "https://min-api.cryptocompare.com/data/histoday?fsym=NEO&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "NEM"  : "https://min-api.cryptocompare.com/data/histoday?fsym=XEM&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "EOS" : "https://min-api.cryptocompare.com/data/histoday?fsym=EOS&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Stellar Lumens" : "https://min-api.cryptocompare.com/data/histoday?fsym=XLM&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "BitConnect" : "https://min-api.cryptocompare.com/data/histoday?fsym=BCCOIN&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "OmiseGO" : "https://min-api.cryptocompare.com/data/histoday?fsym=OMG&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Qtum" : "https://min-api.cryptocompare.com/data/histoday?fsym=QTUM&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Lisk" : "https://min-api.cryptocompare.com/data/histoday?fsym=LSK&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Zcash" : "https://min-api.cryptocompare.com/data/histoday?fsym=ZEC&tsym=USD&limit=7&aggregate=3&e=CCCAGG"]
 
     
     //  Create variable to set background image
@@ -173,11 +175,11 @@ class DetailView: UIViewController {
         {
             if(MainView.isCryptoSelect == true)
             {
-               getDailyCryptoData() //get daily crypto json
-                updateDailyCryptoChart() //get daily crypto chart
-
-                addDailyCryptoStruct()
-                displayCrypto()
+              //  updateDailyCryptoChart() //get daily crypto chart
+                getCryptoData(arrayUrl: dailyCryptoUrls)
+                updateCryptoChart()
+               // addDailyCryptoStruct()
+             //   displayCrypto()
                 // updateCryptChart()
             }
             else
@@ -190,9 +192,9 @@ class DetailView: UIViewController {
         {
             if(MainView.isCryptoSelect == true)
             {
-                // readPrices()
-                displayWeeklyCrypto()
-               // updateCryptChart()
+                getCryptoData(arrayUrl: weeklyCryptoUrls)
+                updateCryptoChart()
+                //updateWeeklyCryptoChart() // get weekly crypto chart
             }
             else
             {
@@ -219,10 +221,11 @@ class DetailView: UIViewController {
         cryptoName = cryptCurrency.name
         if(MainView.isCryptoSelect == true)
         {
-           getDailyCryptoData() // get daily crypto json
-           updateDailyCryptoChart() //get chart
-
-            getPrices()
+        //   getDailyCryptoData() // get daily crypto json
+        //   updateDailyCryptoChart() //get chart
+            getCryptoData(arrayUrl: dailyCryptoUrls)
+            updateCryptoChart()
+          //  getPrices()
             addDailyCryptoStruct()
             displayCrypto()
            // updateCryptChart()
@@ -250,37 +253,34 @@ class DetailView: UIViewController {
         
     }
     //return daily crypto url link
-    func getUrl(urlname : String) -> String
+    func getUrl(urlname : String, arrayUrl : [String : String]) -> String
     {
-            for (key, value) in dailyCryptoUrls
+            for (key, value) in arrayUrl
             {
                 if (urlname == key)
                 {
-                    print(value)
-
                     return value
                 }
             }
         return ""
-        
     }
-    //get daily prices for cryptoCurrencies
-    func getDailyCryptoData()
+    func getCryptoData(arrayUrl : [String : String])
     {
-        let urlString = getUrl(urlname: cryptInfo.name )
+        let urlString = getUrl(urlname: cryptInfo.name, arrayUrl: arrayUrl )
         guard let url = URL(string: urlString) else { return }
         let task = URLSession.shared.dataTask(with: url){ (data, response, error) in
             
             if let data = data {
                 do{
+                    self.cPriceList.removeAll()
+                    
                     let jsonDecoder = JSONDecoder()
-                     self.dailyCryptoData = try jsonDecoder.decode(dailyCryptoPrices.self , from: data)
+                    self.dailyCryptoData = try jsonDecoder.decode(dailyCryptoPrices.self , from: data)
                     DispatchQueue.main.async {
-                        self.cPriceList.removeAll()
                         self.addCryptoPrices()
-
-                     //   print(self.cPriceList)
-                      //  print(self.dailyCryptoData)
+                        
+                        //   print(self.cPriceList)
+                        //  print(self.dailyCryptoData)
                         
                     }
                 }
@@ -293,44 +293,6 @@ class DetailView: UIViewController {
         task.resume()
     }
 
-    func getPrices() {
-        let url = URL (string: "https://apiv2.bitcoinaverage.com/indices/global/history/BTCUSD?period=daily&?format=json")
-        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            
-            if let data = data {
-                do {
-                    //convert to json
-                    let jsonDecoder = JSONDecoder()
-                    let List = try jsonDecoder.decode([cryptoPrices].self, from: data)
-                    self.cPrices = List
-                    DispatchQueue.main.async {
-                        print("JSON downloaded")
-                        // print(self.cPrices)
-                        //  print(currList)
-                    }
-                } catch {
-                    print("Can't pull JSON")
-                }
-                
-            } else if let error = error {
-                print(error.localizedDescription)
-            }
-            
-        }
-        task.resume()
-       // datas()
-        
-    }
-    /*
-    func datas()
-    {
-        for i in cPrices
-        {
-            cPriceList.append(i as! Double)
-            print(cPriceList)
-        }
-    }
- */
     //add data points to display daily graph
     func addCryptoPrices()    {
        // getDailyCryptoData()
@@ -342,13 +304,10 @@ class DetailView: UIViewController {
         print (cPriceList)
 
     }
-    //display cryptocurrencies daily graph
-    func updateDailyCryptoChart()
+    //display cryptocurrencies graph
+    func updateCryptoChart()
     {
-//        addCryptoPrices()
-       
-             //getDailyCryptoData() //get daily crypto json
-           //    addCryptoPrices() // update crypto data for chart
+        
         //array displays on the graph
         var lineChartEntry = [ChartDataEntry]()
         var b = 0
@@ -374,12 +333,18 @@ class DetailView: UIViewController {
         let data = LineChartData() //this is the object that will be added to the chart
         
         data.addDataSet(line1) //adds the line to the dataset
-        
+        lineChart.xAxis.drawGridLinesEnabled = false
+        lineChart.leftAxis.drawGridLinesEnabled = false
+        lineChart.rightAxis.drawGridLinesEnabled = false
+        self.lineChart.legend.enabled = false
         self.lineChart.data = data
+        
+        self.lineChart.lineData?.setDrawValues(false)
+        self.lineChart.borderColor = NSUIColor.cyan
+        //self.lineChart.lineData?.se
         self.lineChart.gridBackgroundColor = NSUIColor.yellow
-        self.lineChart.chartDescription?.text = "Price Chart" //set title for the graph
+        //  self.lineChart.chartDescription?.text = "Price Chart" //set title for the graph
     }
-
     func addDailyCryptoPrices()
     {
         refPrices = Database.database().reference().child("CryptoPrices")
