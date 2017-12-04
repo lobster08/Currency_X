@@ -630,7 +630,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             MainView.isCryptoSelect = false;
             selectedCurrency = Currencies[indexPath.row]
         }
-        self.performSegue(withIdentifier: "MainToNotification", sender: self)
+        self.performSegue(withIdentifier: "MainToDetail", sender: self)
+
+       // self.performSegue(withIdentifier: "MainToNotification", sender: self)
     }
     
     @IBAction func NotificationSetting(_ sender: Any) {
