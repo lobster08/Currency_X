@@ -175,6 +175,7 @@ class DetailView: UIViewController {
         {
             if(MainView.isCryptoSelect == true)
             {
+
               //  updateDailyCryptoChart() //get daily crypto chart
                 getCryptoData(arrayUrl: dailyCryptoUrls)
                 updateCryptoChart()
@@ -192,6 +193,7 @@ class DetailView: UIViewController {
         {
             if(MainView.isCryptoSelect == true)
             {
+
                 getCryptoData(arrayUrl: weeklyCryptoUrls)
                 updateCryptoChart()
                 //updateWeeklyCryptoChart() // get weekly crypto chart
@@ -221,13 +223,13 @@ class DetailView: UIViewController {
         cryptoName = cryptCurrency.name
         if(MainView.isCryptoSelect == true)
         {
-        //   getDailyCryptoData() // get daily crypto json
-        //   updateDailyCryptoChart() //get chart
+            
+        
             getCryptoData(arrayUrl: dailyCryptoUrls)
             updateCryptoChart()
           //  getPrices()
-            addDailyCryptoStruct()
-            displayCrypto()
+           // addDailyCryptoStruct()
+           displayCrypto()
            // updateCryptChart()
         }
         else
@@ -237,9 +239,12 @@ class DetailView: UIViewController {
         }
  
         _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(DetailView.refresh), userInfo: nil, repeats: true)
-        _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(DetailView.addDailyCryptoStruct), userInfo: nil, repeats: true)
+     //   _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(DetailView.addDailyCryptoStruct), userInfo: nil, repeats: true)
+        //reload crypto chart
+        _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(DetailView.updateCryptoChart), userInfo: nil, repeats: true)
         
     }
+    /*
     @objc func addDailyCryptoStruct()
     {
         
@@ -252,6 +257,7 @@ class DetailView: UIViewController {
         print("adding to struct is working")
         
     }
+ */
     //return daily crypto url link
     func getUrl(urlname : String, arrayUrl : [String : String]) -> String
     {
@@ -266,18 +272,17 @@ class DetailView: UIViewController {
     }
     func getCryptoData(arrayUrl : [String : String])
     {
-        let urlString = getUrl(urlname: cryptInfo.name, arrayUrl: arrayUrl )
+        let urlString = getUrl(urlname: cryptCurrency.name, arrayUrl: arrayUrl )
         guard let url = URL(string: urlString) else { return }
         let task = URLSession.shared.dataTask(with: url){ (data, response, error) in
             
             if let data = data {
                 do{
                     self.cPriceList.removeAll()
-                    
+
                     let jsonDecoder = JSONDecoder()
                     self.dailyCryptoData = try jsonDecoder.decode(dailyCryptoPrices.self , from: data)
                     DispatchQueue.main.async {
-                        self.addCryptoPrices()
                         
                         //   print(self.cPriceList)
                         //  print(self.dailyCryptoData)
@@ -287,25 +292,25 @@ class DetailView: UIViewController {
                 catch {
                     print("Can't pull JSON")
                 }
-                
+                self.addCryptoPrices()
+
             }
         }
         task.resume()
     }
 
     //add data points to display daily graph
-    func addCryptoPrices()    {
-       // getDailyCryptoData()
+    func addCryptoPrices()
+    {
         for i in dailyCryptoData.Data
         {
             cPriceList.append(i.close )
 
         }
         print (cPriceList)
-
     }
     //display cryptocurrencies graph
-    func updateCryptoChart()
+   @objc  func updateCryptoChart()
     {
         
         //array displays on the graph
@@ -317,15 +322,19 @@ class DetailView: UIViewController {
         var components = DateComponents()
         components.hour = -1
         let oneHourAgo = Calendar.current.date(byAdding: components, to: now)
-        
         //loop
         for i in cPriceList
         {
+            
             
             let value = ChartDataEntry(x: Double(b), y: i ) //set x and yc
             b = b + 1
             lineChartEntry.append(value)//add info to chart
         }
+        self.lineChart.reloadInputViews()
+        self.lineChart.pin(to: lineChart)
+        self.lineChart.notifyDataSetChanged()
+
         let line1 = LineChartDataSet(values: lineChartEntry, label: "Price") //convert lineChartEntry to a LineChartDataSet
         
         line1.colors = [NSUIColor.red]  //sets color to blue
@@ -342,8 +351,10 @@ class DetailView: UIViewController {
         self.lineChart.lineData?.setDrawValues(false)
         self.lineChart.borderColor = NSUIColor.cyan
         //self.lineChart.lineData?.se
-        self.lineChart.gridBackgroundColor = NSUIColor.yellow
-        //  self.lineChart.chartDescription?.text = "Price Chart" //set title for the graph
+        self.lineChart.backgroundColor = NSUIColor.clear
+        self.lineChart.chartDescription?.enabled = false //set title for the graph
+        self.lineChart.invalidateIntrinsicContentSize()
+
     }
     func addDailyCryptoPrices()
     {
