@@ -466,7 +466,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     //get regular currency function
     func getCurrency() {
-        let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?pairs=USDJPY,USDCHF,USDCAD,USDSEK,USDNOK,USDMXN,USDZAR,USDCNH,USDEUR,USDGBP,USDAUD,USDNZD,USDXAU,USDXAG&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
+        let url = URL (string: "https://forex.1forge.com/1.0.2/quotes?pairs=USDJPY,USDCHF,USDCAD,USDSEK,USDNOK,USDMXN,USDZAR,USDCNH,USDEUR,USDGBP,USDAUD,USDNZD&api_key=hz3FMVzCV5cSCQmbvXRvoDuKIWk8f26B")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if (error == nil && data != nil){
                 do {
