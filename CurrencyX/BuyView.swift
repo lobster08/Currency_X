@@ -27,6 +27,7 @@ struct PurchaseInfo
     }
 }
 
+// Adding background to Price Stack View
 public extension UIView {
     public func pin(to view: UIView) {
         NSLayoutConstraint.activate([
@@ -40,9 +41,8 @@ public extension UIView {
 
 class BuyView: UIViewController, UITextFieldDelegate {
     
-    
-    @IBOutlet weak var priceStackView: UIStackView!
     // UI Variable Initailize
+    @IBOutlet weak var priceStackView: UIStackView!
     @IBOutlet weak var buyInput: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var currNameLbl: UILabel!
@@ -75,16 +75,18 @@ class BuyView: UIViewController, UITextFieldDelegate {
         totalLabel.text = "0.0"
         currNameLbl.text = buyData.symbol
         toCurrency.text = "$" + String(buyData.price_usd)
-        buyInput.keyboardType = UIKeyboardType.decimalPad
-        let tapRecognizer = UITapGestureRecognizer()
-        tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
-        self.view.addGestureRecognizer(tapRecognizer)
-        buyButtonLbl.isHidden = true
+       // buyInput.keyboardType = UIKeyboardType.decimalPad
+        
+//        let tapRecognizer = UITapGestureRecognizer()
+//        tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
+//        self.view.addGestureRecognizer(tapRecognizer)
+//        buyButtonLbl.isHidden = true
         
         //FirebaseApp.configure()
         //refPurchase = Database.database().reference()
         
     }
+    
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -98,17 +100,14 @@ class BuyView: UIViewController, UITextFieldDelegate {
         view.pin(to: stackView)
     }
     
-    @objc func didTapView()
-    {
-        self.view.endEditing(true)
-        if(buyInput.text != "")
-        {
-            ConvertCurrency()
-        }
-        buyButtonLbl.isHidden = false
-    }
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//    @objc func didTapView()
+//    {
 //        self.view.endEditing(true)
+//        if(buyInput.text != "")
+//        {
+//            convertCurrency()
+//        }
+//        buyButtonLbl.isHidden = false
 //    }
 
     func setBackgroundImage() {
@@ -122,14 +121,14 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func addPurchase()
+    func addPurchaseToDatabase()
     {
         refPurchase = Database.database().reference()
         
 
         let purchase = ["date": purchaseItem.datePurchase as String,
                         "purchasedCurrency": purchaseItem.purchaseCurrency as String,
-                        "usedCurrency": purchaseItem.usedCurrency as String,
+                        //"usedCurrency": purchaseItem.usedCurrency as String,
                         "purchasedAmount": String(purchaseItem.amountPurchased) as String,
                         "priceTotal": String(purchaseItem.pricePurchase) as String]
 
@@ -138,17 +137,13 @@ class BuyView: UIViewController, UITextFieldDelegate {
         print("Purchase added to database")
     }
     
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         buyInput.resignFirstResponder()
-        ConvertCurrency()
+        convertCurrency()
         return true
     }
     
-    @IBAction func clearButton(_ sender: Any)
-    {
-        buyInput.text = ""
-        totalLabel.text = "0.0"
-    }
     
     @IBAction func acceptButton(_ sender: Any)
     {
@@ -156,13 +151,17 @@ class BuyView: UIViewController, UITextFieldDelegate {
         let month = calendar.component(.month, from: date)
         let year = calendar.component(.year, from: date)
         purchaseItem.amountPurchased = Double(buyInput.text!)!
-        purchaseItem.pricePurchase = Double(totalLabel.text!)!
+        if(totalLabel.text != nil){
+             purchaseItem.pricePurchase = Double(totalLabel.text!)!
+        }else{
+            print("totaLabel not found")
+        }
+       
         purchaseItem.purchaseCurrency = toCurrency.text!
         //purchaseItem.usedCurrency = fromCurrency.text!
         purchaseItem.datePurchase = "Date: \(day) - \(month) - \(year)"
         
-        addPurchase()
-        
+        //addPurchaseToDatabase()
         purchaseHist.append(purchaseItem)
         
         if(purchaseHist.isEmpty == false)
@@ -176,9 +175,15 @@ class BuyView: UIViewController, UITextFieldDelegate {
                 print("Currency's Price: ", item.pricePurchase)
             }
         }
+        
     }
     
-    func ConvertCurrency()
+//    func addToPurchaseList()
+//    {
+//
+//    }
+    
+    func convertCurrency()
     {
         //var fromCurr = Double(buyData.price_usd)
         var toCurr = Double(buyData.price_usd)
