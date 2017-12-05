@@ -19,7 +19,7 @@ class ForgotPassView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundImageName = "Background4.png"
+        backgroundImageName = "background6.png"
         setBackgroundImage()
         // Do any additional setup after loading the view.
     }

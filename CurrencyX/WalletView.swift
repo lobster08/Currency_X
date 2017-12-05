@@ -47,7 +47,7 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundImageName = "Background4.png"
+        backgroundImageName = "background6.png"
         setBackgroundImage()
         self.title = "Wallet"
         createActionListPicker()

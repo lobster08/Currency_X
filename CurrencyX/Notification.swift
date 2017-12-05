@@ -43,7 +43,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        backgroundImageName = "Background4.png"
+        backgroundImageName = "background6.png"
         setBackgroundImage()
         self.SellP.delegate = self
         self.BuyP.delegate = self

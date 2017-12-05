@@ -183,7 +183,7 @@ class DetailView: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        backgroundImageName = "Background5.png"
+        backgroundImageName = "background6.png"
         setBackgroundImage()
         if(MainView.isCryptoSelect == true)
         {

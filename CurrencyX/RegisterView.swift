@@ -24,7 +24,7 @@ class RegisterView: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        backgroundImageName = "Background4.png"
+        backgroundImageName = "background6.png"
         setBackgroundImage()
         newPassText.delegate = self
         confirmPassText.delegate = self
