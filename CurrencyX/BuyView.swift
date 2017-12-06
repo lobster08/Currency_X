@@ -81,10 +81,6 @@ class BuyView: UIViewController, UITextFieldDelegate {
         tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
         self.view.addGestureRecognizer(tapRecognizer)
         buyButtonLbl.isHidden = true
-        
-//        FirebaseApp.configure()
-//        refPurchase = Database.database().reference()
-        
     }
     
     private lazy var backgroundView: UIView = {
