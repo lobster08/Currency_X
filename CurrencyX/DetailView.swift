@@ -114,7 +114,11 @@ class DetailView: UIViewController, UITabBarDelegate {
     var cryptCurrency = CryptoCurrency()
     var regCurrency = currency()
     var ref: DatabaseReference!
+    var currencyName : String = ""
     
+    
+    let userID = Auth.auth().currentUser?.uid
+
     //dates variable
     let hh2 = (Calendar.current.component(.hour, from: Date()))
     let mm2 = (Calendar.current.component(.minute, from: Date()))
@@ -136,7 +140,8 @@ class DetailView: UIViewController, UITabBarDelegate {
         {
             if(MainView.isCryptoSelect == true)
             {
-
+                
+              //  readAmount()
               //  updateDailyCryptoChart() //get daily crypto chart
                 getCryptoData(arrayUrl: dailyCryptoUrls, name: cryptCurrency.name)
                 updateCryptoChart()
@@ -146,6 +151,7 @@ class DetailView: UIViewController, UITabBarDelegate {
             }
             else
             {
+               // readAmount()
                 displayCurrency()
                 getCryptoData(arrayUrl: dailyCurrencyUrls, name: regCurrency.symbol)
                 updateCryptoChart()
@@ -157,13 +163,14 @@ class DetailView: UIViewController, UITabBarDelegate {
         {
             if(MainView.isCryptoSelect == true)
             {
-
+                  //  readAmount()
                 getCryptoData(arrayUrl: weeklyCryptoUrls, name: cryptCurrency.name)
                 updateCryptoChart()
                 //updateWeeklyCryptoChart() // get weekly crypto chart
             }
             else
             {
+               // readAmount()
                 displayCurrency()
                 getCryptoData(arrayUrl: weeklyCurrencyUrls, name: regCurrency.symbol)
                 updateCryptoChart()
@@ -201,18 +208,27 @@ class DetailView: UIViewController, UITabBarDelegate {
         setBackgroundImage()
         tabBar.delegate = self
         tabBar.backgroundColor = UIColor.clear
+        
         //tabBar.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
         if(MainView.isCryptoSelect == true)
         {
+            currencyName = cryptCurrency.name
+            //readAmount()
+
             getCryptoData(arrayUrl: dailyCryptoUrls, name: cryptCurrency.name)
             updateCryptoChart()
             displayCrypto()
+            readAmount()
         }
         else
         {
+            currencyName = regCurrency.symbol
+            //readAmount()
+
             displayCurrency()
             getCryptoData(arrayUrl: dailyCurrencyUrls, name: regCurrency.symbol)
             updateCryptoChart()
+            readAmount()
         }
  
         _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(DetailView.refresh), userInfo: nil, repeats: true)
@@ -355,7 +371,59 @@ class DetailView: UIViewController, UITabBarDelegate {
         self.lineChart.invalidateIntrinsicContentSize()
 
     }
+    /**********************************************
+        Read From Firebase Functions
+    **********************************************/
+    
+    func readAmount()
+    {
+       
+        /*
+         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+         // Get user value
+         let value = snapshot.value as? NSDictionary
+         let username = value?["username"] as? String ?? ""
+         let user = User(username: username)
+         
+         // ...
+         }) { (error) in
+         print(error.localizedDescription)
+         }
+        *///userID
+        //eventID = snapshot.value?["eventID"] as? String ?? ""
+    //    ref.child("PurchasedAmount").child(userID!).child(currencyName).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value             print(userDict["score"])
+            
+            ref = Database.database().reference().child("PurchasedAmount").child(userID!).child(currencyName)
+        
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let value = snapshot.value as? NSDictionary {
+                for snapDict in value {
+                    let test = snapDict.value// as! String
+                    print(test)
+                }
+                // print(value.value(forKey: "Amount"))
+            }
+        })
+        
+            //let currName = value?["username"] as? String ?? ""
+           // let user = User(username: username)
+            
+        //        ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
 
+       /* ref = Database.database().reference().child("PurchasedAmount").child((user?.uid)!).child(currencyName)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let snapshotValue = snapshot.value as? NSDictionary{
+                for snapDict in snapshotValue{
+                    print ("For loop enters")
+                    let smt = snapDict.value as! String
+                    print (smt)
+                }
+                
+            }
+        })
+    */
+    }
     /*
      //read firebase values for 7 days graph -- Crypto
      func readPrices()
@@ -374,69 +442,22 @@ class DetailView: UIViewController, UITabBarDelegate {
      }
      })
      }
+     
      */
-    /*
-     func addPurchaseToDatabase()
-     {
-     refPurchase = Database.database().reference()
-     
-     
-     let purchase = ["date": purchaseItem.buyDate as String,
-     "buyCurrencyName": buyCurrNameLbl.text,
-     "buyCost": buyCostLbl.text,
-     "buyAmount": String(purchaseItem.buyAmount) as String,
-     "buyTotalPrice": String(purchaseItem.buyTotalPrice) as String]
-     
-     if(purchase.isEmpty){
-     buyingAlert(buyAlert: "Purchase not succesful!")
-     }else{
-     buyingAlert(buyAlert: "Purchase completes successfully!")
-     }
-     refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
-     }
-     
-     // Alert user if the purchasing is sucessful or not after buying
-     func buyingAlert(buyAlert:String){
-     let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
-     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
-     }))
-     self.present(alert, animated: true, completion: nil)
-     }
-     
-     @IBAction func buyButton(_ sender: Any)
-     {
-     let day = calendar.component(.day, from: date)
-     let month = calendar.component(.month, from: date)
-     let year = calendar.component(.year, from: date)
-     
-     if Double(buyInput.text!) != nil{
-     purchaseItem.buyAmount = Double(buyInput.text!)!
-     }else{
-     print("Double(buyInput.text) = nil")
-     }
-     
-     if (buyTotalPriceLbl.text != nil){
-     purchaseItem.buyTotalPrice = buyTotalPriceLbl.text!
-     } else{
-     print("totalPrice = nil")
-     }
-     
-     purchaseItem.buyCost = buyCostLbl.text!
-     purchaseItem.buyDate = "\(day) - \(month) - \(year)"
-     
-     addPurchaseToDatabase()
-     }
- */
+    
+   
+
     /*
     func addDailyCryptoPrices()
     {
-        refPrices = Database.database().reference().child("CryptoPrices")
+     refPrices = Database.database().reference().child("CryptoPrices")         refPrices.setValue(prices)
+
         //add info to firebase
         let prices = ["Name" : cryptInfo.name as String, "Prices" : String(cryptInfo.prices) as String, "Time" : cryptInfo.time as String]
         
-        refPrices.setValue(prices)
         print("prices added to firebase")
-        
+        refPrices.setValue(prices)
+     
     }
  */
     @objc func refresh(){

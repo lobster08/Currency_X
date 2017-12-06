@@ -62,7 +62,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
     //currency declaration
     var cryptoData = CryptoCurrency()
     var currencyData = currency()
-    
+    var currencyName = ""
+    var currencyAmount = 0
     
     var totalPrice : Double = 0.0
     
@@ -142,12 +143,25 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
     }
-    // add total amount of currencies user owns
-    func addPurchaseAmountToDatabase()
+    // add total amount of currency user owns
+    func addPurchaseAmountToDatabase(amountInput : String)
     {
+        if(MainView.isCryptoSelect == true)
+        {
+            currencyName = cryptoData.name
+        }
+        else
+        {
+            currencyName = currencyData.symbol
+        }
         ref = Database.database().reference()
         
-        let amount = ["Currency Name:" ]
+        currencyAmount = currencyAmount + Int(amountInput)!
+        //     refPrices = Database.database().reference().child("CryptoPrices")         refPrices.setValue(prices)
+
+        let amount = [ "Amount: " : String(currencyAmount) as String]
+        ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
+
     }
     // Alert user if the purchasing is sucessful or not after buying
     func buyingAlert(buyAlert:String){
@@ -179,6 +193,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         purchaseItem.buyDate = "\(day) - \(month) - \(year)"
         
         addPurchaseToDatabase()
+        addPurchaseAmountToDatabase(amountInput: buyInput.text!)
     }
     
 //    func addToPurchaseList()
