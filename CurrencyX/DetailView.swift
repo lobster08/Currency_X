@@ -95,10 +95,10 @@ class DetailView: UIViewController, UITabBarDelegate {
     var weeklyCryptoUrls : [String: String] = ["Bitcoin" : "https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Ethereum" : "https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Bitcoin Cash" : "https://min-api.cryptocompare.com/data/histoday?fsym=BCH&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Ripple" : "https://min-api.cryptocompare.com/data/histoday?fsym=XRP&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Dash" : "https://min-api.cryptocompare.com/data/histoday?fsym=DASH&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Litecoin" : "https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Bitcoin Gold" : "https://min-api.cryptocompare.com/data/histoday?fsym=BTG&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "IOTA" : "https://min-api.cryptocompare.com/data/histoday?fsym=IOTA&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Cardano" : "https://min-api.cryptocompare.com/data/histoday?fsym=ADA&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Monero" : "https://min-api.cryptocompare.com/data/histoday?fsym=XMR&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Ethereum Classic" : "https://min-api.cryptocompare.com/data/histoday?fsym=ETC&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "NEO" : "https://min-api.cryptocompare.com/data/histoday?fsym=NEO&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "NEM"  : "https://min-api.cryptocompare.com/data/histoday?fsym=XEM&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "EOS" : "https://min-api.cryptocompare.com/data/histoday?fsym=EOS&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Stellar Lumens" : "https://min-api.cryptocompare.com/data/histoday?fsym=XLM&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "BitConnect" : "https://min-api.cryptocompare.com/data/histoday?fsym=BCCOIN&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "OmiseGO" : "https://min-api.cryptocompare.com/data/histoday?fsym=OMG&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Qtum" : "https://min-api.cryptocompare.com/data/histoday?fsym=QTUM&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Lisk" : "https://min-api.cryptocompare.com/data/histoday?fsym=LSK&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "Zcash" : "https://min-api.cryptocompare.com/data/histoday?fsym=ZEC&tsym=USD&limit=7&aggregate=3&e=CCCAGG"]
 
     //currency daily urls : Order : JPY, CHF, CAD, SEK, NOK, MXN, ZAR, TRY, CNH, EUR, GBP, AUD, NZD
-    var dailyCurrencyUrls : [String : String] = ["USDJPY" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=JPY&limit=24&aggregate=3&e=CCCAGG", "USDCHF" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=CHF&limit=24&aggregate=3&e=CCCAGG", "USDCAD" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=CAD&limit=24&aggregate=3&e=CCCAGG", "USDSEK" : "https://min-api.cryptocompare.com/data/histohour?fsym=SEK&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDNOK" : "https://min-api.cryptocompare.com/data/histohour?fsym=NOK&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDMXN" : "https://min-api.cryptocompare.com/data/histohour?fsym=MXD&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDZAR" : "https://min-api.cryptocompare.com/data/histohour?fsym=ZAR&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDTRY" : "https://min-api.cryptocompare.com/data/histohour?fsym=TRY&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDCNH" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=CNH&limit=24&aggregate=3&e=CCCAGG", "USDEUR" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=EUR&limit=24&aggregate=3&e=CCCAGG", "USDGBP" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=GBP&limit=24&aggregate=3&e=CCCAGG", "USDAUD" : "https://min-api.cryptocompare.com/data/histohour?fsym=AUD&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDNZD" : "https://min-api.cryptocompare.com/data/histohour?fsym=NZD&tsym=USD&limit=24&aggregate=3&e=CCCAGG"]
+    var dailyCurrencyUrls : [String : String] = ["USDJPY" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=JPY&limit=24&aggregate=3&e=CCCAGG", "USDCHF" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=CHF&limit=24&aggregate=3&e=CCCAGG", "USDCAD" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=CAD&limit=24&aggregate=3&e=CCCAGG", "USDSEK" : "https://min-api.cryptocompare.com/data/histohour?fsym=SEK&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDNOK" : "https://min-api.cryptocompare.com/data/histohour?fsym=NOK&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDMXN" : "https://min-api.cryptocompare.com/data/histohour?fsym=MXN&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDZAR" : "https://min-api.cryptocompare.com/data/histohour?fsym=ZAR&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDTRY" : "https://min-api.cryptocompare.com/data/histohour?fsym=TRY&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDCNH" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=CNH&limit=24&aggregate=3&e=CCCAGG", "USDEUR" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=EUR&limit=24&aggregate=3&e=CCCAGG", "USDGBP" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=GBP&limit=24&aggregate=3&e=CCCAGG", "USDAUD" : "https://min-api.cryptocompare.com/data/histohour?fsym=AUD&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "USDNZD" : "https://min-api.cryptocompare.com/data/histohour?fsym=NZD&tsym=USD&limit=24&aggregate=3&e=CCCAGG"]
    
     //currency weekly urls : Order : JPY, CHF, CAD, SEK, NOK, MXN, ZAR, TRY, CNH, EUR, GBP, AUD, NZD
-    var weeklyCurrencyUrls : [String: String] = ["USDJPY" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=JPY&limit=7&aggregate=3&e=CCCAGG", "USDCHF" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=CHF&limit=7&aggregate=3&e=CCCAGG", "USDCAD" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=CAD&limit=7&aggregate=3&e=CCCAGG", "USDSEK" : "https://min-api.cryptocompare.com/data/histoday?fsym=SEK&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDNOK" : "https://min-api.cryptocompare.com/data/histoday?fsym=NOK&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDMXN" : "https://min-api.cryptocompare.com/data/histoday?fsym=MXD&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDZAR" : "https://min-api.cryptocompare.com/data/histoday?fsym=ZAR&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDTRY" : "https://min-api.cryptocompare.com/data/histoday?fsym=TRY&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDCNH" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=CNH&limit=7&aggregate=3&e=CCCAGG", "USDEUR" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=EUR&limit=7&aggregate=3&e=CCCAGG", "USDGBP" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=GBP&limit=7&aggregate=3&e=CCCAGG", "USDAUD" : "https://min-api.cryptocompare.com/data/histoday?fsym=AUD&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDNZD" : "https://min-api.cryptocompare.com/data/histoday?fsym=NZD&tsym=USD&limit=7&aggregate=3&e=CCCAGG"]
+    var weeklyCurrencyUrls : [String: String] = ["USDJPY" : "https://min-api.cryptocompare.com/data/histohour?fsym=USD&tsym=JPY&limit=7&aggregate=3&e=CCCAGG", "USDCHF" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=CHF&limit=7&aggregate=3&e=CCCAGG", "USDCAD" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=CAD&limit=7&aggregate=3&e=CCCAGG", "USDSEK" : "https://min-api.cryptocompare.com/data/histoday?fsym=SEK&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDNOK" : "https://min-api.cryptocompare.com/data/histoday?fsym=NOK&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDMXN" : "https://min-api.cryptocompare.com/data/histoday?fsym=MXN&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDZAR" : "https://min-api.cryptocompare.com/data/histoday?fsym=ZAR&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDTRY" : "https://min-api.cryptocompare.com/data/histoday?fsym=TRY&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDCNH" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=CNH&limit=7&aggregate=3&e=CCCAGG", "USDEUR" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=EUR&limit=7&aggregate=3&e=CCCAGG", "USDGBP" : "https://min-api.cryptocompare.com/data/histoday?fsym=USD&tsym=GBP&limit=7&aggregate=3&e=CCCAGG", "USDAUD" : "https://min-api.cryptocompare.com/data/histoday?fsym=AUD&tsym=USD&limit=7&aggregate=3&e=CCCAGG", "USDNZD" : "https://min-api.cryptocompare.com/data/histoday?fsym=NZD&tsym=USD&limit=7&aggregate=3&e=CCCAGG"]
 
     
     
@@ -128,7 +128,7 @@ class DetailView: UIViewController, UITabBarDelegate {
     
     
     //firebase
-    var refPrices : DatabaseReference!
+    var refPrice: DatabaseReference!
     var user = Auth.auth().currentUser
     // UI variable initialize
     @IBAction func segmentButton(_ sender: UISegmentedControl) {
@@ -178,7 +178,19 @@ class DetailView: UIViewController, UITabBarDelegate {
     @IBOutlet weak var toCurrencyLbl: UILabel!
     @IBOutlet weak var fromCurrAmount: UILabel!
     @IBOutlet weak var toCurrAmount: UILabel!
+    @IBAction func NotiButton(_ sender: Any) {
+        performSegue(withIdentifier: "DetailToNotification", sender: self)
+
+    }
+    @IBAction func sellButton(_ sender: Any) {
+        performSegue(withIdentifier: "DetailToSell", sender: self)
+
+    }
     
+    @IBAction func buyButton(_ sender: Any) {
+        performSegue(withIdentifier: "DetailToBuy", sender: self)
+
+    }
     @IBOutlet weak var tabBar: UITabBar!
     
     override func viewDidLoad()
@@ -290,7 +302,7 @@ class DetailView: UIViewController, UITabBarDelegate {
     {
         for i in dailyCryptoData.Data
         {
-            cPriceList.append(i.close )
+            cPriceList.append(i.open )
 
         }
     }
@@ -343,6 +355,78 @@ class DetailView: UIViewController, UITabBarDelegate {
         self.lineChart.invalidateIntrinsicContentSize()
 
     }
+
+    /*
+     //read firebase values for 7 days graph -- Crypto
+     func readPrices()
+     {
+     
+     ref = Database.database().reference().child("crypPrices").child(cryptoName)
+     ref.observeSingleEvent(of: .value, with: { (snapshot) in
+     if let snapshotValue = snapshot.value as? NSDictionary{
+     for snapDict in snapshotValue{
+     print ("For loop enters")
+     let smt = snapDict.value as! Double
+     self.priceList.append(Double(smt))
+     print (smt)
+     }
+     
+     }
+     })
+     }
+     */
+    /*
+     func addPurchaseToDatabase()
+     {
+     refPurchase = Database.database().reference()
+     
+     
+     let purchase = ["date": purchaseItem.buyDate as String,
+     "buyCurrencyName": buyCurrNameLbl.text,
+     "buyCost": buyCostLbl.text,
+     "buyAmount": String(purchaseItem.buyAmount) as String,
+     "buyTotalPrice": String(purchaseItem.buyTotalPrice) as String]
+     
+     if(purchase.isEmpty){
+     buyingAlert(buyAlert: "Purchase not succesful!")
+     }else{
+     buyingAlert(buyAlert: "Purchase completes successfully!")
+     }
+     refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
+     }
+     
+     // Alert user if the purchasing is sucessful or not after buying
+     func buyingAlert(buyAlert:String){
+     let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
+     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+     }))
+     self.present(alert, animated: true, completion: nil)
+     }
+     
+     @IBAction func buyButton(_ sender: Any)
+     {
+     let day = calendar.component(.day, from: date)
+     let month = calendar.component(.month, from: date)
+     let year = calendar.component(.year, from: date)
+     
+     if Double(buyInput.text!) != nil{
+     purchaseItem.buyAmount = Double(buyInput.text!)!
+     }else{
+     print("Double(buyInput.text) = nil")
+     }
+     
+     if (buyTotalPriceLbl.text != nil){
+     purchaseItem.buyTotalPrice = buyTotalPriceLbl.text!
+     } else{
+     print("totalPrice = nil")
+     }
+     
+     purchaseItem.buyCost = buyCostLbl.text!
+     purchaseItem.buyDate = "\(day) - \(month) - \(year)"
+     
+     addPurchaseToDatabase()
+     }
+ */
     /*
     func addDailyCryptoPrices()
     {
@@ -391,25 +475,7 @@ class DetailView: UIViewController, UITabBarDelegate {
             setBackgroundImage()
         }
     }
-    /*
-    //read firebase values for 7 days graph -- Crypto
-    func readPrices()
-    {
-        
-        ref = Database.database().reference().child("crypPrices").child(cryptoName)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let snapshotValue = snapshot.value as? NSDictionary{
-                for snapDict in snapshotValue{
-                    print ("For loop enters")
-                    let smt = snapDict.value as! Double
-                    self.priceList.append(Double(smt))
-                    print (smt)
-                }
-                
-            }
-        })
-    }
-    */
+  
     
         /**********************************
             Display textfield functions
@@ -440,6 +506,11 @@ class DetailView: UIViewController, UITabBarDelegate {
         {
             let passToBuy = segue.destination as! BuyView
             passToBuy.buyData = cryptCurrency
+            
+            
+            let passdata = segue.destination as! BuyView
+            passdata.cryptoData = cryptCurrency
+            passdata.currencyData = regCurrency
         }
     }
     

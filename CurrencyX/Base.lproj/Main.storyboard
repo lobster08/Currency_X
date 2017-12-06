@@ -553,7 +553,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9m5-cU-JA6">
-                                <rect key="frame" x="-1" y="423" width="375" height="163"/>
+                                <rect key="frame" x="-1" y="455" width="375" height="163"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="163" id="bvI-d8-HkR"/>
@@ -589,7 +589,7 @@
                                                 <rect key="frame" x="0.0" y="24" width="154" height="29"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="29" id="Pfh-78-HlY"/>
-                                                    <constraint firstAttribute="width" constant="172" id="iDY-Yd-6JW"/>
+                                                    <constraint firstAttribute="width" constant="154" id="iDY-Yd-6JW"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                                 <color key="textColor" red="0.2751921786" green="0.53222742519999999" blue="0.81793305839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -613,7 +613,7 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowVerti" translatesAutoresizingMaskIntoConstraints="NO" id="FtL-s8-ie5">
                                                 <rect key="frame" x="146" y="0.0" width="22" height="21"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="16" id="l0A-FN-5z9"/>
+                                                    <constraint firstAttribute="height" constant="21" id="l0A-FN-5z9"/>
                                                     <constraint firstAttribute="width" constant="22" id="yXA-X9-Cva"/>
                                                 </constraints>
                                             </imageView>
@@ -660,22 +660,59 @@
                                     <tabBarItem tag="3" title="Notification" image="bellButtonVer2" id="Jce-LY-Nxk"/>
                                 </items>
                             </tabBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykp-wv-8FZ">
+                                <rect key="frame" x="35" y="413" width="136" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="WeL-N9-Gcl"/>
+                                    <constraint firstAttribute="height" constant="42" id="i2t-80-T5v"/>
+                                </constraints>
+                                <state key="normal" image="buyNew2"/>
+                                <connections>
+                                    <action selector="buyButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="RWz-rX-Atp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Mn-4U-kGq">
+                                <rect key="frame" x="204" y="413" width="136" height="42"/>
+                                <state key="normal" image="sellNew2"/>
+                                <connections>
+                                    <action selector="sellButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="xiZ-3R-tjk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uc3-do-h8R">
+                                <rect key="frame" x="334" y="91" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="JMp-Mg-Ewu"/>
+                                </constraints>
+                                <state key="normal" image="bellButtonVer2-1"/>
+                                <connections>
+                                    <action selector="NotiButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="bKI-B0-IMb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="VKF-oh-V4r" secondAttribute="bottom" constant="8" symbolic="YES" id="1s6-P0-hNU"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="VKF-oh-V4r" secondAttribute="bottom" constant="40" id="1s6-P0-hNU"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="trailing" secondItem="9m5-cU-JA6" secondAttribute="trailing" constant="1" id="5Cd-aT-46E"/>
+                            <constraint firstItem="8Mn-4U-kGq" firstAttribute="leading" secondItem="ykp-wv-8FZ" secondAttribute="trailing" constant="33" id="8Gz-NF-LDl"/>
                             <constraint firstItem="9m5-cU-JA6" firstAttribute="centerX" secondItem="PY5-pR-gJC" secondAttribute="centerX" id="CGI-rP-lgy"/>
+                            <constraint firstItem="8Mn-4U-kGq" firstAttribute="trailing" secondItem="pDA-0k-PBo" secondAttribute="trailing" id="H63-3q-AUX"/>
                             <constraint firstItem="vIP-rn-HD3" firstAttribute="centerX" secondItem="VKF-oh-V4r" secondAttribute="centerX" id="IMd-Bo-Vua"/>
-                            <constraint firstItem="VUD-lI-pwr" firstAttribute="bottom" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="81" id="KeU-nx-gg3"/>
+                            <constraint firstItem="VUD-lI-pwr" firstAttribute="bottom" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="49" id="KeU-nx-gg3"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="35" id="Kt2-yM-CSa"/>
                             <constraint firstItem="vIP-rn-HD3" firstAttribute="bottom" secondItem="VUD-lI-pwr" secondAttribute="bottom" id="MGq-5r-dGf"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="top" secondItem="VUD-lI-pwr" secondAttribute="top" constant="27" id="Qcc-W8-sQT"/>
+                            <constraint firstItem="8Mn-4U-kGq" firstAttribute="bottom" secondItem="ykp-wv-8FZ" secondAttribute="bottom" id="RKt-PD-N5H"/>
+                            <constraint firstItem="uc3-do-h8R" firstAttribute="top" secondItem="pDA-0k-PBo" secondAttribute="top" id="SB3-Fo-90m"/>
+                            <constraint firstItem="ykp-wv-8FZ" firstAttribute="leading" secondItem="pDA-0k-PBo" secondAttribute="leading" id="TM9-GC-EYz"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="pDA-0k-PBo" secondAttribute="centerX" id="TPn-Vx-c8F"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="trailing" secondItem="pDA-0k-PBo" secondAttribute="trailing" constant="35" id="VcS-fQ-Qk7"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="ykp-wv-8FZ" secondAttribute="bottom" id="aOu-pL-fGx"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="top" secondItem="PY5-pR-gJC" secondAttribute="bottom" constant="22" id="akH-rp-gQG"/>
                             <constraint firstItem="vIP-rn-HD3" firstAttribute="leading" secondItem="6qU-m9-WgR" secondAttribute="leading" id="hUP-B0-f3B"/>
                             <constraint firstItem="PY5-pR-gJC" firstAttribute="top" secondItem="pDA-0k-PBo" secondAttribute="bottom" constant="19" id="hlM-nm-Jmq"/>
+                            <constraint firstItem="uc3-do-h8R" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="334" id="mTk-0E-CZR"/>
+                            <constraint firstItem="8Mn-4U-kGq" firstAttribute="top" secondItem="ykp-wv-8FZ" secondAttribute="top" id="nUY-5q-cjZ"/>
+                            <constraint firstItem="uc3-do-h8R" firstAttribute="trailing" secondItem="VKF-oh-V4r" secondAttribute="trailing" id="pDg-hg-LP7"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="leading" secondItem="6qU-m9-WgR" secondAttribute="leadingMargin" id="pLC-tc-gsD"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="trailing" secondItem="PY5-pR-gJC" secondAttribute="trailing" constant="128" id="wxs-Mp-8pB"/>
                             <constraint firstItem="PY5-pR-gJC" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="126" id="ybo-gV-2XC"/>
@@ -1778,8 +1815,11 @@
         <image name="acceptButton3" width="224" height="94"/>
         <image name="arrowVerti" width="200" height="200"/>
         <image name="bellButtonVer2" width="25" height="25"/>
+        <image name="bellButtonVer2-1" width="75" height="75"/>
         <image name="buyButton2" width="50" height="51"/>
+        <image name="buyNew2" width="198" height="88"/>
         <image name="cancelButton4" width="206" height="81"/>
+        <image name="sellNew2" width="198" height="88"/>
         <image name="sendButton-1" width="331" height="101"/>
         <image name="signInButton-1" width="335" height="108"/>
         <image name="signUpbutton-1" width="325" height="92"/>

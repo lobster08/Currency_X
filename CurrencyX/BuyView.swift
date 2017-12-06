@@ -58,9 +58,16 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var purchaseHist = [PurchaseInfo]()
     var purchaseItem = PurchaseInfo()
     var buyData = CryptoCurrency()
+    
+    //currency declaration
+    var cryptoData = CryptoCurrency()
+    var currencyData = currency()
+    
+    
     var totalPrice : Double = 0.0
     
     // Firebase Variable Initailize
+    var ref : DatabaseReference!
     var refPurchase: DatabaseReference!
     var user = Auth.auth().currentUser
     
@@ -135,7 +142,13 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
     }
-    
+    // add total amount of currencies user owns
+    func addPurchaseAmountToDatabase()
+    {
+        ref = Database.database().reference()
+        
+        let amount = ["Currency Name:" ]
+    }
     // Alert user if the purchasing is sucessful or not after buying
     func buyingAlert(buyAlert:String){
         let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
