@@ -86,7 +86,7 @@ struct dailyCryptoPrices : Codable
 }
 
 
-class DetailView: UIViewController {
+class DetailView: UIViewController, UITabBarDelegate {
     
     // daily cryptocurrencies urls
     var dailyCryptoUrls : [String: String] = ["Bitcoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ethereum" : "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Cash" : "https://min-api.cryptocompare.com/data/histohour?fsym=BCH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ripple" : "https://min-api.cryptocompare.com/data/histohour?fsym=XRP&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Dash" : "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Litecoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Gold" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTG&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "IOTA" : "https://min-api.cryptocompare.com/data/histohour?fsym=IOTA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Cardano" : "https://min-api.cryptocompare.com/data/histohour?fsym=ADA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Monero" : "https://min-api.cryptocompare.com/data/histohour?fsym=XMR&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ethereum Classic" : "https://min-api.cryptocompare.com/data/histohour?fsym=ETC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "NEO" : "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "NEM"  : "https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "EOS" : "https://min-api.cryptocompare.com/data/histohour?fsym=EOS&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Stellar Lumens" : "https://min-api.cryptocompare.com/data/histohour?fsym=XLM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "BitConnect" : "https://min-api.cryptocompare.com/data/histohour?fsym=BCCOIN&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "OmiseGO" : "https://min-api.cryptocompare.com/data/histohour?fsym=OMG&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Qtum" : "https://min-api.cryptocompare.com/data/histohour?fsym=QTUM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Lisk" : "https://min-api.cryptocompare.com/data/histohour?fsym=LSK&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Zcash" : "https://min-api.cryptocompare.com/data/histohour?fsym=ZEC&tsym=USD&limit=24&aggregate=3&e=CCCAGG"]
@@ -179,12 +179,17 @@ class DetailView: UIViewController {
     @IBOutlet weak var fromCurrAmount: UILabel!
     @IBOutlet weak var toCurrAmount: UILabel!
     
+    @IBOutlet weak var tabBar: UITabBar!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        //self.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
         backgroundImageName = "background6.png"
         setBackgroundImage()
+        tabBar.delegate = self
+        tabBar.backgroundColor = UIColor.clear
+        //tabBar.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
         if(MainView.isCryptoSelect == true)
         {
             getCryptoData(arrayUrl: dailyCryptoUrls, name: cryptCurrency.name)
@@ -204,6 +209,23 @@ class DetailView: UIViewController {
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(DetailView.updateCryptoChart), userInfo: nil, repeats: true)
         
     }
+    /*******************************
+            Tab Bar Function
+    ********************************/
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if (item.tag == 1) {
+            performSegue(withIdentifier: "DetailToBuy", sender: self)
+        }
+        else if (item.tag == 2)
+        {
+            performSegue(withIdentifier: "DetailToSell", sender: self)
+        }
+        else if (item.tag == 3)
+        {
+            performSegue(withIdentifier: "DetailToNotification", sender: self)
+        }
+    }
+    
     /*
     @objc func addDailyCryptoStruct()
     {
@@ -264,7 +286,6 @@ class DetailView: UIViewController {
         /**********************************
             Add points to graph function
         **********************************/
-    //add data points to display daily graph
     func addCryptoPrices()
     {
         for i in dailyCryptoData.Data
@@ -276,7 +297,6 @@ class DetailView: UIViewController {
         /**********************************
             Display graph function
         **********************************/
-    //display cryptocurrencies graph
    @objc  func updateCryptoChart()
     {
         
@@ -392,7 +412,7 @@ class DetailView: UIViewController {
     */
     
         /**********************************
-            Display textfield function
+            Display textfield functions
         **********************************/
     func displayCrypto()
     {
@@ -410,17 +430,7 @@ class DetailView: UIViewController {
         toCurrAmount.text = String(regCurrency.price)
         
     }
-    
-    @IBAction func purchaseButton(_ sender: Any)
-    {
-        performSegue(withIdentifier: "DetailToBuy", sender: self)
-    }
-    
-    @IBAction func sellButton(_ sender: Any)
-    {
-        performSegue(withIdentifier: "DetailToSell", sender: self)
-    }
-    
+  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
