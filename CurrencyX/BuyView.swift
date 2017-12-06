@@ -13,16 +13,16 @@ import FirebaseAuth
 
 struct PurchaseInfo
 {
-    var amountPurchased: Double
-    var pricePurchase: Double
-    var datePurchase: String
-    var purchaseCurrency: String
+    var buyAmount: Double
+    var buyTotalPrice: String
+    var buyDate: String
+    var buyCost: String
     var usedCurrency: String
     init() {
-        amountPurchased = 0.0
-        pricePurchase = 0.0
-        datePurchase = ""
-        purchaseCurrency = ""
+        buyAmount = 0.0
+        buyTotalPrice = ""
+        buyDate = ""
+        buyCost = ""
         usedCurrency = ""
     }
 }
@@ -44,9 +44,9 @@ class BuyView: UIViewController, UITextFieldDelegate {
     // UI Variable Initailize
     @IBOutlet weak var priceStackView: UIStackView!
     @IBOutlet weak var buyInput: UITextField!
-    @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet weak var currNameLbl: UILabel!
-    @IBOutlet weak var toCurrency: UILabel!
+    @IBOutlet weak var buyTotalPriceLbl: UILabel!
+    @IBOutlet weak var buyCurrNameLbl: UILabel!
+    @IBOutlet weak var buyCostLbl: UILabel!
     @IBOutlet weak var buyButtonLbl: UIButton!
     var backgroundImage = UIImage()
     var backgroundImageView = UIImageView()
@@ -58,7 +58,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var purchaseHist = [PurchaseInfo]()
     var purchaseItem = PurchaseInfo()
     var buyData = CryptoCurrency()
-    
+    var totalPrice : Double = 0.0
     
     // Firebase Variable Initailize
     var refPurchase: DatabaseReference!
@@ -72,18 +72,18 @@ class BuyView: UIViewController, UITextFieldDelegate {
         setBackgroundImage()
         pinBackground(backgroundView, to: priceStackView)
         buyInput.delegate = self
-        totalLabel.text = "0.0"
-        currNameLbl.text = buyData.symbol
-        toCurrency.text = "$" + String(buyData.price_usd)
-       // buyInput.keyboardType = UIKeyboardType.decimalPad
+        buyTotalPriceLbl.text = "0.0"
+        buyCurrNameLbl.text = buyData.symbol
+        buyCostLbl.text = "$" + String(buyData.price_usd)
+        buyInput.keyboardType = UIKeyboardType.decimalPad
         
-//        let tapRecognizer = UITapGestureRecognizer()
-//        tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
-//        self.view.addGestureRecognizer(tapRecognizer)
-//        buyButtonLbl.isHidden = true
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
+        self.view.addGestureRecognizer(tapRecognizer)
+        buyButtonLbl.isHidden = true
         
-        //FirebaseApp.configure()
-        //refPurchase = Database.database().reference()
+//        FirebaseApp.configure()
+//        refPurchase = Database.database().reference()
         
     }
     
@@ -100,15 +100,15 @@ class BuyView: UIViewController, UITextFieldDelegate {
         view.pin(to: stackView)
     }
     
-//    @objc func didTapView()
-//    {
-//        self.view.endEditing(true)
-//        if(buyInput.text != "")
-//        {
-//            convertCurrency()
-//        }
-//        buyButtonLbl.isHidden = false
-//    }
+    @objc func didTapView()
+    {
+        self.view.endEditing(true)
+        if(buyInput.text != "")
+        {
+            convertCurrency()
+        }
+        buyButtonLbl.isHidden = false
+    }
 
     func setBackgroundImage() {
         if backgroundImageName > "" {
@@ -126,68 +126,74 @@ class BuyView: UIViewController, UITextFieldDelegate {
         refPurchase = Database.database().reference()
         
 
-        let purchase = ["date": purchaseItem.datePurchase as String,
-                        "purchasedCurrency": purchaseItem.purchaseCurrency as String,
-                        //"usedCurrency": purchaseItem.usedCurrency as String,
-                        "purchasedAmount": String(purchaseItem.amountPurchased) as String,
-                        "priceTotal": String(purchaseItem.pricePurchase) as String]
-
-        refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
+        let purchase = ["date": purchaseItem.buyDate as String,
+                        "buyCurrencyName": buyCurrNameLbl.text,
+                        "buyCost": buyCostLbl.text,
+                        "buyAmount": String(purchaseItem.buyAmount) as String,
+                        "buyTotalPrice": String(purchaseItem.buyTotalPrice) as String]
         
-        print("Purchase added to database")
+        if(purchase.isEmpty){
+            buyingAlert(buyAlert: "Purchase not succesful!")
+        }else{
+            buyingAlert(buyAlert: "Purchase completes successfully!")
+        }
+        refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
     }
     
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        buyInput.resignFirstResponder()
-        convertCurrency()
-        return true
+    // Alert user if the purchasing is sucessful or not after buying
+    func buyingAlert(buyAlert:String){
+        let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
-    
-    @IBAction func acceptButton(_ sender: Any)
+    @IBAction func buyButton(_ sender: Any)
     {
         let day = calendar.component(.day, from: date)
         let month = calendar.component(.month, from: date)
         let year = calendar.component(.year, from: date)
-        purchaseItem.amountPurchased = Double(buyInput.text!)!
-        if(totalLabel.text != nil){
-             purchaseItem.pricePurchase = Double(totalLabel.text!)!
+        
+        if Double(buyInput.text!) != nil{
+            purchaseItem.buyAmount = Double(buyInput.text!)!
         }else{
-            print("totaLabel not found")
-        }
-       
-        purchaseItem.purchaseCurrency = toCurrency.text!
-        //purchaseItem.usedCurrency = fromCurrency.text!
-        purchaseItem.datePurchase = "Date: \(day) - \(month) - \(year)"
-        
-        //addPurchaseToDatabase()
-        purchaseHist.append(purchaseItem)
-        
-        if(purchaseHist.isEmpty == false)
-        {
-            for item in purchaseHist
-            {
-                print(item.datePurchase)
-                print("Currency Purchased: ",item.purchaseCurrency)
-                print("Currency Used: ", item.usedCurrency)
-                print("Purchase currency amount: ",item.amountPurchased)
-                print("Currency's Price: ", item.pricePurchase)
-            }
+            print("Double(buyInput.text) = nil")
         }
         
+        if (buyTotalPriceLbl.text != nil){
+            purchaseItem.buyTotalPrice = buyTotalPriceLbl.text!
+        } else{
+            print("totalPrice = nil")
+        }
+        
+        purchaseItem.buyCost = buyCostLbl.text!
+        purchaseItem.buyDate = "\(day) - \(month) - \(year)"
+        
+        addPurchaseToDatabase()
     }
     
 //    func addToPurchaseList()
 //    {
-//
+//        purchaseHist.append(purchaseItem)
+//            if(purchaseHist.isEmpty == false)
+//        {
+//            for item in purchaseHist
+//            {
+//                print("Date: ",item.buyDate)
+//                print("Buy Currency Name: ", buyCurrNameLbl.text!)
+//                print("Cost: ",item.buyCost)
+//                print("Buy amount: ",item.buyAmount)
+//                print("Buy Total Price: ", item.buyTotalPrice)
+//            }
+//        }
 //    }
     
     func convertCurrency()
     {
         //var fromCurr = Double(buyData.price_usd)
-        var toCurr = Double(buyData.price_usd)
-        totalLabel.text = "$" + String((Double(buyInput.text!)! * toCurr!))
+        let toCurr = Double(buyData.price_usd)
+        totalPrice = Double(buyInput.text!)! * toCurr!
+        buyTotalPriceLbl.text = "$" + String(totalPrice)
     }
     
     override func didReceiveMemoryWarning() {

@@ -707,7 +707,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="7bO-nC-zdH">
-                                <rect key="frame" x="74" y="124" width="227.5" height="419.5"/>
+                                <rect key="frame" x="74" y="122.5" width="227.5" height="422.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="6ah-Z3-h0k">
                                         <rect key="frame" x="0.0" y="0.0" width="227.5" height="292.5"/>
@@ -764,15 +764,15 @@
                                         <variation key="heightClass=compact-widthClass=compact" axis="vertical" spacing="30"/>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ym-pP-HuI">
-                                        <rect key="frame" x="65.5" y="322.5" width="97" height="97"/>
+                                        <rect key="frame" x="64" y="322.5" width="100" height="100"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="97" id="4Fb-qD-Q9d"/>
+                                            <constraint firstAttribute="height" constant="100" id="4Fb-qD-Q9d"/>
                                             <constraint firstAttribute="width" secondItem="6ym-pP-HuI" secondAttribute="height" multiplier="1:1" id="Zz2-kx-mgk"/>
-                                            <constraint firstAttribute="width" constant="97" id="ef8-9U-CXx"/>
+                                            <constraint firstAttribute="width" constant="100" id="ef8-9U-CXx"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="buyButton2"/>
+                                        <state key="normal" image="buyButton2"/>
                                         <connections>
-                                            <action selector="acceptButton:" destination="SAF-vU-wkn" eventType="touchUpInside" id="eK2-C8-j9r"/>
+                                            <action selector="buyButton:" destination="SAF-vU-wkn" eventType="touchUpInside" id="1sC-90-VKu"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -789,11 +789,11 @@
                     <navigationItem key="navigationItem" title="Purchase" id="GRO-Tb-QmF"/>
                     <connections>
                         <outlet property="buyButtonLbl" destination="6ym-pP-HuI" id="iGz-VH-U3z"/>
+                        <outlet property="buyCostLbl" destination="Sn8-eY-Bl7" id="bPI-DW-H8R"/>
+                        <outlet property="buyCurrNameLbl" destination="BgN-Ie-5te" id="vBP-K2-Sru"/>
                         <outlet property="buyInput" destination="Gs1-yP-NOh" id="rqd-ky-RVT"/>
-                        <outlet property="currNameLbl" destination="BgN-Ie-5te" id="1oe-mw-2YF"/>
+                        <outlet property="buyTotalPriceLbl" destination="lmH-2t-iP2" id="bGm-8d-6g4"/>
                         <outlet property="priceStackView" destination="IxU-Ro-BdL" id="Ogb-Qi-BUe"/>
-                        <outlet property="toCurrency" destination="Sn8-eY-Bl7" id="gs3-SH-m6Y"/>
-                        <outlet property="totalLabel" destination="lmH-2t-iP2" id="Ryu-jQ-skV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vJg-mJ-hzf" userLabel="First Responder" sceneMemberID="firstResponder"/>
