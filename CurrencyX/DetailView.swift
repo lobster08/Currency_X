@@ -13,15 +13,19 @@ import FirebaseDatabase
 import Firebase
 import FirebaseAuth
 
-
-//struct for amoun
-struct currencyAmount
-{
-  //  var name : String
-    var amount : String
-    init ( amount1 : String)
-    {
-        amount = amount1
+//
+class info : NSObject {
+    var buyAmount: String
+    var buyCost : String
+    var buyTotalPrice : String
+    var data : String
+    var type : String
+    init(amount1: String, cost1: String, totalprice : String, data1 : String, type1 : String){
+        buyAmount = amount1
+        buyCost = cost1
+        buyTotalPrice = totalprice
+        data = data1
+        type = type1
     }
 }
 
@@ -98,7 +102,19 @@ struct dailyCryptoPrices : Codable
 }
 
 
-class DetailView: UIViewController, UITabBarDelegate {
+class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, UITableViewDelegate {
+{
+    /********************************
+        TableView Functions
+   **************************************/
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+   //
+ //   }
+    
+   // func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     //
+    //}
+    
     
     // daily cryptocurrencies urls
     var dailyCryptoUrls : [String: String] = ["Bitcoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ethereum" : "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Cash" : "https://min-api.cryptocompare.com/data/histohour?fsym=BCH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ripple" : "https://min-api.cryptocompare.com/data/histohour?fsym=XRP&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Dash" : "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Litecoin" : "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Bitcoin Gold" : "https://min-api.cryptocompare.com/data/histohour?fsym=BTG&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "IOTA" : "https://min-api.cryptocompare.com/data/histohour?fsym=IOTA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Cardano" : "https://min-api.cryptocompare.com/data/histohour?fsym=ADA&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Monero" : "https://min-api.cryptocompare.com/data/histohour?fsym=XMR&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Ethereum Classic" : "https://min-api.cryptocompare.com/data/histohour?fsym=ETC&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "NEO" : "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "NEM"  : "https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "EOS" : "https://min-api.cryptocompare.com/data/histohour?fsym=EOS&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Stellar Lumens" : "https://min-api.cryptocompare.com/data/histohour?fsym=XLM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "BitConnect" : "https://min-api.cryptocompare.com/data/histohour?fsym=BCCOIN&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "OmiseGO" : "https://min-api.cryptocompare.com/data/histohour?fsym=OMG&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Qtum" : "https://min-api.cryptocompare.com/data/histohour?fsym=QTUM&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Lisk" : "https://min-api.cryptocompare.com/data/histohour?fsym=LSK&tsym=USD&limit=24&aggregate=3&e=CCCAGG", "Zcash" : "https://min-api.cryptocompare.com/data/histohour?fsym=ZEC&tsym=USD&limit=24&aggregate=3&e=CCCAGG"]
@@ -129,9 +145,8 @@ class DetailView: UIViewController, UITabBarDelegate {
     var currencyName : String = ""
     var amountTxt = String()
     
+    var purchaseInfo = [info]()
     
-    
-    var amountArr = [String]()
     static var amount = 0
     let userID = Auth.auth().currentUser?.uid
 
@@ -158,17 +173,13 @@ class DetailView: UIViewController, UITabBarDelegate {
             {
                 
                 
-              //  readAmount()
-              //  updateDailyCryptoChart() //get daily crypto chart
+                readAmount()
                 getCryptoData(arrayUrl: dailyCryptoUrls, name: cryptCurrency.name)
                 updateCryptoChart()
-               // addDailyCryptoStruct()
-             //   displayCrypto()
-                // updateCryptChart()
             }
             else
             {
-               // readAmount()
+                readAmount()
                 displayCurrency()
                 getCryptoData(arrayUrl: dailyCurrencyUrls, name: regCurrency.symbol)
                 updateCryptoChart()
@@ -180,14 +191,14 @@ class DetailView: UIViewController, UITabBarDelegate {
         {
             if(MainView.isCryptoSelect == true)
             {
-                  //  readAmount()
+                readAmount()
                 getCryptoData(arrayUrl: weeklyCryptoUrls, name: cryptCurrency.name)
                 updateCryptoChart()
                 //updateWeeklyCryptoChart() // get weekly crypto chart
             }
             else
             {
-               // readAmount()
+                readAmount()
                 displayCurrency()
                 getCryptoData(arrayUrl: weeklyCurrencyUrls, name: regCurrency.symbol)
                 updateCryptoChart()
@@ -196,7 +207,12 @@ class DetailView: UIViewController, UITabBarDelegate {
         }
         
     }
+    //table view cell variables
     
+    
+    @IBOutlet weak var TableView: UITableView!
+    
+
     @IBOutlet weak var buyButtonHeightConstrain: NSLayoutConstraint!
     @IBOutlet weak var buyButtonWidthConstrain: NSLayoutConstraint!
     @IBOutlet weak var sellButton: UIButton!
@@ -410,20 +426,69 @@ class DetailView: UIViewController, UITabBarDelegate {
         self.lineChart.invalidateIntrinsicContentSize()
 
     }
-    func hideSellButton(amount : String)
-    {
-        if amount.isEmpty
-        {
-            self.sellButton.isHidden = true
-        }
-    }
     /**********************************************
         Read From Firebase Functions
     **********************************************/
-    
+//    func loadBalance(){
+//        self.balanceList = [Balance]()
+//        ref = Database.database().reference().child("Balance").child((user?.uid)!)
+//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//            self.numbOfBalance = Int(snapshot.childrenCount)
+//            if let dictionary = snapshot.value as? NSDictionary {
+//                for (key, value) in dictionary {
+//                    var balance = Balance(type1: "\(key)", amount1: "\(value)")
+//                    self.balanceList.append(balance)
+//                }
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//            }
+//        })
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//    }
+
+//    func readInfo()
+//    {
+//            self.purchaseInfo = [info]()
+//            ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId()
+//            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//                self.numbOfBalance = Int(snapshot.childrenCount)
+//                if let dictionary = snapshot.value as? NSDictionary {
+//                    for (key, value) in dictionary {
+//                        var balance = Balance(type1: "\(key)", amount1: "\(value)")
+//                        self.balanceList.append(balance)
+//                    }
+//                    DispatchQueue.main.async {
+//                        self.tableView.reloadData()
+//                    }
+//                }
+//            })
+//
+//            TableView.delegate = self
+//            TableView.dataSource = self
+//    }
+    func readPurchasedInfo()
+    {
+        ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId()
+
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if (snapshot.exists()) {
+                if let value = snapshot.value as? NSDictionary {
+                    for snapDict in value {
+                        self.amountTxt = snapDict.value as! String
+                        
+                        print(self.amountTxt)
+                        
+                    }
+                    
+                }
+            }
+        })
+    }
     func readAmount()
     {
-        self.amountArr.removeAll()
+       // self.amountArr.removeAll()
         ref = Database.database().reference().child("PurchasedAmount").child(userID!).child(currencyName)
         
         ref.observeSingleEvent(of: .value, with: { (snapshot) in

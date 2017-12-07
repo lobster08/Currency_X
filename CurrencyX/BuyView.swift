@@ -147,6 +147,24 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
     }
+    //add purchase information into database
+    func addPurchaseInfo()
+    {
+        if(MainView.isCryptoSelect == true)
+        {
+            currencyName = cryptoData.name
+        }
+        else
+        {
+            currencyName = currencyData.symbol
+        }
+        ref = Database.database().reference()
+        
+        let info = [ "data: " :  purchaseItem.buyDate as String, "buyAmount" :  String(purchaseItem.buyAmount) as String, "buyCost" : buyCostLbl.text, "buyTotalPrice": String(purchaseItem.buyTotalPrice) as String, "Type" : "Buy" ]
+ 
+        ref.child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId().updateChildValues(info)
+
+    }
     // add total amount of currency user owns
     func addPurchaseAmountToDatabase(amountInput : String)
     {
@@ -198,6 +216,9 @@ class BuyView: UIViewController, UITextFieldDelegate {
         
         addPurchaseToDatabase()
         addPurchaseAmountToDatabase(amountInput: buyInput.text!)
+        addPurchaseInfo()
+        
+        //knguyen0713@gmail.com
     }
     
 //    func addToPurchaseList()
