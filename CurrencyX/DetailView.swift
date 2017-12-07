@@ -151,7 +151,7 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
         dateLbl.text = purchaseInfo[indexPath.row].date
         typeLbl.text = purchaseInfo[indexPath.row].type
         totalAmountLbl.text = purchaseInfo[indexPath.row].buyTotalPrice
-        amountLvb.text = "\(purchaseInfo[indexPath.row].buyAmount!) shares at \(purchaseInfo[indexPath.row].buyCost!)"
+        amountLvb.text = "\(purchaseInfo[indexPath.row].buyAmount!) shares at \(purchaseInfo[indexPath.row].buyCost!)/share"
         
         return cell!
         

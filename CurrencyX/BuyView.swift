@@ -66,7 +66,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var purchaseItem = PurchaseInfo()
     var buyData = CryptoCurrency()
     
-    //currency declaration
+    //currency declaration (Nicole)
     var cryptoData = CryptoCurrency()
     var currencyData = currency()
     var currencyName = ""
@@ -92,8 +92,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
         buyCostLbl.text = "$" + String(buyData.price_usd)
         buyInput.keyboardType = UIKeyboardType.decimalPad
         
-        default_data = UserDefaults.init(suiteName: "Fetch Data API")
-        updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
+//        default_data = UserDefaults.init(suiteName: "Fetch Data API")
+//        updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
         
         currencyAmount = DetailView.amount
         
@@ -117,9 +117,9 @@ class BuyView: UIViewController, UITextFieldDelegate {
         view.pin(to: stackView)
     }
     
-    @objc func updateCurrentValue(){
-        print(self.default_data?.double(forKey: currSymbol) as Any)
-    }
+//    @objc func updateCurrentValue(){
+//        print(self.default_data?.double(forKey: currSymbol) as Any)
+//    }
     
     @objc func didTapView()
     {
