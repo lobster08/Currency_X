@@ -720,9 +720,13 @@
                         <viewLayoutGuide key="safeArea" id="VUD-lI-pwr"/>
                     </view>
                     <connections>
+                        <outlet property="buyButton" destination="ykp-wv-8FZ" id="S60-8a-G9F"/>
+                        <outlet property="buyButtonHeightConstrain" destination="i2t-80-T5v" id="pBz-99-JI6"/>
+                        <outlet property="buyButtonWidthConstrain" destination="WeL-N9-Gcl" id="CyG-az-fBe"/>
                         <outlet property="fromCurrAmount" destination="SMC-Jc-qyy" id="mMC-Hs-WgB"/>
                         <outlet property="fromCurrencyLbl" destination="ehH-ha-wpd" id="ysp-Xw-luA"/>
                         <outlet property="lineChart" destination="VKF-oh-V4r" id="c77-pe-Qj5"/>
+                        <outlet property="sellButton" destination="8Mn-4U-kGq" id="DAB-Af-1eE"/>
                         <outlet property="tabBar" destination="vIP-rn-HD3" id="T5t-jS-XOl"/>
                         <outlet property="toCurrAmount" destination="Eiq-3l-VHJ" id="myB-lh-5zK"/>
                         <outlet property="toCurrencyLbl" destination="C66-27-qCR" id="Av5-ew-9vr"/>

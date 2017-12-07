@@ -13,6 +13,18 @@ import FirebaseDatabase
 import Firebase
 import FirebaseAuth
 
+
+//struct for amoun
+struct currencyAmount
+{
+  //  var name : String
+    var amount : String
+    init ( amount1 : String)
+    {
+        amount = amount1
+    }
+}
+
 // struct for cryptoPrices
 struct dailyCryptoPrices : Codable
 {
@@ -115,8 +127,12 @@ class DetailView: UIViewController, UITabBarDelegate {
     var regCurrency = currency()
     var ref: DatabaseReference!
     var currencyName : String = ""
+    var amountTxt = String()
     
     
+    
+    var amountArr = [String]()
+    static var amount = 0
     let userID = Auth.auth().currentUser?.uid
 
     //dates variable
@@ -140,6 +156,7 @@ class DetailView: UIViewController, UITabBarDelegate {
         {
             if(MainView.isCryptoSelect == true)
             {
+                
                 
               //  readAmount()
               //  updateDailyCryptoChart() //get daily crypto chart
@@ -180,6 +197,10 @@ class DetailView: UIViewController, UITabBarDelegate {
         
     }
     
+    @IBOutlet weak var buyButtonHeightConstrain: NSLayoutConstraint!
+    @IBOutlet weak var buyButtonWidthConstrain: NSLayoutConstraint!
+    @IBOutlet weak var sellButton: UIButton!
+    @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var lineChart: LineChartView!
     @IBOutlet weak var fromCurrencyLbl: UILabel!
     @IBOutlet weak var toCurrencyLbl: UILabel!
@@ -209,26 +230,44 @@ class DetailView: UIViewController, UITabBarDelegate {
         tabBar.delegate = self
         tabBar.backgroundColor = UIColor.clear
         
+      //  else
+        //{
+          //  print("iuhfuisdhfkshk      \(amountArr[0] )")
+            //sellButton.isHidden = false
+        //}
         //tabBar.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
         if(MainView.isCryptoSelect == true)
         {
             currencyName = cryptCurrency.name
-            //readAmount()
-
+            readAmount()
+            
+//         //   if (amountTxt.isEmpty == true)
+//           // {
+//             //   sellButton.isHidden = true
+//            }
+//            else
+//            {
+//                sellButton.isHidden = false
+//            }
             getCryptoData(arrayUrl: dailyCryptoUrls, name: cryptCurrency.name)
             updateCryptoChart()
             displayCrypto()
-            readAmount()
+         //   readAmount()
         }
         else
         {
             currencyName = regCurrency.symbol
-            //readAmount()
+            readAmount()
+//            if amountArr[0] == ""
+//            {
+//                print("iuhfuisdhfkshk      \(amountArr[0])")
+//                sellButton.isHidden = true
+//            }
 
             displayCurrency()
             getCryptoData(arrayUrl: dailyCurrencyUrls, name: regCurrency.symbol)
             updateCryptoChart()
-            readAmount()
+           // readAmount()
         }
  
         _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(DetailView.refresh), userInfo: nil, repeats: true)
@@ -371,58 +410,43 @@ class DetailView: UIViewController, UITabBarDelegate {
         self.lineChart.invalidateIntrinsicContentSize()
 
     }
+    func hideSellButton(amount : String)
+    {
+        if amount.isEmpty
+        {
+            self.sellButton.isHidden = true
+        }
+    }
     /**********************************************
         Read From Firebase Functions
     **********************************************/
     
     func readAmount()
     {
-       
-        /*
-         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
-         // Get user value
-         let value = snapshot.value as? NSDictionary
-         let username = value?["username"] as? String ?? ""
-         let user = User(username: username)
-         
-         // ...
-         }) { (error) in
-         print(error.localizedDescription)
-         }
-        *///userID
-        //eventID = snapshot.value?["eventID"] as? String ?? ""
-    //    ref.child("PurchasedAmount").child(userID!).child(currencyName).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value             print(userDict["score"])
-            
-            ref = Database.database().reference().child("PurchasedAmount").child(userID!).child(currencyName)
+        self.amountArr.removeAll()
+        ref = Database.database().reference().child("PurchasedAmount").child(userID!).child(currencyName)
         
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if (snapshot.exists()) {
             if let value = snapshot.value as? NSDictionary {
                 for snapDict in value {
-                    let test = snapDict.value// as! String
-                    print(test)
-                }
-                // print(value.value(forKey: "Amount"))
-            }
-        })
-        
-            //let currName = value?["username"] as? String ?? ""
-           // let user = User(username: username)
-            
-        //        ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
+                     self.amountTxt = snapDict.value as! String
 
-       /* ref = Database.database().reference().child("PurchasedAmount").child((user?.uid)!).child(currencyName)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let snapshotValue = snapshot.value as? NSDictionary{
-                for snapDict in snapshotValue{
-                    print ("For loop enters")
-                    let smt = snapDict.value as! String
-                    print (smt)
+                    print(self.amountTxt)
+               
                 }
                 
             }
+            }
+                //if firebase doesn't have a value, the sell button is hidden
+            else {
+                self.sellButton.isHidden = true
+                self.buyButtonHeightConstrain.constant = 40
+                self.buyButtonWidthConstrain.constant = 400
+                //  self.buyButton.translatesAutoresizingMaskIntoConstraints = false
+                //self.buyButton.frame.origin = CGPoint(x: 400, y: 3000)
+            }
         })
-    */
     }
     /*
      //read firebase values for 7 days graph -- Crypto

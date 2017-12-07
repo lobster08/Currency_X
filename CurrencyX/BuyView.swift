@@ -85,6 +85,10 @@ class BuyView: UIViewController, UITextFieldDelegate {
         buyCostLbl.text = "$" + String(buyData.price_usd)
         buyInput.keyboardType = UIKeyboardType.decimalPad
         
+        
+        currencyAmount = DetailView.amount
+        print(DetailView.amount)
+       // currencyAmount = DetailView.readAmount()
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
         self.view.addGestureRecognizer(tapRecognizer)
@@ -146,6 +150,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     // add total amount of currency user owns
     func addPurchaseAmountToDatabase(amountInput : String)
     {
+        
         if(MainView.isCryptoSelect == true)
         {
             currencyName = cryptoData.name
@@ -157,7 +162,6 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ref = Database.database().reference()
         
         currencyAmount = currencyAmount + Int(amountInput)!
-        //     refPrices = Database.database().reference().child("CryptoPrices")         refPrices.setValue(prices)
 
         let amount = [ "Amount: " : String(currencyAmount) as String]
         ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
