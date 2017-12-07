@@ -15,17 +15,45 @@ import FirebaseAuth
 
 //
 class info : NSObject {
-    var buyAmount: String
-    var buyCost : String
-    var buyTotalPrice : String
-    var data : String
-    var type : String
+    var buyAmount: String?
+    var buyCost : String?
+    var buyTotalPrice : String?
+    var date : String?
+    var type : String?
+
+    override init()
+    {
+        buyCost = ""
+        buyAmount = ""
+        buyTotalPrice = ""
+        date = ""
+        type = ""
+    }
     init(amount1: String, cost1: String, totalprice : String, data1 : String, type1 : String){
         buyAmount = amount1
         buyCost = cost1
         buyTotalPrice = totalprice
-        data = data1
+        date = data1
         type = type1
+    }
+    init(data : Dictionary<String, String>)
+    {
+        if let amount = data["buyAmount"] as? String {
+            self.buyAmount = amount
+        }
+        if let date = data["data"] as? String {
+            self.date = date
+        }
+        if let cost = data["buyCost"] as? String {
+            self.buyCost = cost
+        }
+        if let totalprice = data["buyTotalPrice"] as? String {
+            self.buyTotalPrice = totalprice
+        }
+        if let type1 = data["Type"] as? String {
+            self.type = type1
+        }
+
     }
 }
 
@@ -102,18 +130,33 @@ struct dailyCryptoPrices : Codable
 }
 
 
-class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, UITableViewDelegate {
-{
+class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
+  
+
     /********************************
         TableView Functions
    **************************************/
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-   //
- //   }
+   
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return numOfInfo
+    }
     
-   // func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     //
-    //}
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell")
+        
+        let dateLbl = cell?.contentView.viewWithTag(1) as! UILabel
+        let typeLbl = cell?.contentView.viewWithTag(2) as! UILabel
+        let totalAmountLbl = cell?.contentView.viewWithTag(3) as! UILabel
+        let amountLvb = cell?.contentView.viewWithTag(4) as! UILabel
+
+        dateLbl.text = purchaseInfo[indexPath.row].date
+        typeLbl.text = purchaseInfo[indexPath.row].type
+        totalAmountLbl.text = purchaseInfo[indexPath.row].buyTotalPrice
+        amountLvb.text = "\(purchaseInfo[indexPath.row].buyAmount) shares at \(purchaseInfo[indexPath.row].buyCost)"
+        
+        return cell!
+        
+    }
     
     
     // daily cryptocurrencies urls
@@ -145,6 +188,7 @@ class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, U
     var currencyName : String = ""
     var amountTxt = String()
     
+    var numOfInfo : Int = 0
     var purchaseInfo = [info]()
     
     static var amount = 0
@@ -157,9 +201,6 @@ class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, U
     let day = (Calendar.current.component(.day, from: Date()))
     let month = (Calendar.current.component(.month, from: Date()))
     let year = (Calendar.current.component(.year, from: Date()))
-    //test
-    var dailycrypto = [dailyCryptoPrices]()
-    
     
     
     //firebase
@@ -192,6 +233,7 @@ class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, U
             if(MainView.isCryptoSelect == true)
             {
                 readAmount()
+                readInfo()
                 getCryptoData(arrayUrl: weeklyCryptoUrls, name: cryptCurrency.name)
                 updateCryptoChart()
                 //updateWeeklyCryptoChart() // get weekly crypto chart
@@ -199,6 +241,7 @@ class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, U
             else
             {
                 readAmount()
+                readInfo()
                 displayCurrency()
                 getCryptoData(arrayUrl: weeklyCurrencyUrls, name: regCurrency.symbol)
                 updateCryptoChart()
@@ -245,6 +288,8 @@ class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, U
         setBackgroundImage()
         tabBar.delegate = self
         tabBar.backgroundColor = UIColor.clear
+        TableView.delegate = self
+        TableView.dataSource = self
         
       //  else
         //{
@@ -256,34 +301,20 @@ class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, U
         {
             currencyName = cryptCurrency.name
             readAmount()
-            
-//         //   if (amountTxt.isEmpty == true)
-//           // {
-//             //   sellButton.isHidden = true
-//            }
-//            else
-//            {
-//                sellButton.isHidden = false
-//            }
+            readInfo()
+
             getCryptoData(arrayUrl: dailyCryptoUrls, name: cryptCurrency.name)
             updateCryptoChart()
             displayCrypto()
-         //   readAmount()
         }
         else
         {
             currencyName = regCurrency.symbol
             readAmount()
-//            if amountArr[0] == ""
-//            {
-//                print("iuhfuisdhfkshk      \(amountArr[0])")
-//                sellButton.isHidden = true
-//            }
-
+            readInfo()
             displayCurrency()
             getCryptoData(arrayUrl: dailyCurrencyUrls, name: regCurrency.symbol)
             updateCryptoChart()
-           // readAmount()
         }
  
         _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(DetailView.refresh), userInfo: nil, repeats: true)
@@ -429,62 +460,35 @@ class DetailView: UIViewController, UITabBarDelegate//, UITableViewDataSource, U
     /**********************************************
         Read From Firebase Functions
     **********************************************/
-//    func loadBalance(){
-//        self.balanceList = [Balance]()
-//        ref = Database.database().reference().child("Balance").child((user?.uid)!)
-//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-//            self.numbOfBalance = Int(snapshot.childrenCount)
-//            if let dictionary = snapshot.value as? NSDictionary {
-//                for (key, value) in dictionary {
-//                    var balance = Balance(type1: "\(key)", amount1: "\(value)")
-//                    self.balanceList.append(balance)
-//                }
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//            }
-//        })
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//    }
 
-//    func readInfo()
-//    {
-//            self.purchaseInfo = [info]()
-//            ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId()
-//            ref.observeSingleEvent(of: .value, with: { (snapshot) in
-//                self.numbOfBalance = Int(snapshot.childrenCount)
-//                if let dictionary = snapshot.value as? NSDictionary {
-//                    for (key, value) in dictionary {
-//                        var balance = Balance(type1: "\(key)", amount1: "\(value)")
-//                        self.balanceList.append(balance)
-//                    }
-//                    DispatchQueue.main.async {
-//                        self.tableView.reloadData()
-//                    }
-//                }
-//            })
-//
-//            TableView.delegate = self
-//            TableView.dataSource = self
-//    }
-    func readPurchasedInfo()
+
+    func readInfo()
     {
-        ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId()
+            self.purchaseInfo = [info]()
+            ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName)//.childByAutoId()
+            ref.observeSingleEvent(of: .childAdded, with: { (snapshot) in
+                self.numOfInfo = Int(snapshot.childrenCount)
+                print("asdljasdh \(self.numOfInfo)")
+                if let dictionary = snapshot.value as? NSDictionary {
+                    for item in dictionary  {
+                        //print(item)
 
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            if (snapshot.exists()) {
-                if let value = snapshot.value as? NSDictionary {
-                    for snapDict in value {
-                        self.amountTxt = snapDict.value as! String
-                        
-                        print(self.amountTxt)
-                        
+                        if let infomation = item.key as? Dictionary<String,String>{
+
+                            let infos = info(data: infomation)
+                            self.purchaseInfo.append(infos)
+                            print(self.purchaseInfo)
+                            self.TableView.reloadData()
+
                     }
-                    
+                    DispatchQueue.main.async {
+                        self.TableView.reloadData()
+                    }
+                    }
                 }
-            }
-        })
+            })
+            TableView.delegate = self
+            TableView.dataSource = self
     }
     func readAmount()
     {
