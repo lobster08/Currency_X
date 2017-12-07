@@ -52,6 +52,13 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
     
+    // Fields for updating currency
+    var default_data: UserDefaults!
+    var currentValue: Double!
+    var updateTimer : Timer!
+    var currSymbol : String!
+    
+    
     // Data Variable Initialize
     let date = Date()
     let calendar = Calendar.current
@@ -85,6 +92,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
         buyCostLbl.text = "$" + String(buyData.price_usd)
         buyInput.keyboardType = UIKeyboardType.decimalPad
         
+        default_data = UserDefaults.init(suiteName: "Fetch Data API")
+        updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
         
         currencyAmount = DetailView.amount
         print(DetailView.amount)
@@ -106,6 +115,12 @@ class BuyView: UIViewController, UITextFieldDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         stackView.insertSubview(view, at: 0)
         view.pin(to: stackView)
+    }
+    
+    @objc func updateCurrentValue(){
+        if (self.default_data?.double(forKey: currSymbol) == nil){
+            print("NILLLLLLLL")
+        }
     }
     
     @objc func didTapView()
