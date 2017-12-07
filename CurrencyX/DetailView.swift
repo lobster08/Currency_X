@@ -56,7 +56,6 @@ class info : NSObject {
 
     }
 }
-
 // struct for cryptoPrices
 struct dailyCryptoPrices : Codable
 {
@@ -138,6 +137,7 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
    **************************************/
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("asdjasd \(numOfInfo)")
         return numOfInfo
     }
     
@@ -148,11 +148,10 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
         let typeLbl = cell?.contentView.viewWithTag(2) as! UILabel
         let totalAmountLbl = cell?.contentView.viewWithTag(3) as! UILabel
         let amountLvb = cell?.contentView.viewWithTag(4) as! UILabel
-
         dateLbl.text = purchaseInfo[indexPath.row].date
         typeLbl.text = purchaseInfo[indexPath.row].type
         totalAmountLbl.text = purchaseInfo[indexPath.row].buyTotalPrice
-        amountLvb.text = "\(purchaseInfo[indexPath.row].buyAmount) shares at \(purchaseInfo[indexPath.row].buyCost)"
+        amountLvb.text = "\(purchaseInfo[indexPath.row].buyAmount!) shares at \(purchaseInfo[indexPath.row].buyCost!)"
         
         return cell!
         
@@ -190,7 +189,6 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
     
     var numOfInfo : Int = 0
     var purchaseInfo = [info]()
-    
     static var amount = 0
     let userID = Auth.auth().currentUser?.uid
 
@@ -291,11 +289,6 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
         TableView.delegate = self
         TableView.dataSource = self
         
-      //  else
-        //{
-          //  print("iuhfuisdhfkshk      \(amountArr[0] )")
-            //sellButton.isHidden = false
-        //}
         //tabBar.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
         if(MainView.isCryptoSelect == true)
         {
@@ -460,30 +453,32 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
     /**********************************************
         Read From Firebase Functions
     **********************************************/
-
-
     func readInfo()
     {
             self.purchaseInfo = [info]()
             ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName)//.childByAutoId()
-            ref.observeSingleEvent(of: .childAdded, with: { (snapshot) in
+        
+                ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 self.numOfInfo = Int(snapshot.childrenCount)
                 print("asdljasdh \(self.numOfInfo)")
-                if let dictionary = snapshot.value as? NSDictionary {
-                    for item in dictionary  {
-                        //print(item)
-
-                        if let infomation = item.key as? Dictionary<String,String>{
-
-                            let infos = info(data: infomation)
-                            self.purchaseInfo.append(infos)
-                            print(self.purchaseInfo)
-                            self.TableView.reloadData()
+                for snap in snapshot.children {
+                if let valueDictionary = (snap as! DataSnapshot).value as? [String:String]
+                {
+                    
+                        let type = valueDictionary["Type"]
+                        let amount = valueDictionary["buyAmount"]
+                        let cost = valueDictionary["buyCost"]
+                        let totalamount = valueDictionary["buyTotalPrice"]
+                        let date = valueDictionary["data: "]
+                    self.purchaseInfo.append(info(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!))
+               //     self.purchaseInfo.insert(info(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!), at: 0)
+                    print(self.purchaseInfo)
+                        //Reload your tableView
+                    
 
                     }
                     DispatchQueue.main.async {
                         self.TableView.reloadData()
-                    }
                     }
                 }
             })
