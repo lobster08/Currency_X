@@ -96,7 +96,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
         
         currencyAmount = DetailView.amount
-        print(DetailView.amount)
+        
        // currencyAmount = DetailView.readAmount()
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.addTarget(self, action: #selector(BuyView.didTapView))
@@ -118,9 +118,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     }
     
     @objc func updateCurrentValue(){
-        if (self.default_data?.double(forKey: currSymbol) == nil){
-            print("NILLLLLLLL")
-        }
+        print(self.default_data?.double(forKey: currSymbol) as Any)
     }
     
     @objc func didTapView()
@@ -162,7 +160,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         refPurchase.child("Purchase").child((user?.uid)!).childByAutoId().setValue(purchase)
     }
-    //add purchase information into database
+    
+    //add purchase information into database (Nicole's Code)
     func addPurchaseInfo()
     {
         if(MainView.isCryptoSelect == true)
@@ -180,7 +179,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ref.child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId().updateChildValues(info)
 
     }
-    // add total amount of currency user owns
+    // add total amount of currency user owns (Nicole's code)
     func addPurchaseAmountToDatabase(amountInput : String)
     {
         
@@ -200,6 +199,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
 
     }
+    
     // Alert user if the purchasing is sucessful or not after buying
     func buyingAlert(buyAlert:String){
         let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
@@ -235,22 +235,6 @@ class BuyView: UIViewController, UITextFieldDelegate {
         
         //knguyen0713@gmail.com
     }
-    
-//    func addToPurchaseList()
-//    {
-//        purchaseHist.append(purchaseItem)
-//            if(purchaseHist.isEmpty == false)
-//        {
-//            for item in purchaseHist
-//            {
-//                print("Date: ",item.buyDate)
-//                print("Buy Currency Name: ", buyCurrNameLbl.text!)
-//                print("Cost: ",item.buyCost)
-//                print("Buy amount: ",item.buyAmount)
-//                print("Buy Total Price: ", item.buyTotalPrice)
-//            }
-//        }
-//    }
     
     func convertCurrency()
     {

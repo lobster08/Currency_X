@@ -872,7 +872,7 @@
         <!--Sell-->
         <scene sceneID="nMn-2h-ura">
             <objects>
-                <viewController title="Sell" id="ply-ZO-vXt" sceneMemberID="viewController">
+                <viewController title="Sell" id="ply-ZO-vXt" customClass="SellView" customModule="CurrencyX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sDp-Gl-iPr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -881,6 +881,9 @@
                                 <rect key="frame" x="164" y="499" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="sellButton:" destination="ply-ZO-vXt" eventType="touchUpInside" id="vh9-SZ-e2d"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" alignment="center" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="Gkk-hV-h9q">
                                 <rect key="frame" x="74" y="145" width="227.5" height="292.5"/>
@@ -940,6 +943,13 @@
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="NbK-Uh-FHa"/>
                     </view>
+                    <connections>
+                        <outlet property="sellButtonLbl" destination="uZx-VH-hRb" id="XX5-lt-Xiq"/>
+                        <outlet property="sellCurrencyNameLbl" destination="5HG-8Y-nTq" id="qcG-Za-TzJ"/>
+                        <outlet property="sellInput" destination="bHZ-TM-Mdz" id="7yK-Eb-3qu"/>
+                        <outlet property="sellTotalValueLbl" destination="fwT-QG-JPi" id="wnl-Y0-h7G"/>
+                        <outlet property="sellValueLbl" destination="UZt-Qf-iSq" id="v6o-sZ-Yi8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Of-P5-EBP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

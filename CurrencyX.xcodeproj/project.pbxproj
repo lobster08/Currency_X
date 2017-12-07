@@ -22,6 +22,7 @@
 		E947E60C92C543A828C4EC6E /* Pods_CurrencyX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */; };
 		EDCCAD461FA7CAA600439099 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA77315B1F916D3300ADD4DF /* Info.plist */; };
 		FF03E10E1FAA759800ABD91C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03E10D1FAA759800ABD91C /* DetailView.swift */; };
+		FF17BD401FD923EB001BC56C /* SellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17BD3F1FD923EB001BC56C /* SellView.swift */; };
 		FF1B9F321F93AE2800FC9F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */; };
 		FF6B59E21F933C350072E48E /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6B59E11F933C350072E48E /* BuyView.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		BAE649AB1F932FD9005416FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F51BEFDEDE29BE25FD493777 /* Pods_CurrencyX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF03E10D1FAA759800ABD91C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		FF17BD3F1FD923EB001BC56C /* SellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellView.swift; sourceTree = "<group>"; };
 		FF6B59E11F933C350072E48E /* BuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +99,7 @@
 				BA7731611F91733600ADD4DF /* LoginView.swift */,
 				BAE649A91F930CD6005416FC /* ForgotPassView.swift */,
 				BA7731531F916D3300ADD4DF /* Main.storyboard */,
+				FF17BD3F1FD923EB001BC56C /* SellView.swift */,
 				FF03E10D1FAA759800ABD91C /* DetailView.swift */,
 				1B4A8D331F9C742C0056B672 /* WalletView.swift */,
 				BA7C1DB81F98674100B5BBE3 /* MainView.swift */,
@@ -265,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B0CF71A1F91EB3800DB2DC1 /* Notification.swift in Sources */,
+				FF17BD401FD923EB001BC56C /* SellView.swift in Sources */,
 				BA7C1DB91F98674100B5BBE3 /* MainView.swift in Sources */,
 				1B4A8D341F9C742C0056B672 /* WalletView.swift in Sources */,
 				FF6B59E21F933C350072E48E /* BuyView.swift in Sources */,
