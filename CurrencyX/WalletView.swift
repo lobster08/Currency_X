@@ -226,8 +226,8 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
             if snapshot.hasChild(self.moneyList.text!){
                 var amount : Double = 0.0
                 if let balance = snapshot.value as? NSDictionary {
-                    var currentAmount : Double = Double(balance[self.moneyList.text!] as! String) as! Double
-                    amount = currentAmount + (Double(self.amount.text!) as! Double)
+                    let currentAmount : Double = Double(balance[self.moneyList.text!] as! String)!
+                    amount = currentAmount + Double(self.amount.text!)!
                     DispatchQueue.main.async {
                         self.ref = Database.database().reference()
                         self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.moneyList.text!: String(amount)])

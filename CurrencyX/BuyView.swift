@@ -52,6 +52,10 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
     
+    // Wallet Variable
+    var walletData = WalletView()
+    var hasMoney: Bool!
+    
     // Currency's Cost Update Variables
     var default_data: UserDefaults!
     var currentValue: Double!
@@ -69,13 +73,15 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var currencyName = ""
     var currencyAmount = 0
     var totalPrice : Double = 0.0
+    var wtbSymbol : String! // wtb: want to buy
+    var wtsSymbol: String! // wts: want to sell
     
     // Firebase Variable Initailize
     var ref : DatabaseReference!
     var refPurchase: DatabaseReference!
     var user = Auth.auth().currentUser
     
-//---------------- PROCESS -----------------
+    //---------------- PROCESS -----------------
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -88,16 +94,16 @@ class BuyView: UIViewController, UITextFieldDelegate {
         // Setup UI labels
         buyInput.delegate = self
         buyTotalPriceLbl.text = "0.0"
-        buyCurrNameLbl.text = buyCryptoData.symbol
-        buyCostLbl.text = "$" + String(buyCryptoData.price_usd)
+        setBuyCurrencyName(crytoStr: buyCryptoData.symbol, regStr: buyRegularData.symbol)
+        setBuyCostLbl(crytoStr: buyCryptoData.price_usd, regStr: String(buyRegularData.price))
         
         // Setup Buy Cost Update variables
-//        default_data = UserDefaults.init(suiteName: "Fetch Data API")
-//        updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
+        default_data = UserDefaults.init(suiteName: "Fetch Data API")
+        updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
         
         // Setup currencyAmount for upload to Database
         currencyAmount = DetailView.amount
-       
+        
         
         // Setup Keyboard type for TextInput and TapRecognizer
         buyInput.keyboardType = UIKeyboardType.decimalPad
@@ -121,11 +127,37 @@ class BuyView: UIViewController, UITextFieldDelegate {
         view.pin(to: stackView)
     }
     
-    // ---- Buy Cost Update function ----
-//    @objc func updateCurrentValue(){
-//        print(self.default_data?.double(forKey: currSymbol) as Any)
-//    }
+    //---- Buy Cost Update function ----
+    @objc func updateCurrentValue(){
+        if (buyCryptoData.symbol != ""){
+            var value = self.default_data?.double(forKey: buyCryptoData.symbol)
+            buyCostLbl.text = "S" + String(value!)
+        }
+        else{
+            print(self.default_data?.double(forKey: buyRegularData.symbol))
+        }
+        
+    }
     
+    // ---- UI Setup functions ----
+    func setBuyCurrencyName(crytoStr:String, regStr:String){
+        if(crytoStr != ""){
+            buyCurrNameLbl.text = crytoStr
+            wtbSymbol = crytoStr
+        }else{
+            buyCurrNameLbl.text = String(regStr.characters.suffix(3))
+            wtbSymbol = regStr
+        }
+        wtsSymbol = "USD"
+    }
+    
+    func setBuyCostLbl(crytoStr:String, regStr:String){
+        if(crytoStr != ""){
+            buyCostLbl.text = "$" + crytoStr
+        }else{
+            buyCostLbl.text = "$" + regStr
+        }
+    }
     // ---- TapRecognizer Setup functions ----
     @objc func didTapView()
     {
@@ -133,10 +165,11 @@ class BuyView: UIViewController, UITextFieldDelegate {
         if(buyInput.text != "")
         {
             calcualateBuyCost()
+            loadBalance()
         }
         buyButtonLbl.isHidden = false
     }
-
+    
     // ---- View's Background Setup functions ----
     func setBackgroundImage() {
         if backgroundImageName > "" {
@@ -163,16 +196,16 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ref = Database.database().reference()
         
         let info = [ "data: " :  buyItem.buyDate as String, "buyAmount" :  String(buyItem.buyAmount) as String, "buyCost" : buyCostLbl.text, "buyTotalPrice": String(buyItem.buyTotalPrice) as String, "Type" : "Buy" ]
- 
+        
         if(info.isEmpty){
             buyingAlert(buyAlert: "Purchase not succesful!")
         }else{
             buyingAlert(buyAlert: "Purchase completes successfully!")
         }
         ref.child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId().updateChildValues(info)
-
+        
     }
-
+    
     func addOwnCurrAmountToDB(amountInput : String)
     {
         
@@ -187,12 +220,81 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ref = Database.database().reference()
         
         currencyAmount = currencyAmount + Int(amountInput)!
-
+        
         let amount = [ "Amount: " : String(currencyAmount) as String]
         ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
-
+        
     }
     
+    // ---- Wallet -----
+    func checkMoneyExist()
+    {
+        for money in walletData.balanceList{
+            if (money.type == "USD"){
+                if(money.amount == ""){
+                    hasMoney = false
+                    print("No money found")
+                } else if (Double(money.amount)! < totalPrice){
+                    hasMoney = false
+                    print("Cannot buy item. Insufficient funds")
+                } else{
+                    print ("Has Money")
+                    self.hasMoney = true
+                }
+            }
+        }
+    }
+    
+    func loadBalance(){
+        walletData.balanceList = [Balance]()
+        ref = Database.database().reference().child("Balance").child((user?.uid)!)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            self.walletData.numbOfBalance = Int(snapshot.childrenCount)
+            if let dictionary = snapshot.value as? NSDictionary {
+                for (key, value) in dictionary {
+                    var balance = Balance(type1: "\(key)", amount1: "\(value)")
+                    self.walletData.balanceList.append(balance)
+                }
+                self.checkMoneyExist()
+            }
+        })
+    }
+    
+    func buyDeposit(){
+        ref = Database.database().reference().child("Balance").child((user?.uid)!)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.hasChild(self.wtbSymbol){
+                var updateAmount : Double = 0.0
+                if let balance = snapshot.value as? NSDictionary {
+                    var currentAmount : Double = Double(balance[self.wtbSymbol] as! String)!
+                    updateAmount = currentAmount + Double(self.buyInput.text!)!
+                    DispatchQueue.main.async {
+                        self.ref = Database.database().reference()
+                        self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtbSymbol: String(updateAmount)])
+                    }
+                }
+            }
+            else{
+                DispatchQueue.main.async {
+                    self.ref = Database.database().reference().child("Balance").child((self.user?.uid)!)
+                    self.ref.updateChildValues([self.wtbSymbol: self.buyInput.text!])
+                }
+            }})
+    }
+    
+    func buyWithdraw(){
+        ref = Database.database().reference().child("Balance").child((user?.uid)!)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            var updateAmount : Double = 0.0
+            if let balance = snapshot.value as? NSDictionary {
+                var currentAmount : Double = Double(balance[self.wtsSymbol] as! String)!
+                updateAmount = currentAmount - Double(self.buyInput.text!)!
+                DispatchQueue.main.async {
+                    self.ref = Database.database().reference()
+                    self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtsSymbol: String(updateAmount)])
+                }
+            }})
+    }
     // ---- Alert Setup function ----
     func buyingAlert(buyAlert:String){
         let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
@@ -208,23 +310,26 @@ class BuyView: UIViewController, UITextFieldDelegate {
         let month = calendar.component(.month, from: date)
         let year = calendar.component(.year, from: date)
         
-        if Double(buyInput.text!) != nil{
-            buyItem.buyAmount = Double(buyInput.text!)!
-        }else{
-            print("Double(buyInput.text) = nil")
+        if(self.hasMoney == true)
+        {
+            if Double(self.buyInput.text!) != nil{
+                self.buyItem.buyAmount = Double(self.buyInput.text!)!
+            }else{
+                print("Double(buyInput.text) = nil")
+            }
+            
+            if (self.buyTotalPriceLbl.text != nil){
+                self.buyItem.buyTotalPrice = self.buyTotalPriceLbl.text!
+            } else{
+                print("totalPrice = nil")
+            }
+            self.buyItem.buyCost = self.buyCostLbl.text!
+            self.buyItem.buyDate = "\(day) - \(month) - \(year)"
+            self.buyDeposit()
+            self.buyWithdraw()
+            self.addOwnCurrAmountToDB(amountInput: self.buyInput.text!)
+            self.addBuyInfoToDB()
         }
-        
-        if (buyTotalPriceLbl.text != nil){
-            buyItem.buyTotalPrice = buyTotalPriceLbl.text!
-        } else{
-            print("totalPrice = nil")
-        }
-        
-        buyItem.buyCost = buyCostLbl.text!
-        buyItem.buyDate = "\(day) - \(month) - \(year)"
-        
-        addOwnCurrAmountToDB(amountInput: buyInput.text!)
-        addBuyInfoToDB()
     }
     
     // ---- Buy Currency Cost function ----
