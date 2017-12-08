@@ -34,13 +34,24 @@ class SellView: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var sellTotalValueLbl: UILabel!
     @IBOutlet weak var sellButtonLbl: UIButton!
     
+    // Wallet Variable
+    var sellWalletData = WalletView()
+    var hasSellItem: Bool!
+    
+    // Currency's Value Update Variables
+    var default_data: UserDefaults!
+    var currentSellValue: Double!
+    var updateTimer: Timer!
+    
     // Data Variables
-    var sellDataCrypCurr = CryptoCurrency()
-    var sellDataRegCurr = currency()
+    var sellCryptoData = CryptoCurrency()
+    var sellRegularData = currency()
     var sellItem = SellInfo()
     var totalSellValue: Double = 0.0
     var cryptoCurr: String?
     var regularCurr: String?
+    var wtbSymbol: String! // wtb: want to buy
+    var wtsSymbol: String! // wts: want to sell
     
     // Date Variable
     let date = Date()
@@ -68,8 +79,12 @@ class SellView: UIViewController, UITextFieldDelegate {
         // Setup UI labels
         sellInput.delegate = self
         sellTotalValueLbl.text = "0.0"
-        setSellCurrencyName(crytoStr: sellDataCrypCurr.symbol, regStr: sellDataRegCurr.symbol)
-        setSellValueLbl(cryptoStr: sellDataCrypCurr.price_usd, regStr: String(sellDataRegCurr.price))
+        setSellCurrencyName(crytoStr: sellCryptoData.symbol, regStr: sellRegularData.symbol)
+        setSellValueLbl(cryptoStr: sellCryptoData.price_usd, regStr: String(sellRegularData.price))
+        
+        // Setup Sell Value Update variables
+        default_data = UserDefaults.init(suiteName: "Fetch Data API")
+        updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(SellView.updateCurrentSellValue), userInfo: nil, repeats: true)
         
         // Setup Keyboard type for TextInput and TapRecognizer
         sellInput.keyboardType = UIKeyboardType.decimalPad
@@ -84,6 +99,17 @@ class SellView: UIViewController, UITextFieldDelegate {
     // ---- Sell Button function ----
     @IBAction func sellButton(_ sender: Any) {
         
+    }
+    
+    // ---- Sell Value Update function ----
+    @objc func updateCurrentSellValue(){
+        if(sellCryptoData.symbol != ""){
+            var crypValue = self.default_data?.double(forKey: sellCryptoData.symbol)
+            sellValueLbl.text = "$" + String(crypValue!)
+        }else{
+            var regValue = self.default_data?.double(forKey: sellRegularData.symbol)
+            sellValueLbl.text = "$" + String(regValue!)
+        }
     }
     
     // ---- UI Setup functions ----
@@ -133,8 +159,8 @@ class SellView: UIViewController, UITextFieldDelegate {
     
     // ---- Sell Currency Value function ----
     func calculateSellTotal(){
-        let cryptoSell = Double(sellDataCrypCurr.price_usd)
-        let regularSell = Double(sellDataRegCurr.price)
+        let cryptoSell = Double(sellCryptoData.price_usd)
+        let regularSell = Double(sellRegularData.price)
         
         if(cryptoSell != nil){
             totalSellValue = Double(sellInput.text!)! * cryptoSell!
@@ -149,16 +175,4 @@ class SellView: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

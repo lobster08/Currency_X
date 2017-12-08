@@ -619,8 +619,8 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
         }else if (segue.identifier == "DetailToSell"){
             
             let passToSell = segue.destination as! SellView
-            passToSell.sellDataCrypCurr = cryptCurrency
-            passToSell.sellDataRegCurr = regCurrency
+            passToSell.sellCryptoData = cryptCurrency
+            passToSell.sellRegularData = regCurrency
         }
     }
     
