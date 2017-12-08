@@ -539,18 +539,22 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 
                 currLbl.text = filteredCrypt[indexPath.row].symbol         //raw data
                 priceLbl.text = filteredCrypt[indexPath.row].price_usd     //raw data
+                
                 return cell
             }
-            if (isShowCurrency && filteredCurr.count != 0){
+            if (isShowCurrency && filteredCurr.count != 0)
+            {
+              //  let row = indexPath.row - filteredCurr.count
                 let cell = cryptTableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
                 
                 let firstlbl = cell.contentView.viewWithTag(5) as! UILabel
                 let currencyLbl = cell.contentView.viewWithTag(6) as! UILabel
                 let priceLabel = cell.contentView.viewWithTag(7) as! UILabel
                 
-                firstlbl.text = String(filteredCurr[indexPath.row].symbol.characters.prefix(3))
-                currencyLbl.text = String(filteredCurr[indexPath.row].symbol.characters.suffix(3))
-                priceLabel.text = String(filteredCurr[indexPath.row].price)
+                firstlbl.text = String(filteredCurr[indexPath.row ].symbol.characters.prefix(3))
+                currencyLbl.text = String(filteredCurr[indexPath.row ].symbol.characters.suffix(3))
+                priceLabel.text = String(filteredCurr[indexPath.row ].price)
+                
                 return cell
             }
         }
@@ -578,10 +582,13 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 }
                 currLbl.text = crypCurrencyList[indexPath.row].symbol         //raw data
                 priceLbl.text = crypCurrencyList[indexPath.row].price_usd     //raw data
+                
                 return cell
             }
-            else if (indexPath.row <  Currencies.count)
+            else
             {
+                let row = indexPath.row - crypCurrencyList.count
+                
                 let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
                 
                 let firstlbl = cell.contentView.viewWithTag(5) as! UILabel
@@ -591,7 +598,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let delta = cell.contentView.viewWithTag(9) as! UILabel
                 
                 if (!isStartUp){
-                    let value = Double(Currencies[indexPath.row].price) - Double(prevCurrency[indexPath.row].price)
+                    let value = Double(Currencies[row].price) - Double(prevCurrency[row].price)
                     if (value < 0){
                         status.image = UIImage(named: "down.png")
                     }
@@ -601,33 +608,55 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                     if (value != 0){
                         delta.text = String(format: "%.5f", abs(value))
                     }
-                    prevCurrency[indexPath.row] = Currencies[indexPath.row]
+                    prevCurrency[row] = Currencies[row]
                 }
-                firstlbl.text = String(Currencies[indexPath.row].symbol.characters.prefix(3))
-                currencyLbl.text = String(Currencies[indexPath.row].symbol.characters.suffix(3))
-                priceLabel.text = String(Currencies[indexPath.row].price)
+                firstlbl.text = String(Currencies[row].symbol.characters.prefix(3))
+                currencyLbl.text = String(Currencies[row].symbol.characters.suffix(3))
+                priceLabel.text = String(Currencies[row].price)
+                
                 return cell
             }
         }
         return defaultCell
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75.0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let row = indexPath.row - crypCurrencyList.count
+        
+        if let index = cryptTableView.indexPathForSelectedRow {
+            print("kjashdkadahdahfa \(index)")
+         //   if (isSearching ) // && (filteredCrypt.count != 0 || filteredCurr.count != 0))
+            
+        
+        if (isShowCrypto && index.row < filteredCrypt.count)
+                {
+                    MainView.isCryptoSelect = true
+                    selectedCryptCell = filteredCrypt[index.row]
+                }
+                if (isShowCurrency ) //&& filteredCurr.count != 0)
+                {
+                    selectedCurrency = filteredCurr[index.row]
+                }
+            }
+        
         if (indexPath.row < crypCurrencyList.count)
         {
-            MainView.isCryptoSelect = true;
-            MainView.isCurrencySelect = false;
+            MainView.isCryptoSelect = true
+            MainView.isCurrencySelect = false
             selectedCryptCell = crypCurrencyList[indexPath.row]
         }
+            
         else
         {
-            MainView.isCurrencySelect = true;
-            MainView.isCryptoSelect = false;
-            selectedCurrency = Currencies[indexPath.row]
+            MainView.isCurrencySelect = true
+            MainView.isCryptoSelect = false
+            selectedCurrency = Currencies[row]
         }
         self.performSegue(withIdentifier: "MainToDetail", sender: self)
 
