@@ -288,13 +288,14 @@ class BuyView: UIViewController, UITextFieldDelegate {
             var updateAmount : Double = 0.0
             if let balance = snapshot.value as? NSDictionary {
                 var currentAmount : Double = Double(balance[self.wtsSymbol] as! String)!
-                updateAmount = currentAmount - Double(self.buyInput.text!)!
+                updateAmount = currentAmount - self.totalPrice
                 DispatchQueue.main.async {
                     self.ref = Database.database().reference()
                     self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtsSymbol: String(updateAmount)])
                 }
             }})
     }
+    
     // ---- Alert Setup function ----
     func buyingAlert(buyAlert:String){
         let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
