@@ -24,9 +24,9 @@ struct SellInfo{
     }
 }
 class SellView: UIViewController, UITextFieldDelegate {
-    
-    //-------------- INITIALIZE ------------------
-    
+
+//-------------- INITIALIZE ------------------
+
     // UI Variables
     @IBOutlet weak var sellValueLbl: UILabel!
     @IBOutlet weak var sellCurrencyNameLbl: UILabel!
@@ -66,8 +66,8 @@ class SellView: UIViewController, UITextFieldDelegate {
     var ref : DatabaseReference!
     var refPurchase: DatabaseReference!
     var user = Auth.auth().currentUser
-    
-    //-------------- PROCESS ------------------
+
+//-------------- PROCESS ------------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,25 +98,7 @@ class SellView: UIViewController, UITextFieldDelegate {
     
     // ---- Sell Button function ----
     @IBAction func sellButton(_ sender: Any) {
-        let sellDay = calendar.component(.day, from: date)
-        let sellMonth = calendar.component(.month, from: date)
-        let sellYear = calendar.component(.year, from: date)
         
-        if(hasSellItem == true)
-        {
-            if (sellInput.text != ""){
-                sellItem.sellAmount = Double(sellInput.text!)!
-            }
-            
-            if (sellTotalValueLbl.text != ""){
-                sellItem.sellTotalValue = sellTotalValueLbl.text!
-            }
-            
-            sellItem.sellValue = sellValueLbl.text!
-            sellItem.sellDate = "\(sellDay) - \(sellMonth) - \(sellYear)"
-            sellDeposit()
-            sellWithdraw()
-        }
     }
     
     // ---- Sell Value Update function ----
@@ -133,21 +115,22 @@ class SellView: UIViewController, UITextFieldDelegate {
     // ---- UI Setup functions ----
     func setSellCurrencyName(crytoStr:String, regStr:String)
     {
-        if (crytoStr != ""){
-            sellCurrencyNameLbl.text = crytoStr
-            wtsSymbol = crytoStr
-        } else{
-            sellCurrencyNameLbl.text = String(regStr.characters.suffix(3))
-            wtsSymbol = regStr
+        cryptoCurr = crytoStr
+        regularCurr = regStr
+        if (cryptoCurr != nil){
+            sellCurrencyNameLbl.text = cryptoCurr!
+        } else if (regularCurr != nil){
+            sellCurrencyNameLbl.text = regularCurr!
         }
-        wtbSymbol = "USD"
     }
     
     func setSellValueLbl(cryptoStr:String, regStr:String){
-        if (cryptoStr != ""){
-            sellValueLbl.text = "$" + cryptoStr
-        }else{
-            sellValueLbl.text = "$" + regStr
+        cryptoCurr = cryptoStr
+        regularCurr = regStr
+        if (cryptoCurr != nil){
+            sellValueLbl.text = "$" + cryptoCurr!
+        }else if (regularCurr != nil){
+            sellValueLbl.text = "$" + regularCurr!
         }
     }
     
@@ -170,85 +153,21 @@ class SellView: UIViewController, UITextFieldDelegate {
         if(sellInput.text != "")
         {
             calculateSellTotal()
-            loadBalance()
         }
         sellButtonLbl.isHidden = false
     }
     
-    // ---- Sell Wallet ----
-    func checkOwnedCurrExist(){
-        for item in sellWalletData.balanceList{
-            if(item.type == wtsSymbol){
-                if(item.amount == "" || Double(item.amount)! < 0.0){
-                    hasSellItem = false
-                    print(wtsSymbol + "does not exist in your wallet")
-                } else{
-                    hasSellItem = true
-                    print ("Has Sell Item!")
-                }
-            }
-        }
-    }
-    
-    func loadBalance(){
-        sellWalletData.balanceList = [Balance]()
-        ref = Database.database().reference().child("Balance").child((user?.uid)!)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            self.sellWalletData.numbOfBalance = Int(snapshot.childrenCount)
-            if let dictionary = snapshot.value as? NSDictionary {
-                for (key, value) in dictionary {
-                    var balance = Balance(type1: "\(key)", amount1: "\(value)")
-                    self.sellWalletData.balanceList.append(balance)
-                }
-                self.checkOwnedCurrExist()
-            }})
-    }
-    
-    func sellDeposit(){
-        ref = Database.database().reference().child("Balance").child((user?.uid)!)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.hasChild(self.wtbSymbol){
-                var updateAmount : Double = 0.0
-                if let balance = snapshot.value as? NSDictionary {
-                    var currentAmount : Double = Double(balance[self.wtbSymbol] as! String)!
-                    updateAmount = currentAmount + Double(self.totalSellValue)
-                    DispatchQueue.main.async {
-                        self.ref = Database.database().reference()
-                        self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtbSymbol: String(updateAmount)])
-                    }
-                }
-            }
-            else{
-                DispatchQueue.main.async {
-                    self.ref = Database.database().reference().child("Balance").child((self.user?.uid)!)
-                    self.ref.updateChildValues([self.wtbSymbol: self.totalSellValue])
-                }
-            }})
-    }
-    
-    func sellWithdraw(){
-        ref = Database.database().reference().child("Balance").child((user?.uid)!)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            var updateAmount : Double = 0.0
-            if let balance = snapshot.value as? NSDictionary {
-                var currentAmount : Double = Double(balance[self.wtsSymbol] as! String)!
-                updateAmount = currentAmount - Double(self.sellInput.text!)!
-                DispatchQueue.main.async {
-                    self.ref = Database.database().reference()
-                    self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtsSymbol: String(updateAmount)])
-                }
-            }})
-    }
-    
     // ---- Sell Currency Value function ----
     func calculateSellTotal(){
-        if(sellCryptoData.price_usd != ""){
-            let cryptValue = Double(sellCryptoData.price_usd)
-            totalSellValue = Double(sellInput.text!)! * cryptValue!
-        }else{
-            let regValue = Double(sellRegularData.price)
-            totalSellValue = Double(sellInput.text!)! * regValue
+        let cryptoSell = Double(sellCryptoData.price_usd)
+        let regularSell = Double(sellRegularData.price)
+        
+        if(cryptoSell != nil){
+            totalSellValue = Double(sellInput.text!)! * cryptoSell!
+        }else if (regularSell != nil){
+            totalSellValue = Double(sellInput.text!)! * regularSell
         }
+        
         sellTotalValueLbl.text = "$" + String(totalSellValue)
     }
     
