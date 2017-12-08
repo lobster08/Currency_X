@@ -334,9 +334,17 @@ class BuyView: UIViewController, UITextFieldDelegate {
     
     // ---- Buy Currency Cost function ----
     func calcualateBuyCost(){
-        let toCurr = Double(buyCryptoData.price_usd)
-        totalPrice = Double(buyInput.text!)! * toCurr!
-        buyTotalPriceLbl.text = "$" + String(totalPrice)
+        if(buyCryptoData.price_usd != "")
+        {
+            let cryptCost = Double(buyCryptoData.price_usd)
+            totalPrice = Double(buyInput.text!)! * cryptCost!
+            buyTotalPriceLbl.text = "$" + String(totalPrice)
+        }else{
+            let regCost = Double(buyRegularData.price)
+            totalPrice = Double(buyInput.text!)! * regCost
+            buyTotalPriceLbl.text = "$" + String(totalPrice)
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
