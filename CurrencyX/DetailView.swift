@@ -614,13 +614,20 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
         if(segue.identifier == "DetailToBuy")
         {
             let passToBuy = segue.destination as! BuyView
-            passToBuy.buyCryptoData = cryptCurrency
-            passToBuy.buyRegularData = regCurrency
+            if(MainView.isCryptoSelect)
+            {
+                passToBuy.buyCryptoData = cryptCurrency
+            }else if (MainView.isCurrencySelect){
+                passToBuy.buyRegularData = regCurrency
+            }
         }else if (segue.identifier == "DetailToSell"){
-            
             let passToSell = segue.destination as! SellView
-            passToSell.sellCryptoData = cryptCurrency
-            passToSell.sellRegularData = regCurrency
+            if(MainView.isCryptoSelect)
+            {
+                passToSell.sellCryptoData = cryptCurrency
+            }else if (MainView.isCurrencySelect){
+                passToSell.sellRegularData = regCurrency
+            }
         }
     }
     

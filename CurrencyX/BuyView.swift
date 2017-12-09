@@ -130,11 +130,12 @@ class BuyView: UIViewController, UITextFieldDelegate {
     //---- Buy Cost Update function ----
     @objc func updateCurrentValue(){
         if (buyCryptoData.symbol != ""){
-            var value = self.default_data?.double(forKey: buyCryptoData.symbol)
-            buyCostLbl.text = "S" + String(value!)
+            let crypValue = self.default_data?.double(forKey: buyCryptoData.symbol)
+            buyCostLbl.text = "$" + String(crypValue!)
         }
         else{
-            print(self.default_data?.double(forKey: buyRegularData.symbol))
+            let regValue = self.default_data?.double(forKey: buyRegularData.symbol)
+            buyCostLbl.text = "$" + String(regValue!)
         }
         
     }
@@ -288,7 +289,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
             var updateAmount : Double = 0.0
             if let balance = snapshot.value as? NSDictionary {
                 var currentAmount : Double = Double(balance[self.wtsSymbol] as! String)!
-                updateAmount = currentAmount - Double(self.buyInput.text!)!
+                updateAmount = currentAmount - self.totalPrice
                 DispatchQueue.main.async {
                     self.ref = Database.database().reference()
                     self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtsSymbol: String(updateAmount)])
