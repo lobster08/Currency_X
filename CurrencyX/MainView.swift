@@ -537,8 +537,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let currLbl = cell.contentView.viewWithTag(1) as! UILabel
                 let priceLbl = cell.contentView.viewWithTag(2) as! UILabel
                 
-                currLbl.text = filteredCrypt[indexPath.row].symbol         //raw data
-                priceLbl.text = filteredCrypt[indexPath.row].price_usd     //raw data
+                currLbl.text = filteredCrypt[indexPath.row].symbol
+                priceLbl.text = filteredCrypt[indexPath.row].price_usd
                 return cell
             }
             if (isShowCurrency && filteredCurr.count != 0){
@@ -576,11 +576,11 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                     }
                     prevCrypCurrencyList[indexPath.row] = crypCurrencyList[indexPath.row]
                 }
-                currLbl.text = crypCurrencyList[indexPath.row].symbol         //raw data
-                priceLbl.text = crypCurrencyList[indexPath.row].price_usd     //raw data
+                currLbl.text = crypCurrencyList[indexPath.row].symbol
+                priceLbl.text = crypCurrencyList[indexPath.row].price_usd
                 return cell
             }
-            else if (indexPath.row <  Currencies.count)
+            else
             {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath)
                 
@@ -591,7 +591,14 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let delta = cell.contentView.viewWithTag(9) as! UILabel
                 
                 if (!isStartUp){
-                    let value = Double(Currencies[indexPath.row].price) - Double(prevCurrency[indexPath.row].price)
+                    var value: Double = 0.0
+                    if (!isShowCrypto && isShowCurrency){
+                         value = Double(Currencies[indexPath.row].price) - Double(prevCurrency[indexPath.row].price)
+                    }
+                    else{
+                        value = Double(Currencies[indexPath.row - crypCurrencyList.count].price) - Double(prevCurrency[indexPath.row - crypCurrencyList.count].price)
+                    }
+                    
                     if (value < 0){
                         status.image = UIImage(named: "down.png")
                     }
@@ -601,11 +608,25 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                     if (value != 0){
                         delta.text = String(format: "%.5f", abs(value))
                     }
-                    prevCurrency[indexPath.row] = Currencies[indexPath.row]
+                    
+                    if (!isShowCrypto && isShowCurrency){
+                        prevCurrency[indexPath.row] = Currencies[indexPath.row]
+                    }else{
+                        prevCurrency[indexPath.row - crypCurrencyList.count] = Currencies[indexPath.row - crypCurrencyList.count]
+                    }
                 }
-                firstlbl.text = String(Currencies[indexPath.row].symbol.characters.prefix(3))
-                currencyLbl.text = String(Currencies[indexPath.row].symbol.characters.suffix(3))
-                priceLabel.text = String(Currencies[indexPath.row].price)
+                
+                if isShowCrypto{
+                    firstlbl.text = String(Currencies[indexPath.row - crypCurrencyList.count].symbol.characters.prefix(3))
+                    currencyLbl.text = String(Currencies[indexPath.row - crypCurrencyList.count].symbol.characters.suffix(3))
+                    priceLabel.text = String(Currencies[indexPath.row - crypCurrencyList.count].price)
+                }
+                else{
+                    firstlbl.text = String(Currencies[indexPath.row].symbol.characters.prefix(3))
+                    currencyLbl.text = String(Currencies[indexPath.row].symbol.characters.suffix(3))
+                    priceLabel.text = String(Currencies[indexPath.row].price)
+                }
+                
                 return cell
             }
         }
@@ -633,14 +654,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
 
        // self.performSegue(withIdentifier: "MainToNotification", sender: self)
     }
-    
-    @IBAction func NotificationSetting(_ sender: Any) {
-        performSegue(withIdentifier: "MainToNotification", sender: self)
-    }
-    
-    @IBAction func CurrencyNotification(_ sender: Any) {
-        performSegue(withIdentifier: "MainToNotification", sender: self)
-    }
+
     //  Function to perform Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MainToDetail" {
