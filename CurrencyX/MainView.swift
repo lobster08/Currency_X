@@ -650,17 +650,63 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.row < crypCurrencyList.count)
+        let row = indexPath.row - crypCurrencyList.count
+        
+        if isSearching
         {
-            MainView.isCryptoSelect = true;
-            MainView.isCurrencySelect = false;
-            selectedCryptCell = crypCurrencyList[indexPath.row]
+
+            print("Enter searching")
+            if(isShowCrypto && !isShowCurrency && filteredCrypt.count != 0) //if search only crypto
+            {
+                cryptTableView.reloadData()
+
+                selectedCryptCell = filteredCrypt[indexPath.row]
+                cryptTableView.reloadData()
+            }
+            else if(isShowCurrency ) //if search for only currencies
+            {
+                cryptTableView.reloadData()
+                selectedCurrency = filteredCurr[indexPath.row]
+                cryptTableView.reloadData()
+//
+            }
+            else if (!isSearching && isShowCrypto)
+            {
+                cryptTableView.reloadData()
+
+                selectedCryptCell = crypCurrencyList[indexPath.row]
+            }
+            else if (!isSearching && isShowCurrency)
+            {
+                cryptTableView.reloadData()
+                selectedCurrency = Currencies[indexPath.row]
+
+            }
         }
+
+        else if (!isShowCrypto && isShowCurrency && !isSearching)
+        {
+            print("goes here")
+            selectedCurrency = Currencies[indexPath.row]
+            cryptTableView.reloadData()
+        }
+        
         else
         {
-            MainView.isCurrencySelect = true;
-            MainView.isCryptoSelect = false;
-            selectedCurrency = Currencies[indexPath.row]
+            print("enter searching else")
+            if (indexPath.row < crypCurrencyList.count)
+            {
+                MainView.isCryptoSelect = true
+                MainView.isCurrencySelect = false
+                selectedCryptCell = crypCurrencyList[indexPath.row]
+            }
+            else
+            {
+                MainView.isCurrencySelect = true
+                MainView.isCryptoSelect = false
+                selectedCurrency = Currencies[indexPath.row]
+            }
+            
         }
         self.performSegue(withIdentifier: "MainToDetail", sender: self)
 
