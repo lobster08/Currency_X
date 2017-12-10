@@ -659,8 +659,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MainToDetail" {
             let dvc = segue.destination as! DetailView
-            dvc.cryptCurrency = selectedCryptCell
-            dvc.regCurrency = selectedCurrency
+                dvc.cryptCurrency = selectedCryptCell
+                dvc.regCurrency = selectedCurrency
         }
         else if segue.identifier == "MainToNotification" {
             let dvc = segue.destination as! Notification

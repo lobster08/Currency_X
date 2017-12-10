@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VwV-x7-CUd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VwV-x7-CUd">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -225,10 +225,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="NFG-Yt-yI5">
-                                <rect key="frame" x="54" y="113.5" width="267" height="440"/>
+                                <rect key="frame" x="42.5" y="108.5" width="290" height="450"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="6bs-Ms-8dv">
-                                        <rect key="frame" x="93.5" y="0.0" width="80" height="80"/>
+                                        <rect key="frame" x="105" y="0.0" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="6bs-Ms-8dv" secondAttribute="height" multiplier="1:1" id="Avo-ma-Jts"/>
                                             <constraint firstAttribute="width" constant="80" id="SdL-iv-PyV"/>
@@ -236,10 +236,10 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="Yme-6d-OpL">
-                                        <rect key="frame" x="0.0" y="160" width="267" height="280"/>
+                                        <rect key="frame" x="0.0" y="160" width="290" height="290"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="SZw-Ua-Zhf">
-                                                <rect key="frame" x="0.0" y="0.0" width="267" height="160"/>
+                                                <rect key="frame" x="11.5" y="0.0" width="267" height="160"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="110" translatesAutoresizingMaskIntoConstraints="NO" id="9yy-Mq-tLj">
                                                         <rect key="frame" x="0.0" y="0.0" width="267" height="30"/>
@@ -318,29 +318,27 @@
                                                 </subviews>
                                                 <variation key="heightClass=compact-widthClass=compact" spacing="20"/>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="f0y-Mi-wpa">
-                                                <rect key="frame" x="34.5" y="240" width="198" height="40"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="f0y-Mi-wpa">
+                                                <rect key="frame" x="0.0" y="240" width="290" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86n-61-V99">
-                                                        <rect key="frame" x="0.0" y="0.0" width="64" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="50"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" secondItem="86n-61-V99" secondAttribute="height" multiplier="8:5" id="KK1-8V-ZXk"/>
-                                                            <constraint firstAttribute="height" constant="40" id="tXx-MA-sdz"/>
-                                                            <constraint firstAttribute="width" constant="60" id="v2y-9v-cd0"/>
+                                                            <constraint firstAttribute="height" constant="50" id="tXx-MA-sdz"/>
+                                                            <constraint firstAttribute="width" constant="130" id="v2y-9v-cd0"/>
                                                         </constraints>
-                                                        <state key="normal" title="Cancel" image="cancelButton4"/>
+                                                        <state key="normal" title="Cancel" image="cancelButtonRed"/>
                                                         <connections>
                                                             <action selector="Cancel:" destination="5du-tC-TLu" eventType="touchUpInside" id="1ry-vj-mj5"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kT2-b5-7jc">
-                                                        <rect key="frame" x="134" y="0.0" width="64" height="40"/>
+                                                        <rect key="frame" x="160" y="0.0" width="130" height="50"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="0Pn-aD-fxP"/>
-                                                            <constraint firstAttribute="width" constant="60" id="Igi-H0-BuB"/>
-                                                            <constraint firstAttribute="width" secondItem="kT2-b5-7jc" secondAttribute="height" multiplier="8:5" id="gSv-Nk-uYS"/>
+                                                            <constraint firstAttribute="height" constant="50" id="0Pn-aD-fxP"/>
+                                                            <constraint firstAttribute="width" constant="130" id="Igi-H0-BuB"/>
                                                         </constraints>
-                                                        <state key="normal" title="Accept" image="acceptButton3"/>
+                                                        <state key="normal" title="Accept" image="acceptButtonNew"/>
                                                         <connections>
                                                             <action selector="Accept:" destination="5du-tC-TLu" eventType="touchUpInside" id="YAh-H1-fGr"/>
                                                         </connections>
@@ -354,7 +352,7 @@
                                 <variation key="heightClass=compact-widthClass=compact" spacing="30"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="NFG-Yt-yI5" firstAttribute="centerX" secondItem="Vfl-lv-ChL" secondAttribute="centerX" id="EFg-re-BAF"/>
                             <constraint firstItem="NFG-Yt-yI5" firstAttribute="centerY" secondItem="Vfl-lv-ChL" secondAttribute="centerY" id="EKC-eH-Z3n"/>
@@ -429,29 +427,27 @@
                                                         </subviews>
                                                         <variation key="heightClass=compact-widthClass=compact" spacing="5"/>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="3FI-Nh-Xoq">
-                                                        <rect key="frame" x="53" y="80" width="170" height="40"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3FI-Nh-Xoq">
+                                                        <rect key="frame" x="28" y="80" width="220" height="40"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jsK-ov-vdK">
-                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="40"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="40"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="jsK-ov-vdK" secondAttribute="height" multiplier="60:40" id="7FF-Wl-Aup"/>
                                                                     <constraint firstAttribute="height" constant="40" id="ArK-M8-1LL"/>
-                                                                    <constraint firstAttribute="width" constant="60" id="D53-dj-rcd"/>
+                                                                    <constraint firstAttribute="width" constant="100" id="D53-dj-rcd"/>
                                                                 </constraints>
-                                                                <state key="normal" title="Cancel" image="cancelButton4"/>
+                                                                <state key="normal" title="Cancel" image="cancelButtonRed"/>
                                                                 <connections>
                                                                     <action selector="cancelBtn:" destination="AlU-Xb-WRG" eventType="touchUpInside" id="DIk-eb-sXk"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Se0-io-zWJ">
-                                                                <rect key="frame" x="110" y="0.0" width="60" height="40"/>
+                                                                <rect key="frame" x="120" y="0.0" width="100" height="40"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="Se0-io-zWJ" secondAttribute="height" multiplier="60:40" id="25B-Ii-uTh"/>
-                                                                    <constraint firstAttribute="width" constant="60" id="EiA-Qh-CXq"/>
+                                                                    <constraint firstAttribute="width" constant="100" id="EiA-Qh-CXq"/>
                                                                     <constraint firstAttribute="height" constant="40" id="eml-9r-bsE"/>
                                                                 </constraints>
-                                                                <state key="normal" title="Accept" image="acceptButton3"/>
+                                                                <state key="normal" title="Accept" image="acceptButtonNew"/>
                                                                 <connections>
                                                                     <action selector="acceptBtn:" destination="AlU-Xb-WRG" eventType="touchUpInside" id="sHK-yh-Xu6"/>
                                                                 </connections>
@@ -470,7 +466,7 @@
                                             <constraint firstAttribute="height" constant="309.5" id="nvV-no-1Ow"/>
                                         </constraints>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="uRY-we-dDV">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="uRY-we-dDV">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uRY-we-dDV" id="pFX-mr-ioA">
@@ -525,7 +521,7 @@
                                 <variation key="heightClass=compact-widthClass=compact" axis="horizontal" spacing="10"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="CXN-Jc-cvJ" firstAttribute="leading" secondItem="2ha-zf-tjo" secondAttribute="leading" id="BSX-2y-hd3"/>
                             <constraint firstItem="CXN-Jc-cvJ" firstAttribute="top" secondItem="2ha-zf-tjo" secondAttribute="top" id="QC4-U2-he0"/>
@@ -714,14 +710,14 @@
                                     <constraint firstAttribute="width" constant="136" id="WeL-N9-Gcl"/>
                                     <constraint firstAttribute="height" constant="42" id="i2t-80-T5v"/>
                                 </constraints>
-                                <state key="normal" image="buyNew2"/>
+                                <state key="normal" image="buyNew3"/>
                                 <connections>
                                     <action selector="buyButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="RWz-rX-Atp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Mn-4U-kGq">
                                 <rect key="frame" x="204" y="413" width="136" height="42"/>
-                                <state key="normal" image="sellNew2"/>
+                                <state key="normal" image="sellNew3"/>
                                 <connections>
                                     <action selector="sellButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="xiZ-3R-tjk"/>
                                 </connections>
@@ -1218,11 +1214,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background4" translatesAutoresizingMaskIntoConstraints="NO" id="0nq-OJ-7Pw">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="1mg-4Q-kKH">
-                                <rect key="frame" x="7" y="84" width="361" height="495"/>
+                                <rect key="frame" x="7" y="84" width="361" height="525"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="5SA-FU-MBD">
                                         <rect key="frame" x="150.5" y="0.0" width="60" height="60"/>
@@ -1232,8 +1225,8 @@
                                             <constraint firstAttribute="width" secondItem="5SA-FU-MBD" secondAttribute="height" multiplier="1:1" id="oWQ-Xy-S3b"/>
                                         </constraints>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="nbR-Ow-zif">
-                                        <rect key="frame" x="0.0" y="110" width="361" height="385"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="nbR-Ow-zif">
+                                        <rect key="frame" x="0.0" y="110" width="361" height="415"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ckz-c8-GB8">
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="315"/>
@@ -1652,29 +1645,27 @@
                                                 </subviews>
                                                 <variation key="heightClass=compact-widthClass=compact" axis="horizontal" spacing="20"/>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="XeO-KB-MLp">
-                                                <rect key="frame" x="91.5" y="345" width="178" height="40"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="XeO-KB-MLp">
+                                                <rect key="frame" x="40.5" y="355" width="280" height="60"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTO-0x-Sqc">
-                                                        <rect key="frame" x="0.0" y="0.0" width="64" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="60"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="6hQ-9N-jj8"/>
-                                                            <constraint firstAttribute="width" constant="60" id="7Cg-zG-HCj"/>
-                                                            <constraint firstAttribute="width" secondItem="jTO-0x-Sqc" secondAttribute="height" multiplier="8:5" id="PH5-ls-Rhx"/>
+                                                            <constraint firstAttribute="height" constant="60" id="G4o-JF-V3R"/>
+                                                            <constraint firstAttribute="width" constant="130" id="qkh-Fp-SBQ"/>
                                                         </constraints>
-                                                        <state key="normal" title="Cancel" image="cancelButton4"/>
+                                                        <state key="normal" title="Cancel" image="cancelButtonRed"/>
                                                         <connections>
                                                             <action selector="cancelBtn:" destination="vpr-xX-n4K" eventType="touchUpInside" id="XSG-dI-83u"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9I-GC-HdN">
-                                                        <rect key="frame" x="114" y="0.0" width="64" height="40"/>
+                                                        <rect key="frame" x="150" y="0.0" width="130" height="60"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="89X-QT-tsr"/>
-                                                            <constraint firstAttribute="width" secondItem="J9I-GC-HdN" secondAttribute="height" multiplier="8:5" id="aaf-bo-Bd6"/>
-                                                            <constraint firstAttribute="width" constant="60" id="iam-HZ-9nc"/>
+                                                            <constraint firstAttribute="height" constant="60" id="dDu-Nv-ia3"/>
+                                                            <constraint firstAttribute="width" constant="130" id="exz-Y3-jar"/>
                                                         </constraints>
-                                                        <state key="normal" title="Accept" image="acceptButton3"/>
+                                                        <state key="normal" title="Accept" image="acceptButtonNew"/>
                                                         <connections>
                                                             <action selector="acceptBtn:" destination="vpr-xX-n4K" eventType="touchUpInside" id="48B-wY-e3P"/>
                                                         </connections>
@@ -1688,16 +1679,10 @@
                                 <variation key="heightClass=compact-widthClass=compact" axis="vertical" spacing="10"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="1mg-4Q-kKH" firstAttribute="top" secondItem="sZI-zd-spM" secondAttribute="top" constant="20" id="HJG-gw-9QT"/>
-                            <constraint firstItem="sZI-zd-spM" firstAttribute="trailing" secondItem="0nq-OJ-7Pw" secondAttribute="trailing" id="JPn-yA-pfE"/>
-                            <constraint firstItem="0nq-OJ-7Pw" firstAttribute="top" secondItem="sZI-zd-spM" secondAttribute="top" id="RLJ-Mc-a5J"/>
-                            <constraint firstItem="0nq-OJ-7Pw" firstAttribute="bottom" secondItem="sZI-zd-spM" secondAttribute="bottom" id="SJe-Ob-Jr8"/>
                             <constraint firstItem="sZI-zd-spM" firstAttribute="trailing" secondItem="1mg-4Q-kKH" secondAttribute="trailing" constant="7" id="WVG-D7-YMU"/>
-                            <constraint firstItem="0nq-OJ-7Pw" firstAttribute="trailing" secondItem="sZI-zd-spM" secondAttribute="trailing" id="b5t-iZ-JQg"/>
-                            <constraint firstItem="0nq-OJ-7Pw" firstAttribute="leading" secondItem="sZI-zd-spM" secondAttribute="leading" id="bBm-Vm-UZa"/>
-                            <constraint firstItem="sZI-zd-spM" firstAttribute="bottom" secondItem="0nq-OJ-7Pw" secondAttribute="bottom" id="g48-kP-aB5"/>
                             <constraint firstItem="1mg-4Q-kKH" firstAttribute="leading" secondItem="sZI-zd-spM" secondAttribute="leading" constant="7" id="pDp-vM-5AO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="sZI-zd-spM"/>
@@ -1848,22 +1833,21 @@
     </scenes>
     <resources>
         <image name="AppLogo" width="750" height="1294"/>
-        <image name="Background4" width="750" height="1294"/>
         <image name="PurchaseButton" width="30" height="13"/>
         <image name="SellButton" width="30" height="14"/>
-        <image name="acceptButton3" width="224" height="94"/>
+        <image name="acceptButtonNew" width="217" height="89"/>
         <image name="arrowVerti" width="200" height="200"/>
         <image name="bellButtonVer2" width="25" height="25"/>
         <image name="bellButtonVer2-1" width="75" height="75"/>
         <image name="buyButton2" width="50" height="51"/>
-        <image name="buyNew2" width="198" height="88"/>
-        <image name="cancelButton4" width="206" height="81"/>
-        <image name="sellNew2" width="198" height="88"/>
+        <image name="buyNew3" width="196" height="84"/>
+        <image name="cancelButtonRed" width="210" height="97"/>
+        <image name="sellNew3" width="189" height="83"/>
         <image name="sendButton-1" width="331" height="101"/>
         <image name="signInButton-1" width="335" height="108"/>
         <image name="signUpbutton-1" width="325" height="92"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mP0-T3-fIs"/>
+        <segue reference="Shd-tn-Xa4"/>
     </inferredMetricsTieBreakers>
 </document>
