@@ -129,7 +129,7 @@ struct dailyCryptoPrices : Codable
 }
 
 
-class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
   
 
     /********************************
@@ -263,10 +263,7 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
     @IBOutlet weak var toCurrencyLbl: UILabel!
     @IBOutlet weak var fromCurrAmount: UILabel!
     @IBOutlet weak var toCurrAmount: UILabel!
-    @IBAction func NotiButton(_ sender: Any) {
-        performSegue(withIdentifier: "DetailToNotification", sender: self)
-
-    }
+    
     @IBAction func sellButton(_ sender: Any) {
         performSegue(withIdentifier: "DetailToSell", sender: self)
 
@@ -276,20 +273,25 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
         performSegue(withIdentifier: "DetailToBuy", sender: self)
 
     }
-    @IBOutlet weak var tabBar: UITabBar!
     
     override func viewDidLoad()
     {
+        //add notification button in navigation bar
+        let notificationButton = UIButton(type: .custom)
+        notificationButton.setImage(UIImage(named: "bellButtonVer2-1"), for: .normal)
+        notificationButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        notificationButton.addTarget(self, action: #selector(NotificationButton), for: .touchDown)//
+        let btn = UIBarButtonItem(customView: notificationButton)
+        self.navigationItem.setRightBarButton(btn, animated: true)
+        
         super.viewDidLoad()
         //self.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
         backgroundImageName = "background6.png"
         setBackgroundImage()
-        tabBar.delegate = self
-        tabBar.backgroundColor = UIColor.clear
+    
         TableView.delegate = self
         TableView.dataSource = self
         
-        //tabBar.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
         if(MainView.isCryptoSelect == true)
         {
             currencyName = cryptCurrency.name
@@ -316,21 +318,10 @@ class DetailView: UIViewController, UITabBarDelegate, UITableViewDataSource, UIT
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(DetailView.updateCryptoChart), userInfo: nil, repeats: true)
         
     }
-    /*******************************
-            Tab Bar Function
-    ********************************/
-    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if (item.tag == 1) {
-            performSegue(withIdentifier: "DetailToBuy", sender: self)
-        }
-        else if (item.tag == 2)
-        {
-            performSegue(withIdentifier: "DetailToSell", sender: self)
-        }
-        else if (item.tag == 3)
-        {
-            performSegue(withIdentifier: "DetailToNotification", sender: self)
-        }
+    @objc func NotificationButton()
+    {
+        performSegue(withIdentifier: "DetailToNotification", sender: self)
+
     }
     
     /*

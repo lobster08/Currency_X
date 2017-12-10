@@ -368,7 +368,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wdI-aB-WcU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1604" y="530"/>
+            <point key="canvasLocation" x="3932" y="498"/>
         </scene>
         <!--Wallet View-->
         <scene sceneID="inR-J5-suj">
@@ -539,7 +539,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BFK-9R-qSk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2431" y="530"/>
+            <point key="canvasLocation" x="1900" y="498"/>
         </scene>
         <!--DetailView-->
         <scene sceneID="ArB-dB-kiv">
@@ -550,7 +550,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9m5-cU-JA6">
-                                <rect key="frame" x="-1" y="463" width="375" height="143"/>
+                                <rect key="frame" x="-1" y="524" width="375" height="143"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="143" id="Ua9-aU-4su"/>
@@ -682,7 +682,7 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VKF-oh-V4r" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="16" y="244" width="343" height="171"/>
+                                <rect key="frame" x="16" y="244" width="343" height="232"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PY5-pR-gJC">
@@ -695,71 +695,46 @@
                                     <action selector="segmentButton:" destination="4Yn-zT-TBa" eventType="valueChanged" id="83w-e0-evd"/>
                                 </connections>
                             </segmentedControl>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vIP-rn-HD3">
-                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <items>
-                                    <tabBarItem tag="1" title="Buy" image="PurchaseButton" id="lTe-2g-KLP"/>
-                                    <tabBarItem tag="2" title="Sell" image="SellButton" id="QFe-1C-bdH"/>
-                                    <tabBarItem tag="3" title="Notification" image="bellButtonVer2" id="Jce-LY-Nxk"/>
-                                </items>
-                            </tabBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykp-wv-8FZ">
-                                <rect key="frame" x="35" y="413" width="136" height="42"/>
+                                <rect key="frame" x="35" y="474" width="136" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="136" id="WeL-N9-Gcl"/>
                                     <constraint firstAttribute="height" constant="42" id="i2t-80-T5v"/>
                                 </constraints>
                                 <state key="normal" image="buyNew3"/>
                                 <connections>
-                                    <action selector="buyButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="RWz-rX-Atp"/>
+                                    <action selector="buyButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="nrf-eJ-evM"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Mn-4U-kGq">
-                                <rect key="frame" x="204" y="413" width="136" height="42"/>
+                                <rect key="frame" x="204" y="474" width="136" height="42"/>
                                 <state key="normal" image="sellNew3"/>
                                 <connections>
-                                    <action selector="sellButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="xiZ-3R-tjk"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uc3-do-h8R">
-                                <rect key="frame" x="334" y="91" width="25" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="JMp-Mg-Ewu"/>
-                                </constraints>
-                                <state key="normal" image="bellButtonVer2-1"/>
-                                <connections>
-                                    <action selector="NotiButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="bKI-B0-IMb"/>
+                                    <action selector="sellButton:" destination="4Yn-zT-TBa" eventType="touchUpInside" id="Uzu-8r-NLQ"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8Mn-4U-kGq" firstAttribute="leading" secondItem="ykp-wv-8FZ" secondAttribute="trailing" constant="33" id="8Gz-NF-LDl"/>
-                            <constraint firstItem="VKF-oh-V4r" firstAttribute="trailing" secondItem="uc3-do-h8R" secondAttribute="trailing" id="BW3-8f-htU"/>
-                            <constraint firstItem="pDA-0k-PBo" firstAttribute="top" secondItem="uc3-do-h8R" secondAttribute="top" id="CkZ-rn-Ac8"/>
                             <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="ykp-wv-8FZ" secondAttribute="bottom" constant="8" symbolic="YES" id="Cop-nm-BV6"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="leading" secondItem="6qU-m9-WgR" secondAttribute="leadingMargin" id="E4I-rQ-qJ6"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="leading" secondItem="ykp-wv-8FZ" secondAttribute="leading" id="G5q-j9-HdU"/>
-                            <constraint firstItem="vIP-rn-HD3" firstAttribute="bottom" secondItem="VUD-lI-pwr" secondAttribute="bottom" id="MGq-5r-dGf"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="trailing" secondItem="9m5-cU-JA6" secondAttribute="trailing" constant="1" id="NKz-dT-uqc"/>
+                            <constraint firstItem="9m5-cU-JA6" firstAttribute="bottom" secondItem="VUD-lI-pwr" secondAttribute="bottom" id="PrJ-Bg-cnK"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="trailing" secondItem="8Mn-4U-kGq" secondAttribute="trailing" id="QAl-KJ-Dvb"/>
                             <constraint firstItem="8Mn-4U-kGq" firstAttribute="bottom" secondItem="ykp-wv-8FZ" secondAttribute="bottom" id="RKt-PD-N5H"/>
                             <constraint firstItem="PY5-pR-gJC" firstAttribute="top" secondItem="pDA-0k-PBo" secondAttribute="bottom" constant="19" id="Wcn-0b-UyU"/>
-                            <constraint firstItem="vIP-rn-HD3" firstAttribute="top" secondItem="9m5-cU-JA6" secondAttribute="bottom" constant="12" id="YZC-ki-IZS"/>
                             <constraint firstItem="9m5-cU-JA6" firstAttribute="centerX" secondItem="PY5-pR-gJC" secondAttribute="centerX" id="bgZ-Ti-AYj"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="pDA-0k-PBo" secondAttribute="centerX" id="fc2-1v-scI"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="35" id="gch-mo-7EG"/>
-                            <constraint firstItem="vIP-rn-HD3" firstAttribute="leading" secondItem="6qU-m9-WgR" secondAttribute="leading" id="hUP-B0-f3B"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="top" secondItem="VUD-lI-pwr" secondAttribute="top" constant="27" id="hnM-Ow-9GR"/>
                             <constraint firstItem="9m5-cU-JA6" firstAttribute="top" secondItem="VKF-oh-V4r" secondAttribute="bottom" constant="48" id="l9l-CB-dV5"/>
-                            <constraint firstItem="uc3-do-h8R" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="334" id="mTk-0E-CZR"/>
                             <constraint firstItem="8Mn-4U-kGq" firstAttribute="top" secondItem="ykp-wv-8FZ" secondAttribute="top" id="nUY-5q-cjZ"/>
                             <constraint firstItem="VKF-oh-V4r" firstAttribute="top" secondItem="PY5-pR-gJC" secondAttribute="bottom" constant="22" id="nrL-ZF-YI9"/>
                             <constraint firstItem="pDA-0k-PBo" firstAttribute="centerX" secondItem="6qU-m9-WgR" secondAttribute="centerX" id="rkf-5b-hNm"/>
                             <constraint firstItem="VUD-lI-pwr" firstAttribute="trailing" secondItem="PY5-pR-gJC" secondAttribute="trailing" constant="128" id="wxs-Mp-8pB"/>
                             <constraint firstItem="PY5-pR-gJC" firstAttribute="leading" secondItem="VUD-lI-pwr" secondAttribute="leading" constant="126" id="ybo-gV-2XC"/>
-                            <constraint firstItem="VKF-oh-V4r" firstAttribute="centerX" secondItem="vIP-rn-HD3" secondAttribute="centerX" id="zcq-ec-vcd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VUD-lI-pwr"/>
                     </view>
@@ -772,7 +747,6 @@
                         <outlet property="fromCurrencyLbl" destination="ehH-ha-wpd" id="ysp-Xw-luA"/>
                         <outlet property="lineChart" destination="VKF-oh-V4r" id="c77-pe-Qj5"/>
                         <outlet property="sellButton" destination="8Mn-4U-kGq" id="DAB-Af-1eE"/>
-                        <outlet property="tabBar" destination="vIP-rn-HD3" id="T5t-jS-XOl"/>
                         <outlet property="toCurrAmount" destination="Eiq-3l-VHJ" id="myB-lh-5zK"/>
                         <outlet property="toCurrencyLbl" destination="C66-27-qCR" id="Av5-ew-9vr"/>
                         <segue destination="SAF-vU-wkn" kind="show" identifier="DetailToBuy" id="qTe-ry-X6d"/>
@@ -884,7 +858,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vJg-mJ-hzf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3932" y="-600.44977511244383"/>
+            <point key="canvasLocation" x="3932" y="-938"/>
         </scene>
         <!--Sell-->
         <scene sceneID="nMn-2h-ura">
@@ -986,7 +960,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Of-P5-EBP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3932" y="116.49175412293854"/>
+            <point key="canvasLocation" x="3932" y="-211"/>
         </scene>
         <!--Main -->
         <scene sceneID="16e-Tw-UDH">
@@ -1215,7 +1189,6 @@
                         <outlet property="menuView" destination="hYQ-5q-o8q" id="ksp-ya-HI3"/>
                         <outlet property="topConstraint" destination="M1P-cD-KTP" id="iyA-U8-2HP"/>
                         <segue destination="vpr-xX-n4K" kind="show" identifier="MainToAcc" id="7js-uG-a7a"/>
-                        <segue destination="5du-tC-TLu" kind="show" identifier="MainToNotification" id="mP0-T3-fIs"/>
                         <segue destination="AlU-Xb-WRG" kind="show" identifier="MainToWallet" id="Bp6-gB-5s9"/>
                         <segue destination="4Yn-zT-TBa" kind="show" identifier="MainToDetail" id="sfi-SZ-gm5"/>
                     </connections>
@@ -1851,12 +1824,8 @@
     </scenes>
     <resources>
         <image name="AppLogo" width="750" height="1294"/>
-        <image name="PurchaseButton" width="30" height="13"/>
-        <image name="SellButton" width="30" height="14"/>
         <image name="acceptButtonNew" width="217" height="89"/>
         <image name="arrowVerti" width="200" height="200"/>
-        <image name="bellButtonVer2" width="25" height="25"/>
-        <image name="bellButtonVer2-1" width="75" height="75"/>
         <image name="buyButton2" width="50" height="51"/>
         <image name="buyNew3" width="196" height="84"/>
         <image name="cancelButtonRed" width="210" height="97"/>
@@ -1866,7 +1835,4 @@
         <image name="signInButton-1" width="335" height="108"/>
         <image name="signUpbutton-1" width="325" height="92"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="Shd-tn-Xa4"/>
-    </inferredMetricsTieBreakers>
 </document>

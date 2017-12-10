@@ -704,7 +704,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             {
                 MainView.isCurrencySelect = true
                 MainView.isCryptoSelect = false
-                selectedCurrency = Currencies[indexPath.row]
+                selectedCurrency = Currencies[row]
             }
             
         }
