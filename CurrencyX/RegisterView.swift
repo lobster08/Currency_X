@@ -26,8 +26,12 @@ class RegisterView: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         backgroundImageName = "background6.png"
         setBackgroundImage()
+        
         newPassText.delegate = self
         confirmPassText.delegate = self
+        
+        newPassText.autocorrectionType = .no
+        confirmPassText.autocorrectionType = .no
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)

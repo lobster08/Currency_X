@@ -29,6 +29,9 @@ class LoginView: UIViewController, UITextFieldDelegate {
         self.usernameText.delegate = self
         self.passText.delegate = self
         
+        usernameText.autocorrectionType = .no
+        passText.autocorrectionType = .no
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
