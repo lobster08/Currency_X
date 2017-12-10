@@ -116,16 +116,22 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     
     @IBAction func Accept(_ sender: Any) {
         if (BuyP.text == "" && SellP.text == "") {
-            alert(msg: "Please enter the value in the text field")
+            alert(title: "Alert", msg: "Please enter the value in the text field")
         }
         else{
             if BuyP.text != ""{
                 guard let price = Double(BuyP.text!)
                     else {
-                        alert(msg: "Please enter number only!")
+                        alert(title: "Alert", msg: "Please enter number only!")
                         return
                 }
-                setBuyPrice = price
+                if (isSwitch == true){
+                    alert(title: "Notification", msg: "Setting Notification Successfully")
+                    setBuyPrice = price
+                }else{
+                    alert(title: "Alert", msg: "Please switch ON Notification Setting")
+                }
+                
 //                if (price >= currentPriceS && isSwitch == true){
 //                    AudioServicesPlayAlertSound(SystemSoundID(1336))
 //                    let sendEmail = configureMailController(option: 1)
@@ -147,10 +153,16 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
             if SellP.text != ""{
                 guard let price = Double(SellP.text!)
                     else {
-                        alert(msg: "Please enter number only!")
+                        alert(title: "Alert", msg: "Please enter number only!")
                         return
                 }
-                setSellPrice = price
+                if (isSwitch == true){
+                    alert(title: "Notification", msg: "Setting Notification Successfully")
+                    setSellPrice = price
+                }else{
+                    alert(title: "Alert", msg: "Please switch ON Notification Setting")
+                }
+                
 //                if (price <= currentPriceB && isSwitch == true){
 //                    AudioServicesPlayAlertSound(SystemSoundID(1336))
 //                    let sendEmail = configureMailController(option: 2)
@@ -182,7 +194,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
             AudioServicesPlayAlertSound(SystemSoundID(1336))
             if (timer != nil && setSellPrice == nil){
                 setNotify()
-                alert(msg: "Your expected buying price has been reached! The current price is \(String(currentPrice))")
+                alert(title: "Alert", msg: "Your expected buying price has been reached! The current price is \(String(currentPrice))")
                 setBuyPrice = nil
                 timer.invalidate()
             }
@@ -191,7 +203,7 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
             AudioServicesPlayAlertSound(SystemSoundID(1336))
             if (timer != nil && setBuyPrice == nil){
                 setNotify()
-                alert(msg: "Your expected selling price has been reached! The current price is \(String(currentPrice))")
+                alert(title: "Alert", msg: "Your expected selling price has been reached! The current price is \(String(currentPrice))")
                 setSellPrice = nil
                 timer.invalidate()
             }
@@ -202,8 +214,8 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         completionHandler([.alert, .sound, .badge])
     }
     
-    func alert (msg : String){
-        let alarm = UIAlertController(title: "Alert", message: msg, preferredStyle: .alert)
+    func alert (title: String, msg : String){
+        let alarm = UIAlertController(title: title, message: msg, preferredStyle: .alert)
         alarm.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
         } ))
         self.present(alarm , animated: true, completion: nil)

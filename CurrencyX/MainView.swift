@@ -143,7 +143,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundImageName = "Background4.png"
+        backgroundImageName = "background6.png"
         default_data = UserDefaults.init(suiteName: "Fetch Data API")
         //  Hide Menu List and Filter List
         menuView.isHidden = true
@@ -177,6 +177,18 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         Currencies.removeAll()
         getData()
         getCurrency()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        menuView.isHidden = true
+        filterView.isHidden = true
+        if (filterShowing) { filterShowing = !filterShowing}
+        if (menuShowing) { menuShowing = !menuShowing}
+        filterTopConstraint.constant = -300
+        topConstraint.constant = -300
+        self.cryptTableView.alpha = 0.8
+        self.navigationItem.rightBarButtonItems?.first?.isEnabled = true
+        self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
+        self.cryptTableView.isUserInteractionEnabled = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -237,7 +249,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.navigationItem.leftBarButtonItem?.isEnabled = false
             self.cryptTableView.isUserInteractionEnabled = false
-            self.cryptTableView.alpha = 0.1
+            self.cryptTableView.alpha = 0.05
             createFilterOptionList()
             filterTopConstraint.constant = 0
             UIView.animate(withDuration: 0.3, animations: {
@@ -261,7 +273,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.navigationItem.rightBarButtonItems?.first?.isEnabled = false
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.cryptTableView.isUserInteractionEnabled = false
-            self.cryptTableView.alpha = 0.1
+            self.cryptTableView.alpha = 0.05
             createMenuViewButtons()
             topConstraint.constant = 0
             UIView.animate(withDuration: 0.3, animations: {
@@ -279,7 +291,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         button.setImage(UIImage(named:image), for: .normal)
         button.setTitle(title, for: .normal)
         button.tintColor = UIColor.black
-        button.layer.borderWidth = 1.0
+        button.layer.borderWidth = 2.0
         button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
         //    button.backgroundColor = UIColor.init(red: 0.529, green: 0.808, blue: 0.980, alpha: 0.8)
         button.layer.borderColor = UIColor.white.cgColor
@@ -331,7 +343,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
         button.setTitle(title, for: .normal)
         button.tintColor = UIColor.black
-        button.layer.borderWidth = 1.0
+        button.layer.borderWidth = 2.0
         button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
         button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: Selector(function), for: UIControlEvents.touchUpInside)
