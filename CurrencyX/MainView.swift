@@ -250,7 +250,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.navigationItem.leftBarButtonItem?.isEnabled = false
             self.cryptTableView.isUserInteractionEnabled = false
-            self.cryptTableView.alpha = 0.10
+            self.cryptTableView.alpha = 0.15
             self.backgroundImageView.image = nil
             createFilterOptionList()
             filterTopConstraint.constant = 0
@@ -276,7 +276,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.navigationItem.rightBarButtonItems?.first?.isEnabled = false
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.cryptTableView.isUserInteractionEnabled = false
-            self.cryptTableView.alpha = 0.10
+            self.cryptTableView.alpha = 0.15
             self.backgroundImageView.image = nil
             createMenuViewButtons()
             topConstraint.constant = 0
@@ -296,7 +296,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         button.setTitle(title, for: .normal)
         button.tintColor = UIColor.black
         button.layer.borderWidth = 2.0
-        button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
+        button.backgroundColor = UIColor.init(red: 0.29, green: 0.62, blue: 0.95, alpha: 0.8) // Color: #499EF3
+        //button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
         //    button.backgroundColor = UIColor.init(red: 0.529, green: 0.808, blue: 0.980, alpha: 0.8)
         button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: Selector(function), for: UIControlEvents.touchUpInside)
@@ -309,7 +310,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         button.frame =  CGRect(x: 0, y: 0, width: 160, height: 40)
         button.imageEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
         button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 5,bottom: 2,right: 0)
-        setMenuBtnProperties(button: button, image: "customerButton", title: "Account Setting", function: "accountSettingBtn")
+        setMenuBtnProperties(button: button, image: "customerButtonWhite", title: "Account Setting", function: "accountSettingBtn")
     }
     @objc func accountSettingBtn(){
         performSegue(withIdentifier: "MainToAcc", sender: self)
@@ -331,7 +332,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         button.frame =  CGRect(x: 0, y: 80, width: 160, height: 40)
         button.imageEdgeInsets = UIEdgeInsets(top: 2,left: -49,bottom: 2,right: 0)
         button.titleEdgeInsets = UIEdgeInsets(top: 2,left: -44,bottom: 2,right: 0)
-        setMenuBtnProperties(button: button, image: "exitButton", title: "Log out", function: "LogoutBtn")
+        setMenuBtnProperties(button: button, image: "logoutButtonWhite", title: "Log Out", function: "LogoutBtn")
     }
     @objc func LogoutBtn(){
         self.dismiss(animated: true, completion: nil)
@@ -348,7 +349,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         button.setTitle(title, for: .normal)
         button.tintColor = UIColor.black
         button.layer.borderWidth = 2.0
-        button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
+        button.backgroundColor = UIColor.init(red: 0.29, green: 0.62, blue: 0.95, alpha: 0.8) // Color: #499EF3
+        //button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
         button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: Selector(function), for: UIControlEvents.touchUpInside)
         self.filterView.addSubview(button)
