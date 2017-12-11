@@ -146,6 +146,7 @@ class SellView: UIViewController, UITextFieldDelegate {
             sellItem.sellDate = "\(sellDay) - \(sellMonth) - \(sellYear)"
             sellDeposit()
             sellWithdraw()
+            addSellInfoToDB()
         }
     }
     
@@ -283,8 +284,8 @@ class SellView: UIViewController, UITextFieldDelegate {
         }
         ref = Database.database().reference()
         
-        let info = [ "data: " :  sellItem.sellDate as String, "sellAmount" :  String(sellItem.sellAmount) as String, "sellValue" : sellValueLbl.text, "sellTotalValue": "-" + String(sellItem.sellTotalValue) as String, "Type" : "Sell" ]
-        ref.child("PurchasedInfo").child((user?.uid)!).child(currencySellName).childByAutoId().updateChildValues(info)
+        let info = [ "data: " :  sellItem.sellDate as String, "Amount" :  String(sellItem.sellAmount) as String, "Cost" : sellValueLbl.text, "TotalPrice": "-" + String(sellItem.sellTotalValue) as String, "Type" : "Sell" ]
+        ref.child("Information").child((user?.uid)!).child(currencySellName).childByAutoId().updateChildValues(info)
         
     }
     
@@ -304,7 +305,8 @@ class SellView: UIViewController, UITextFieldDelegate {
         currencySellAmount = currencySellAmount - Int(amountInput)!
         
         let amount = [ "Amount: " : String(currencySellAmount) as String]
-        ref.child("PurchasedAmount").child((user?.uid)!).child(currencySellName).updateChildValues(amount)
+        
+        ref.child("Amount").child((user?.uid)!).child(currencySellName).updateChildValues(amount)
         
     }
     // ---- Sell Currency Value function ----
