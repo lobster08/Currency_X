@@ -58,14 +58,15 @@ class SellView: UIViewController, UITextFieldDelegate {
     var updateTimer: Timer!
     
     // Data Variables
+    var sellItem = SellInfo()
     var sellCryptoData = CryptoCurrency()
     var sellRegularData = currency()
-    var sellItem = SellInfo()
+    var currencySellName: String = ""
+    var currencySellAmount = 0
     var totalSellValue: Double = 0.0
-    var cryptoCurr: String?
-    var regularCurr: String?
     var wtbSymbol: String! // wtb: want to buy
     var wtsSymbol: String! // wts: want to sell
+    
     
     // Date Variable
     let date = Date()
@@ -269,6 +270,43 @@ class SellView: UIViewController, UITextFieldDelegate {
             }})
     }
     
+    // ---- Database Upload functions ----
+    func addSellInfoToDB()
+    {
+        if(MainView.isCryptoSelect == true)
+        {
+            currencySellName = sellCryptoData.name
+        }
+        else
+        {
+            currencySellName = sellRegularData.symbol
+        }
+        ref = Database.database().reference()
+        
+        let info = [ "data: " :  sellItem.sellDate as String, "sellAmount" :  String(sellItem.sellAmount) as String, "sellValue" : sellValueLbl.text, "sellTotalValue": "-" + String(sellItem.sellTotalValue) as String, "Type" : "Sell" ]
+        ref.child("PurchasedInfo").child((user?.uid)!).child(currencySellName).childByAutoId().updateChildValues(info)
+        
+    }
+    
+    func addSellCurrAmountToDB(amountInput : String)
+    {
+        
+        if(MainView.isCryptoSelect == true)
+        {
+            currencySellName = sellCryptoData.name
+        }
+        else
+        {
+            currencySellName = sellRegularData.symbol
+        }
+        ref = Database.database().reference()
+        
+        currencySellAmount = currencySellAmount - Int(amountInput)!
+        
+        let amount = [ "Amount: " : String(currencySellAmount) as String]
+        ref.child("PurchasedAmount").child((user?.uid)!).child(currencySellName).updateChildValues(amount)
+        
+    }
     // ---- Sell Currency Value function ----
     func calculateSellTotal(){
         if(sellCryptoData.price_usd != ""){

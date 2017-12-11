@@ -196,13 +196,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         ref = Database.database().reference()
         
-        let info = [ "data: " :  buyItem.buyDate as String, "buyAmount" :  String(buyItem.buyAmount) as String, "buyCost" : buyCostLbl.text, "buyTotalPrice": String(buyItem.buyTotalPrice) as String, "Type" : "Buy" ]
-        
-        if(info.isEmpty){
-            buyingAlert(buyAlert: "Purchase not succesful!")
-        }else{
-            buyingAlert(buyAlert: "Purchase completes successfully!")
-        }
+        let info = [ "data: " :  buyItem.buyDate as String, "buyAmount" :  String(buyItem.buyAmount) as String, "buyCost" : buyCostLbl.text, "buyTotalPrice": "+" + String(buyItem.buyTotalPrice) as String, "Type" : "Buy" ]
         ref.child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId().updateChildValues(info)
         
     }
