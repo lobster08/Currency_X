@@ -471,8 +471,11 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
             else {
                 DetailView.amount = "0"
                 self.sellButton.isHidden = true
-                self.buyButtonHeightConstrain.constant = 40
-                self.buyButtonWidthConstrain.constant = 400
+                self.buyButton.frame.size = CGSize(width: 140.0, height: 40.0)
+              self.buyButton.frame.origin.x = 60
+              self.buyButton.frame.origin.y = 30
+
+            
             }
         })
     }
