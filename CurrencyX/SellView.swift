@@ -23,11 +23,25 @@ struct SellInfo{
         sellDate = ""
     }
 }
+
+// Extension for Sell Stack View's Background Setup
+public extension UIView {
+    public func pinSell(to view: UIView) {
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topAnchor.constraint(equalTo: view.topAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+    }
+}
+
 class SellView: UIViewController, UITextFieldDelegate {
     
     //-------------- INITIALIZE ------------------
     
     // UI Variables
+    @IBOutlet weak var sellValueStackView: UIStackView!
     @IBOutlet weak var sellValueLbl: UILabel!
     @IBOutlet weak var sellCurrencyNameLbl: UILabel!
     @IBOutlet weak var sellInput: UITextField!
@@ -75,6 +89,7 @@ class SellView: UIViewController, UITextFieldDelegate {
         // Setup view's background
         backgroundImageName = "background6.png"
         setBackgroundImage()
+        pinBackground(backgroundView, to: sellValueStackView)
         
         // Setup UI labels
         sellInput.delegate = self
@@ -94,6 +109,20 @@ class SellView: UIViewController, UITextFieldDelegate {
         
         // Hide the sell button when view loaded
         sellButtonLbl.isHidden = true
+    }
+    
+    // ---- Stack View's Background Setup functions ----
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 30.0
+        return view
+    }()
+    
+    private func pinBackground(_ view: UIView, to stackView: UIStackView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        stackView.insertSubview(view, at: 0)
+        view.pinSell(to: stackView)
     }
     
     // ---- Sell Button function ----

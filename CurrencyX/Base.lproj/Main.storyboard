@@ -467,7 +467,7 @@
                                             <constraint firstAttribute="height" constant="309.5" id="nvV-no-1Ow"/>
                                         </constraints>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="uRY-we-dDV">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="uRY-we-dDV">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uRY-we-dDV" id="pFX-mr-ioA">
@@ -879,7 +879,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="Gkk-hV-h9q">
                                         <rect key="frame" x="0.0" y="0.0" width="227.5" height="292.5"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="C4i-Vm-0mE">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="C4i-Vm-0mE" userLabel="Sell Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="227.5" height="67"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UZt-Qf-iSq" userLabel="Sell Price">
@@ -961,6 +961,7 @@
                         <outlet property="sellInput" destination="bHZ-TM-Mdz" id="7yK-Eb-3qu"/>
                         <outlet property="sellTotalValueLbl" destination="fwT-QG-JPi" id="wnl-Y0-h7G"/>
                         <outlet property="sellValueLbl" destination="UZt-Qf-iSq" id="v6o-sZ-Yi8"/>
+                        <outlet property="sellValueStackView" destination="C4i-Vm-0mE" id="udl-eB-dXi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Of-P5-EBP" userLabel="First Responder" sceneMemberID="firstResponder"/>
