@@ -239,7 +239,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         if (!filterShowing){
             filterTopConstraint.constant = -300
             filterView.isHidden = true
-            self.cryptTableView.alpha = 0.8
+            self.cryptTableView.alpha = 1.0
+            setBackgroundImage()
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
             self.navigationItem.leftBarButtonItem?.isEnabled = true
             self.cryptTableView.isUserInteractionEnabled = true
@@ -249,7 +250,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.navigationItem.leftBarButtonItem?.isEnabled = false
             self.cryptTableView.isUserInteractionEnabled = false
-            self.cryptTableView.alpha = 0.05
+            self.cryptTableView.alpha = 0.10
+            self.backgroundImageView.image = nil
             createFilterOptionList()
             filterTopConstraint.constant = 0
             UIView.animate(withDuration: 0.3, animations: {
@@ -263,7 +265,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         if (!menuShowing){
             topConstraint.constant = -300
             menuView.isHidden = true
-            self.cryptTableView.alpha = 0.8
+            self.cryptTableView.alpha = 1.0
+            setBackgroundImage()
             self.navigationItem.rightBarButtonItems?.first?.isEnabled = true
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
             self.cryptTableView.isUserInteractionEnabled = true
@@ -273,7 +276,8 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.navigationItem.rightBarButtonItems?.first?.isEnabled = false
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.cryptTableView.isUserInteractionEnabled = false
-            self.cryptTableView.alpha = 0.05
+            self.cryptTableView.alpha = 0.10
+            self.backgroundImageView.image = nil
             createMenuViewButtons()
             topConstraint.constant = 0
             UIView.animate(withDuration: 0.3, animations: {
