@@ -6,6 +6,7 @@
 //  Copyright © 2017 Team 5. All rights reserved.
 //
 
+
 import Foundation
 import UIKit
 import Charts
@@ -312,6 +313,8 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(DetailView.updateCryptoChart), userInfo: nil, repeats: true)
         //read firebase continously
         _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(DetailView.readAmount), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(DetailView.readInfo), userInfo: nil, repeats: true)
+
 
         
     }
@@ -426,7 +429,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     /**********************************************
         Read From Firebase Functions
     **********************************************/
-    func readInfo()
+    @objc func readInfo()
     {
             self.purchaseInfo = [info]()
             ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName)//.childByAutoId()
@@ -443,7 +446,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         let cost = valueDictionary["buyCost"]
                         let totalamount = valueDictionary["buyTotalPrice"]
                         let date = valueDictionary["data: "]
-                    self.purchaseInfo.append(info(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!))
+                    self.purchaseInfo.insert(info(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!), at: 0)
                     }
                     DispatchQueue.main.async {
                         self.TableView.reloadData()
@@ -557,7 +560,15 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
+    //lock rotation
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }  
     
     /*
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
