@@ -560,9 +560,9 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let currencyLbl = cell.contentView.viewWithTag(6) as! UILabel
                 let priceLabel = cell.contentView.viewWithTag(7) as! UILabel
                 
-                firstlbl.text = String(filteredCurr[indexPath.row].symbol.characters.prefix(3))
-                currencyLbl.text = String(filteredCurr[indexPath.row].symbol.characters.suffix(3))
-                priceLabel.text = String(filteredCurr[indexPath.row].price)
+                firstlbl.text = String(filteredCurr[indexPath.row - filteredCrypt.count].symbol.characters.prefix(3))
+                currencyLbl.text = String(filteredCurr[indexPath.row - filteredCrypt.count].symbol.characters.suffix(3))
+                priceLabel.text = String(filteredCurr[indexPath.row - filteredCrypt.count].price)
                 return cell
             }
         }
