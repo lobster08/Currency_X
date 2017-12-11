@@ -273,7 +273,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     {
         //add notification button in navigation bar
         let notificationButton = UIButton(type: .custom)
-        notificationButton.setImage(UIImage(named: "bellButtonVer2-1"), for: .normal)
+        notificationButton.setImage(UIImage(named: "notificationBell"), for: .normal)
         notificationButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         notificationButton.addTarget(self, action: #selector(NotificationButton), for: .touchDown)//
         let btn = UIBarButtonItem(customView: notificationButton)

@@ -244,9 +244,11 @@ class SellView: UIViewController, UITextFieldDelegate {
         if(sellCryptoData.price_usd != ""){
             let cryptValue = Double(sellCryptoData.price_usd)
             totalSellValue = Double(sellInput.text!)! * cryptValue!
+            totalSellValue = round(1000*totalSellValue) / 1000
         }else{
             let regValue = Double(sellRegularData.price)
             totalSellValue = Double(sellInput.text!)! * regValue
+            totalSellValue = round(1000*totalSellValue) / 1000
         }
         
         sellTotalValueLbl.text = "$" + String(totalSellValue)

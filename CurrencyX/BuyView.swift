@@ -338,10 +338,12 @@ class BuyView: UIViewController, UITextFieldDelegate {
         {
             let cryptCost = Double(buyCryptoData.price_usd)
             totalPrice = Double(buyInput.text!)! * cryptCost!
+            totalPrice = round(1000*totalPrice) / 1000
             buyTotalPriceLbl.text = "$" + String(totalPrice)
         }else{
             let regCost = Double(buyRegularData.price)
             totalPrice = Double(buyInput.text!)! * regCost
+            totalPrice = round(1000*totalPrice) / 1000
             buyTotalPriceLbl.text = "$" + String(totalPrice)
         }
         
