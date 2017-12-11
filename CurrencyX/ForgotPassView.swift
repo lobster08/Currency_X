@@ -20,6 +20,7 @@ class ForgotPassView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundImageName = "background6.png"
+        emailText.autocorrectionType = .no
         setBackgroundImage()
         // Do any additional setup after loading the view.
     }

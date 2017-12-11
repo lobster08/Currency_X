@@ -261,7 +261,6 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBAction func sellButton(_ sender: Any) {
         performSegue(withIdentifier: "DetailToSell", sender: self)
-
     }
     
     @IBAction func buyButton(_ sender: Any) {
