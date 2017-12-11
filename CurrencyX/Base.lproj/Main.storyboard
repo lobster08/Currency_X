@@ -1820,7 +1820,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="yUM-H6-U2Q" firstAttribute="top" secondItem="olK-hq-5ti" secondAttribute="bottom" constant="43" id="C1R-ww-5Mn"/>
+                            <constraint firstItem="yUM-H6-U2Q" firstAttribute="top" secondItem="olK-hq-5ti" secondAttribute="bottom" constant="43" id="C1R-ww-5Mn">
+                                <variation key="heightClass=compact-widthClass=compact" constant="30"/>
+                            </constraint>
                             <constraint firstItem="olK-hq-5ti" firstAttribute="centerX" secondItem="HBf-JW-BMD" secondAttribute="centerX" id="PCN-to-F1a"/>
                             <constraint firstItem="olK-hq-5ti" firstAttribute="top" secondItem="Tr2-du-A4k" secondAttribute="top" constant="40" id="e8n-zn-NPV"/>
                             <constraint firstItem="yUM-H6-U2Q" firstAttribute="centerX" secondItem="HBf-JW-BMD" secondAttribute="centerX" id="nOX-OS-47w"/>

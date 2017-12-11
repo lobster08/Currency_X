@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 //  Create struct to store Dictionary JSON downloaded from API
 struct currency : Codable
 {
@@ -276,7 +277,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.navigationItem.rightBarButtonItems?.first?.isEnabled = false
             self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
             self.cryptTableView.isUserInteractionEnabled = false
-            self.cryptTableView.alpha = 0.15
+            self.cryptTableView.alpha = 0.10
             self.backgroundImageView.image = nil
             createMenuViewButtons()
             topConstraint.constant = 0
@@ -294,9 +295,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func setMenuBtnProperties(button: UIButton, image: String, title: String, function: String){
         button.setImage(UIImage(named:image), for: .normal)
         button.setTitle(title, for: .normal)
-        button.tintColor = UIColor.black
+        button.tintColor = UIColor.white
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.layer.borderWidth = 2.0
-        button.backgroundColor = UIColor.init(red: 0.29, green: 0.62, blue: 0.95, alpha: 0.8) // Color: #499EF3
+        button.backgroundColor = UIColor.init(red: 0.29, green: 0.62, blue: 0.95, alpha: 1.0) // Color: #499EF3
         //button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
         //    button.backgroundColor = UIColor.init(red: 0.529, green: 0.808, blue: 0.980, alpha: 0.8)
         button.layer.borderColor = UIColor.white.cgColor
@@ -335,6 +337,15 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         setMenuBtnProperties(button: button, image: "logoutButtonWhite", title: "Log Out", function: "LogoutBtn")
     }
     @objc func LogoutBtn(){
+        
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -347,9 +358,10 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func setFilterBtnProperties(button: UIButton, title: String, function: String){
         button.titleEdgeInsets = UIEdgeInsets(top: 2,left: 0,bottom: 2,right: 0)
         button.setTitle(title, for: .normal)
-        button.tintColor = UIColor.black
+        button.tintColor = UIColor.white
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.layer.borderWidth = 2.0
-        button.backgroundColor = UIColor.init(red: 0.29, green: 0.62, blue: 0.95, alpha: 0.8) // Color: #499EF3
+        button.backgroundColor = UIColor.init(red: 0.29, green: 0.62, blue: 0.95, alpha: 1.0) // Color: #499EF3
         //button.backgroundColor = UIColor.init(red: 0.902, green: 0.902, blue: 0.980, alpha: 0.8)
         button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: Selector(function), for: UIControlEvents.touchUpInside)
@@ -361,7 +373,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func createShowCryptoFilterBtn(){
         let button = UIButton(type: .system)
         button.frame =  CGRect(x: 0, y: 0, width: 160, height: 40)
-        setFilterBtnProperties(button: button, title: "Show CryptoCurrency", function: "cryptoFilterBtn")
+        setFilterBtnProperties(button: button, title: "Crypto Currency", function: "cryptoFilterBtn")
     }
     @objc func cryptoFilterBtn(){
         isShowCrypto = true
@@ -373,7 +385,7 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func createShowCurrencyFilterBtn(){
         let button = UIButton(type: .system)
         button.frame =  CGRect(x: 0, y: 40, width: 160, height: 40)
-        setFilterBtnProperties(button: button, title: "Show Currency", function: "currencyFilterBtn")
+        setFilterBtnProperties(button: button, title: "Traditional Currency", function: "currencyFilterBtn")
     }
     @objc func currencyFilterBtn(){
         isShowCrypto = false
