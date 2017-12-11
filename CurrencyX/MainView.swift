@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 //  Create struct to store Dictionary JSON downloaded from API
 struct currency : Codable
 {
@@ -335,6 +336,15 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         setMenuBtnProperties(button: button, image: "logoutButtonWhite", title: "Log Out", function: "LogoutBtn")
     }
     @objc func LogoutBtn(){
+        
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
         self.dismiss(animated: true, completion: nil)
     }
     
