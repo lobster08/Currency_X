@@ -233,7 +233,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
             if (money.type == "USD"){
                 if(money.amount == ""){
                     hasMoney = false
-                    print("No money found")
+                    buyingAlert(buyAlert: "No Money Found")
                 } else if (Double(money.amount)! < totalPrice){
                     hasMoney = false
                     print("Cannot buy item. Insufficient funds")
@@ -295,6 +295,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
                 }
             }})
     }
+    
     // ---- Alert Setup function ----
     func buyingAlert(buyAlert:String){
         let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)

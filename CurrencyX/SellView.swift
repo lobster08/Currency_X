@@ -203,6 +203,7 @@ class SellView: UIViewController, UITextFieldDelegate {
         sellButtonLbl.isHidden = false
     }
     
+    
     // ---- Sell Wallet ----
     func checkOwnedCurrExist(){
         for item in sellWalletData.balanceList{
