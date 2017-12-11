@@ -102,7 +102,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
         
         // Setup currencyAmount for upload to Database
-        currencyAmount = DetailView.amount
+        currencyAmount = Int(DetailView.amount)!
         
         
         // Setup Keyboard type for TextInput and TapRecognizer
@@ -226,7 +226,6 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
         
     }
-    
     // ---- Wallet -----
     func checkMoneyExist()
     {

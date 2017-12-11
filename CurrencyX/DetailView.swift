@@ -189,7 +189,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var numOfInfo : Int = 0
     var purchaseInfo = [info]()
-    static var amount = 0
+    static var amount : String = ""
     let userID = Auth.auth().currentUser?.uid
 
     //dates variable
@@ -223,7 +223,6 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 getCryptoData(arrayUrl: dailyCurrencyUrls, name: regCurrency.symbol)
                 updateCryptoChart()
 
-               // updateCurrencyChart()
             }
         }
         else if sender.selectedSegmentIndex == 1
@@ -234,7 +233,6 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 readInfo()
                 getCryptoData(arrayUrl: weeklyCryptoUrls, name: cryptCurrency.name)
                 updateCryptoChart()
-                //updateWeeklyCryptoChart() // get weekly crypto chart
             }
             else
             {
@@ -249,11 +247,8 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
     }
     //table view cell variables
-    
-    
     @IBOutlet weak var TableView: UITableView!
     
-
     @IBOutlet weak var buyButtonHeightConstrain: NSLayoutConstraint!
     @IBOutlet weak var buyButtonWidthConstrain: NSLayoutConstraint!
     @IBOutlet weak var sellButton: UIButton!
@@ -315,34 +310,22 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         _ = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(DetailView.refresh), userInfo: nil, repeats: true)
      
         //reload crypto chart
-        _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(DetailView.updateCryptoChart), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(DetailView.updateCryptoChart), userInfo: nil, repeats: true)
+        //read firebase continously
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(DetailView.readAmount), userInfo: nil, repeats: true)
+
         
     }
+    //notification button function
     @objc func NotificationButton()
     {
         performSegue(withIdentifier: "DetailToNotification", sender: self)
 
     }
     
-    /*
-    @objc func addDailyCryptoStruct()
-    {
-        
-        cryptInfo.name = String(cryptCurrency.name)
-        cryptInfo.prices = Double(cryptCurrency.price_usd)!
-        cryptInfo.time = "Date: \(day) - \(month) - \(year) : \(hh2) : \(mm2) : \(ss2)"
-        
-        addDailyCryptoPrices()
-        cryptPrice.append(cryptInfo)
-        print("adding to struct is working")
-        
-    }
- */
     /**********************************
         Search function - returns url
     **********************************/
-    
-    //return daily crypto url link
     func getUrl(urlname : String, arrayUrl : [String : String]) -> String
     {
             for (key, value) in arrayUrl
@@ -462,11 +445,6 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         let totalamount = valueDictionary["buyTotalPrice"]
                         let date = valueDictionary["data: "]
                     self.purchaseInfo.append(info(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!))
-               //     self.purchaseInfo.insert(info(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!), at: 0)
-                    print(self.purchaseInfo)
-                        //Reload your tableView
-                    
-
                     }
                     DispatchQueue.main.async {
                         self.TableView.reloadData()
@@ -476,82 +454,38 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
             TableView.delegate = self
             TableView.dataSource = self
     }
-    func readAmount()
+    @objc func readAmount()
     {
-       // self.amountArr.removeAll()
         ref = Database.database().reference().child("PurchasedAmount").child(userID!).child(currencyName)
-        
+        ref.keepSynced(true) // keeps reading firebase
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             if (snapshot.exists()) {
             if let value = snapshot.value as? NSDictionary {
                 for snapDict in value {
-                     self.amountTxt = snapDict.value as! String
-
-                    print(self.amountTxt)
-               
+                     DetailView.amount = snapDict.value as! String //save number to be use in the buy/sell view
+                        print(DetailView.amount)
                 }
                 
             }
             }
                 //if firebase doesn't have a value, the sell button is hidden
             else {
+                DetailView.amount = "0"
                 self.sellButton.isHidden = true
                 self.buyButtonHeightConstrain.constant = 40
                 self.buyButtonWidthConstrain.constant = 400
-                //  self.buyButton.translatesAutoresizingMaskIntoConstraints = false
-                //self.buyButton.frame.origin = CGPoint(x: 400, y: 3000)
             }
         })
     }
-    /*
-     //read firebase values for 7 days graph -- Crypto
-     func readPrices()
-     {
-     
-     ref = Database.database().reference().child("crypPrices").child(cryptoName)
-     ref.observeSingleEvent(of: .value, with: { (snapshot) in
-     if let snapshotValue = snapshot.value as? NSDictionary{
-     for snapDict in snapshotValue{
-     print ("For loop enters")
-     let smt = snapDict.value as! Double
-     self.priceList.append(Double(smt))
-     print (smt)
-     }
-     
-     }
-     })
-     }
-     
-     */
-    
-   
-
-    /*
-    func addDailyCryptoPrices()
-    {
-     refPrices = Database.database().reference().child("CryptoPrices")         refPrices.setValue(prices)
-
-        //add info to firebase
-        let prices = ["Name" : cryptInfo.name as String, "Prices" : String(cryptInfo.prices) as String, "Time" : cryptInfo.time as String]
-        
-        print("prices added to firebase")
-        refPrices.setValue(prices)
-     
-    }
- */
     @objc func refresh(){
         
         if(MainView.isCryptoSelect == true)
         {
-         //   cryptoPrice.append(Double(cryptCurrency.price_usd)!)
             displayCrypto()
-           // updateCryptChart()
         }
         else
         {
-           // currencyPrice.append(Double(regCurrency.price))
             displayCurrency()
-          //  updateCurrencyChart()
         }
     }
     func setBackgroundImage() {
