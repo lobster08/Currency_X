@@ -42,8 +42,8 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.popViewController(animated: false)
+  //      self.navigationController?.isNavigationBarHidden = false
+  //      self.navigationController?.popViewController(animated: false)
 //
 //        self.navigationItem.hidesBackButton = NO
 //        self.navigationItem.hidesBackButton = YES
