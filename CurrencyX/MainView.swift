@@ -694,62 +694,44 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-  //      let row = indexPath.row - crypCurrencyList.count
-        
+        //  if Main View is in Searching Mode and key words are matched
         if (isSearching && (filteredCrypt.count != 0 || filteredCurr.count != 0))
         {
-            print("Enter searching")
-            if(isShowCrypto && !isShowCurrency && filteredCrypt.count != 0) //if search only crypto
+            //  if Crypto filter Mode is applying and searching item is found
+            //  Or Show All Mode is applying and user pick the item at the top ( indexpath.row < filterCrypt.count)
+            //  then, cryptoCell is selected
+            if((isShowCrypto && !isShowCurrency && filteredCrypt.count != 0) || (isShowCrypto && isShowCurrency && indexPath.row < filteredCrypt.count))
             {
-  //              cryptTableView.reloadData()
                 MainView.isCryptoSelect = true
                 MainView.isCurrencySelect = false
                 selectedCryptCell = filteredCrypt[indexPath.row]
-  //              cryptTableView.reloadData()
             }
-            if(isShowCurrency && filteredCurr.count != 0) //if search for only currencies
-            {
+            //  if Curr filter Mode is applying and search item is found
+            //  Or Show All Mode is applying and user pick item at the bottom (indexpath.row >= filterCrypt.count)
+            //  then, currCell is selected
+            else if((!isShowCrypto && isShowCurrency && filteredCurr.count != 0) || (isShowCrypto && isShowCurrency && indexPath.row >= filteredCrypt.count)){
                 MainView.isCurrencySelect = true
                 MainView.isCryptoSelect = false
-  //              cryptTableView.reloadData()
                 selectedCurrency = filteredCurr[indexPath.row - filteredCrypt.count]
-  //              cryptTableView.reloadData()
-//
             }
-//            else if (!isSearching && isShowCrypto)
-//            {
-//                cryptTableView.reloadData()
-//
-//                selectedCryptCell = crypCurrencyList[indexPath.row]
-//            }
-//            else if (!isSearching && isShowCurrency)
-//            {
-//                cryptTableView.reloadData()
-//                selectedCurrency = Currencies[indexPath.row]
-//
-//            }
         }
-
-//        else if (!isShowCrypto && isShowCurrency && !isSearching)
-//        {
-//            print("goes here")
-//            selectedCurrency = Currencies[indexPath.row]
-//            cryptTableView.reloadData()
-//        }
-        
+        //  Not Searching Mode
         else
         {
+            //  Crypto Filter Mode
             if (isShowCrypto && !isShowCurrency)
             {
                 MainView.isCryptoSelect = true
                 MainView.isCurrencySelect = false
                 selectedCryptCell = crypCurrencyList[indexPath.row]
             }
+            //  Currency Filter Mode
             else if (!isShowCrypto && isShowCurrency){
                 MainView.isCurrencySelect = true
                 MainView.isCryptoSelect = false
                 selectedCurrency = Currencies[indexPath.row]
             }
+            //  Show All Mode
             else
             {
                 if (indexPath.row < crypCurrencyList.count){
