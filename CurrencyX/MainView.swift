@@ -548,6 +548,22 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let cell = cryptTableView.dequeueReusableCell(withIdentifier: "cryptCell", for: indexPath)
                 let currLbl = cell.contentView.viewWithTag(1) as! UILabel
                 let priceLbl = cell.contentView.viewWithTag(2) as! UILabel
+                let status = cell.contentView.viewWithTag(3) as! UIImageView
+                let delta = cell.contentView.viewWithTag(4) as! UILabel
+                
+                if (!isStartUp){
+                    let value = Double(filteredCrypt[indexPath.row].price_usd)! - Double(prevCrypCurrencyList[indexPath.row].price_usd)!
+                    if (value < 0){
+                        status.image = UIImage(named: "down.png")
+                    }
+                    else if (value > 0){
+                        status.image = UIImage(named: "up.png")
+                    }
+                    if (value != 0){
+                        delta.text = String(format: "%.5f", abs(value))
+                    }
+                    prevCrypCurrencyList[indexPath.row] = filteredCrypt[indexPath.row]
+                }
                 
                 currLbl.text = filteredCrypt[indexPath.row].symbol
                 priceLbl.text = filteredCrypt[indexPath.row].price_usd
@@ -559,6 +575,34 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 let firstlbl = cell.contentView.viewWithTag(5) as! UILabel
                 let currencyLbl = cell.contentView.viewWithTag(6) as! UILabel
                 let priceLabel = cell.contentView.viewWithTag(7) as! UILabel
+                let status = cell.contentView.viewWithTag(8) as! UIImageView
+                let delta = cell.contentView.viewWithTag(9) as! UILabel
+                
+                if (!isStartUp){
+                    var value: Double = 0.0
+                    if (!isShowCrypto && isShowCurrency){
+                        value = Double(filteredCurr[indexPath.row].price) - Double(prevCurrency[indexPath.row].price)
+                    }
+                    else{
+                        value = Double(filteredCurr[indexPath.row - filteredCrypt.count].price) - Double(prevCurrency[indexPath.row - filteredCrypt.count].price)
+                    }
+                    
+                    if (value < 0){
+                        status.image = UIImage(named: "down.png")
+                    }
+                    else if (value > 0){
+                        status.image = UIImage(named: "up.png")
+                    }
+                    if (value != 0){
+                        delta.text = String(format: "%.5f", abs(value))
+                    }
+                    
+                    if (!isShowCrypto && isShowCurrency){
+                        prevCurrency[indexPath.row] = filteredCurr[indexPath.row]
+                    }else{
+                        prevCurrency[indexPath.row - filteredCrypt.count] = filteredCurr[indexPath.row - filteredCrypt.count]
+                    }
+                }
                 
                 firstlbl.text = String(filteredCurr[indexPath.row - filteredCrypt.count].symbol.characters.prefix(3))
                 currencyLbl.text = String(filteredCurr[indexPath.row - filteredCrypt.count].symbol.characters.suffix(3))
@@ -650,61 +694,74 @@ class MainView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row = indexPath.row - crypCurrencyList.count
+  //      let row = indexPath.row - crypCurrencyList.count
         
-        if isSearching
+        if (isSearching && (filteredCrypt.count != 0 || filteredCurr.count != 0))
         {
-
             print("Enter searching")
             if(isShowCrypto && !isShowCurrency && filteredCrypt.count != 0) //if search only crypto
             {
-                cryptTableView.reloadData()
-
+  //              cryptTableView.reloadData()
+                MainView.isCryptoSelect = true
+                MainView.isCurrencySelect = false
                 selectedCryptCell = filteredCrypt[indexPath.row]
-                cryptTableView.reloadData()
+  //              cryptTableView.reloadData()
             }
-            else if(isShowCurrency ) //if search for only currencies
+            if(isShowCurrency && filteredCurr.count != 0) //if search for only currencies
             {
-                cryptTableView.reloadData()
-                selectedCurrency = filteredCurr[indexPath.row]
-                cryptTableView.reloadData()
+                MainView.isCurrencySelect = true
+                MainView.isCryptoSelect = false
+  //              cryptTableView.reloadData()
+                selectedCurrency = filteredCurr[indexPath.row - filteredCrypt.count]
+  //              cryptTableView.reloadData()
 //
             }
-            else if (!isSearching && isShowCrypto)
-            {
-                cryptTableView.reloadData()
-
-                selectedCryptCell = crypCurrencyList[indexPath.row]
-            }
-            else if (!isSearching && isShowCurrency)
-            {
-                cryptTableView.reloadData()
-                selectedCurrency = Currencies[indexPath.row]
-
-            }
+//            else if (!isSearching && isShowCrypto)
+//            {
+//                cryptTableView.reloadData()
+//
+//                selectedCryptCell = crypCurrencyList[indexPath.row]
+//            }
+//            else if (!isSearching && isShowCurrency)
+//            {
+//                cryptTableView.reloadData()
+//                selectedCurrency = Currencies[indexPath.row]
+//
+//            }
         }
 
-        else if (!isShowCrypto && isShowCurrency && !isSearching)
-        {
-            print("goes here")
-            selectedCurrency = Currencies[indexPath.row]
-            cryptTableView.reloadData()
-        }
+//        else if (!isShowCrypto && isShowCurrency && !isSearching)
+//        {
+//            print("goes here")
+//            selectedCurrency = Currencies[indexPath.row]
+//            cryptTableView.reloadData()
+//        }
         
         else
         {
-            print("enter searching else")
-            if (indexPath.row < crypCurrencyList.count)
+            if (isShowCrypto && !isShowCurrency)
             {
                 MainView.isCryptoSelect = true
                 MainView.isCurrencySelect = false
                 selectedCryptCell = crypCurrencyList[indexPath.row]
             }
-            else
-            {
+            else if (!isShowCrypto && isShowCurrency){
                 MainView.isCurrencySelect = true
                 MainView.isCryptoSelect = false
-                selectedCurrency = Currencies[row]
+                selectedCurrency = Currencies[indexPath.row]
+            }
+            else
+            {
+                if (indexPath.row < crypCurrencyList.count){
+                    MainView.isCryptoSelect = true
+                    MainView.isCurrencySelect = false
+                    selectedCryptCell = crypCurrencyList[indexPath.row]
+                }
+                else{
+                    MainView.isCurrencySelect = true
+                    MainView.isCryptoSelect = false
+                    selectedCurrency = Currencies[indexPath.row - crypCurrencyList.count]
+                }
             }
             
         }

@@ -31,8 +31,8 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
     var backgroundImageView = UIImageView()
     var backgroundImageName = ""
     
-    var action = ["Deposit", "Withdraw"]
-    var moneyType = ["USD", "CAD", "YEN", "EUR"]
+    var action = ["","Deposit", "Withdraw"]
+    var moneyType = ["","USD", "CAD", "JPY", "EUR", "AUD","CNH", "CHF"]
     
     let actionPicker = UIPickerView()
     let moneyPicker = UIPickerView()
@@ -204,14 +204,14 @@ class WalletView: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate
         return true
     }
     
-    //Function to limit numbers in zipcode, phone area and phone number
+    // Allow Numb Keyboard only to enter value in the amount Text Field
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         //  Allow amount text field enters number only
         if textField.tag == 1 {
             guard let text = textField.text else { return true }
             let newLength = text.characters.count + string.characters.count - range.length
             
-            let inverseSet = NSCharacterSet(charactersIn: "0123456789").inverted
+            let inverseSet = NSCharacterSet(charactersIn: "0123456789.").inverted
             let components = string.components(separatedBy: inverseSet)
             let filtered = components.joined(separator: "")
             

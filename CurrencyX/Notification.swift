@@ -59,6 +59,10 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
         else{
             Switch.setOn(true, animated: true)
         }
+        
+        self.BuyP.keyboardType = .decimalPad
+        self.SellP.keyboardType = .decimalPad
+        
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { didAllow, error in})
         checkExpectedPriceReach()
@@ -101,6 +105,32 @@ class Notification: UIViewController, MFMailComposeViewControllerDelegate, MFMes
     //  Function to end keyboard when user touch anywhere on screen
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    // Allow Numb Keyboard only to enter value in the Buy and Sell Price Text Field
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //  Allow amount text field enters number only
+        if textField.tag == 1 {
+            guard let text = textField.text else { return true }
+            let newLength = text.characters.count + string.characters.count - range.length
+            
+            let inverseSet = NSCharacterSet(charactersIn: "0123456789.").inverted
+            let components = string.components(separatedBy: inverseSet)
+            let filtered = components.joined(separator: "")
+            
+            return (string == filtered && newLength <= 15)
+        }
+        if textField.tag == 2{
+            guard let text = textField.text else { return true }
+            let newLength = text.characters.count + string.characters.count - range.length
+            
+            let inverseSet = NSCharacterSet(charactersIn: "0123456789.").inverted
+            let components = string.components(separatedBy: inverseSet)
+            let filtered = components.joined(separator: "")
+            
+            return (string == filtered && newLength <= 15)
+        }
+        return true
     }
 
     @IBAction func Switch(_ sender: Any) {
