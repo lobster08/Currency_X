@@ -146,6 +146,7 @@ class SellView: UIViewController, UITextFieldDelegate {
             sellItem.sellDate = "\(sellDay) - \(sellMonth) - \(sellYear)"
             sellDeposit()
             sellWithdraw()
+            addSellInfoToDB()
         }
     }
     
