@@ -14,47 +14,47 @@ import FirebaseDatabase
 import Firebase
 import FirebaseAuth
 
-//
-class info : NSObject {
-    var buyAmount: String?
-    var buyCost : String?
-    var buyTotalPrice : String?
+
+class infos : NSObject {
+    var Amount: String?
+    var Cost : String?
+    var TotalPrice : String?
     var date : String?
     var type : String?
-
+    
     override init()
     {
-        buyCost = ""
-        buyAmount = ""
-        buyTotalPrice = ""
+        Cost = ""
+        Amount = ""
+        TotalPrice = ""
         date = ""
         type = ""
     }
     init(amount1: String, cost1: String, totalprice : String, data1 : String, type1 : String){
-        buyAmount = amount1
-        buyCost = cost1
-        buyTotalPrice = totalprice
+        Amount = amount1
+        Cost = cost1
+        TotalPrice = totalprice
         date = data1
         type = type1
     }
     init(data : Dictionary<String, String>)
     {
-        if let amount = data["buyAmount"] as? String {
-            self.buyAmount = amount
+        if let amount = data["Amount"] as? String {
+            self.Amount = amount
         }
         if let date = data["data"] as? String {
             self.date = date
         }
-        if let cost = data["buyCost"] as? String {
-            self.buyCost = cost
+        if let cost = data["Cost"] as? String {
+            self.Cost = cost
         }
-        if let totalprice = data["buyTotalPrice"] as? String {
-            self.buyTotalPrice = totalprice
+        if let totalprice = data["TotalPrice"] as? String {
+            self.TotalPrice = totalprice
         }
         if let type1 = data["Type"] as? String {
             self.type = type1
         }
-
+        
     }
 }
 // struct for cryptoPrices
@@ -149,10 +149,10 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let typeLbl = cell?.contentView.viewWithTag(2) as! UILabel
         let totalAmountLbl = cell?.contentView.viewWithTag(3) as! UILabel
         let amountLvb = cell?.contentView.viewWithTag(4) as! UILabel
-        dateLbl.text = purchaseInfo[indexPath.row].date
-        typeLbl.text = purchaseInfo[indexPath.row].type
-        totalAmountLbl.text = purchaseInfo[indexPath.row].buyTotalPrice
-        amountLvb.text = "\(purchaseInfo[indexPath.row].buyAmount!) shares at \(purchaseInfo[indexPath.row].buyCost!)/share"
+        dateLbl.text = Information[indexPath.row].date
+        typeLbl.text = Information[indexPath.row].type
+        totalAmountLbl.text = Information[indexPath.row].TotalPrice
+        amountLvb.text = "\(Information[indexPath.row].Amount!) shares at \(Information[indexPath.row].Cost!)/share"
         
         return cell!
         
@@ -189,7 +189,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var amountTxt = String()
     
     var numOfInfo : Int = 0
-    var purchaseInfo = [info]()
+    var Information = [infos]()
     static var amount : String = ""
     let userID = Auth.auth().currentUser?.uid
 
@@ -431,8 +431,8 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     **********************************************/
     @objc func readInfo()
     {
-            self.purchaseInfo = [info]()
-            ref = Database.database().reference().child("PurchasedInfo").child((user?.uid)!).child(currencyName)//.childByAutoId()
+            self.Information = [infos]()
+            ref = Database.database().reference().child("Information").child((user?.uid)!).child(currencyName)//.childByAutoId()
         
                 ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 self.numOfInfo = Int(snapshot.childrenCount)
@@ -442,11 +442,11 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 {
                     
                         let type = valueDictionary["Type"]
-                        let amount = valueDictionary["buyAmount"]
-                        let cost = valueDictionary["buyCost"]
-                        let totalamount = valueDictionary["buyTotalPrice"]
+                        let amount = valueDictionary["Amount"]
+                        let cost = valueDictionary["Cost"]
+                        let totalamount = valueDictionary["TotalPrice"]
                         let date = valueDictionary["data: "]
-                    self.purchaseInfo.insert(info(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!), at: 0)
+                    self.Information.insert(infos(amount1: amount!, cost1: cost!, totalprice : totalamount!, data1 : date!, type1 : type!), at: 0)
                     }
                     DispatchQueue.main.async {
                         self.TableView.reloadData()
@@ -458,7 +458,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     @objc func readAmount()
     {
-        ref = Database.database().reference().child("PurchasedAmount").child(userID!).child(currencyName)
+        ref = Database.database().reference().child("Amount").child(userID!).child(currencyName)
         ref.keepSynced(true) // keeps reading firebase
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             if (snapshot.exists()) {
@@ -474,9 +474,11 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
             else {
                 DetailView.amount = "0"
                 self.sellButton.isHidden = true
+              //  self.buyButton.addTarget(self, action: #selector(self.buyButtonFunction), for: UIControlEvents.touchUpInside)
+                
                 self.buyButton.frame.size = CGSize(width: 140.0, height: 40.0)
               self.buyButton.frame.origin.x = 60
-              self.buyButton.frame.origin.y = 30
+              self.buyButton.frame.origin.y = 10
 
             
             }
@@ -540,6 +542,10 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    @objc func buyButtonFunction()
+    {
+        performSegue(withIdentifier: "DetailToBuy", sender: self)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "DetailToBuy")
         {

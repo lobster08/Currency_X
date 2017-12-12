@@ -196,8 +196,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         ref = Database.database().reference()
         
-        let info = [ "data: " :  buyItem.buyDate as String, "buyAmount" :  String(buyItem.buyAmount) as String, "buyCost" : buyCostLbl.text, "buyTotalPrice": "+" + String(buyItem.buyTotalPrice) as String, "Type" : "Buy" ]
-        ref.child("PurchasedInfo").child((user?.uid)!).child(currencyName).childByAutoId().updateChildValues(info)
+        let info = [ "data: " :  buyItem.buyDate as String, "Amount" :  String(buyItem.buyAmount) as String, "Cost" : buyCostLbl.text, "TotalPrice": "+" + String(buyItem.buyTotalPrice) as String, "Type" : "Buy" ]
+        ref.child("Information").child((user?.uid)!).child(currencyName).childByAutoId().updateChildValues(info)
         
     }
     
@@ -217,7 +217,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         currencyAmount = currencyAmount + Int(amountInput)!
         
         let amount = [ "Amount: " : String(currencyAmount) as String]
-        ref.child("PurchasedAmount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
+        ref.child("Amount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
         
     }
     // ---- Wallet -----
@@ -230,7 +230,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
                     buyingAlert(buyAlert: "No Money Found")
                 } else if (Double(money.amount)! < totalPrice){
                     hasMoney = false
-                    print("Cannot buy item. Insufficient funds")
+                    buyingAlert(buyAlert: "Cannot buy item. Insufficient funds")
                 } else{
                     print ("Has Money")
                     self.hasMoney = true

@@ -271,42 +271,42 @@ class SellView: UIViewController, UITextFieldDelegate {
     }
     
     // ---- Database Upload functions ----
-    func addSellInfoToDB()
-    {
-        if(MainView.isCryptoSelect == true)
-        {
-            currencySellName = sellCryptoData.name
-        }
-        else
-        {
-            currencySellName = sellRegularData.symbol
-        }
-        ref = Database.database().reference()
-        
-        let info = [ "data: " :  sellItem.sellDate as String, "sellAmount" :  String(sellItem.sellAmount) as String, "sellValue" : sellValueLbl.text, "sellTotalValue": "-" + String(sellItem.sellTotalValue) as String, "Type" : "Sell" ]
-        ref.child("PurchasedInfo").child((user?.uid)!).child(currencySellName).childByAutoId().updateChildValues(info)
-        
-    }
-    
-    func addSellCurrAmountToDB(amountInput : String)
-    {
-        
-        if(MainView.isCryptoSelect == true)
-        {
-            currencySellName = sellCryptoData.name
-        }
-        else
-        {
-            currencySellName = sellRegularData.symbol
-        }
-        ref = Database.database().reference()
-        
-        currencySellAmount = currencySellAmount - Int(amountInput)!
-        
-        let amount = [ "Amount: " : String(currencySellAmount) as String]
-        ref.child("PurchasedAmount").child((user?.uid)!).child(currencySellName).updateChildValues(amount)
-        
-    }
+//    func addSellInfoToDB()
+//    {
+//        if(MainView.isCryptoSelect == true)
+//        {
+//            currencySellName = sellCryptoData.name
+//        }
+//        else
+//        {
+//            currencySellName = sellRegularData.symbol
+//        }
+//        ref = Database.database().reference()
+//        
+//        let info = [ "data: " :  sellItem.sellDate as String, "sellAmount" :  String(sellItem.sellAmount) as String, "sellValue" : sellValueLbl.text, "sellTotalValue": "-" + String(sellItem.sellTotalValue) as String, "Type" : "Sell" ]
+//        ref.child("PurchasedInfo").child((user?.uid)!).child(currencySellName).childByAutoId().updateChildValues(info)
+//        
+//    }
+//    
+//    func addSellCurrAmountToDB(amountInput : String)
+//    {
+//        
+//        if(MainView.isCryptoSelect == true)
+//        {
+//            currencySellName = sellCryptoData.name
+//        }
+//        else
+//        {
+//            currencySellName = sellRegularData.symbol
+//        }
+//        ref = Database.database().reference()
+//        
+//        currencySellAmount = currencySellAmount - Int(amountInput)!
+//        
+//        let amount = [ "Amount: " : String(currencySellAmount) as String]
+//        ref.child("PurchasedAmount").child((user?.uid)!).child(currencySellName).updateChildValues(amount)
+//        
+//    }
     // ---- Sell Currency Value function ----
     func calculateSellTotal(){
         if(sellCryptoData.price_usd != ""){
