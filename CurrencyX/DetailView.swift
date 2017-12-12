@@ -192,6 +192,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var Information = [infos]()
     static var amount : String = ""
     let userID = Auth.auth().currentUser?.uid
+    @IBOutlet var mainView: UIView!
     
     //dates variable
     let hh2 = (Calendar.current.component(.hour, from: Date()))
@@ -272,6 +273,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
         //add notification button in navigation bar
         let notificationButton = UIButton(type: .custom)
         notificationButton.setImage(UIImage(named: "notificationBell"), for: .normal)
@@ -280,9 +282,7 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let btn = UIBarButtonItem(customView: notificationButton)
         self.navigationItem.setRightBarButton(btn, animated: true)
         
-        //lock screen variable
-        //      AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-        UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+    UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         
         backgroundImageName = "background6.png"
         setBackgroundImage()
@@ -317,29 +317,27 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         //read firebase continously
         _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(DetailView.readAmount), userInfo: nil, repeats: true)
         _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(DetailView.readInfo), userInfo: nil, repeats: true)
-        
-        
-        
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidLoad()
-        
+
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-        
+
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        backgroundImageName = "background6.png"
+        setBackgroundImage()
         AppUtility.lockOrientation(.portrait)
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Don't forget to reset when view is being removed
-        AppUtility.lockOrientation(.portrait)
+        AppUtility.lockOrientation(.all)
         //  AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         
     }
@@ -524,10 +522,10 @@ class DetailView: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if backgroundImageName > "" {
             backgroundImageView.removeFromSuperview()
             backgroundImage = UIImage(named: backgroundImageName)!
-            backgroundImageView = UIImageView(frame: self.view.bounds)
+            backgroundImageView = UIImageView(frame: self.mainView.bounds)
             backgroundImageView.image = backgroundImage
-            self.view.addSubview(backgroundImageView)
-            self.view.sendSubview(toBack: backgroundImageView)
+            self.mainView.addSubview(backgroundImageView)
+            self.mainView.sendSubview(toBack: backgroundImageView)
         }
     }
     

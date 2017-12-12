@@ -12,4 +12,7 @@ target 'CurrencyX' do
   
   # use for making chart
   pod 'Charts'
+
+  # Keyboard manager to handle overlap with UITextField
+  pod 'IQKeyboardManagerSwift'	
 end
