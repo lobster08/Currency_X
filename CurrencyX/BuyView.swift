@@ -196,7 +196,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         ref = Database.database().reference()
         
-        let info = [ "data: " :  buyItem.buyDate as String, "Amount" :  String(buyItem.buyAmount) as String, "Cost" : buyCostLbl.text, "TotalPrice": "+" + String(buyItem.buyTotalPrice) as String, "Type" : "Buy" ]
+        let info = [ "data: " :  buyItem.buyDate as String, "Amount" :  String(buyItem.buyAmount) as String, "Cost" : buyCostLbl.text, "TotalPrice": "-" + String(buyItem.buyTotalPrice) as String, "Type" : "Buy" ]
         ref.child("Information").child((user?.uid)!).child(currencyName).childByAutoId().updateChildValues(info)
         
     }
@@ -220,6 +220,18 @@ class BuyView: UIViewController, UITextFieldDelegate {
         ref.child("Amount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
         
     }
+    
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
+    }
+    
     // ---- Wallet -----
     func checkMoneyExist()
     {
@@ -324,6 +336,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
             self.buyWithdraw()
             self.addOwnCurrAmountToDB(amountInput: self.buyInput.text!)
             self.addBuyInfoToDB()
+            
+            buyingAlert(buyAlert: "Purchase successful!")
         }
     }
     

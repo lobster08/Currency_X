@@ -62,7 +62,7 @@ class SellView: UIViewController, UITextFieldDelegate {
     var sellCryptoData = CryptoCurrency()
     var sellRegularData = currency()
     var currencySellName: String = ""
-    var currencySellAmount = 0
+    var currencySellAmount: Double = 0
     var totalSellValue: Double = 0.0
     var wtbSymbol: String! // wtb: want to buy
     var wtsSymbol: String! // wts: want to sell
@@ -147,6 +147,9 @@ class SellView: UIViewController, UITextFieldDelegate {
             sellDeposit()
             sellWithdraw()
             addSellInfoToDB()
+            addSellCurrAmountToDB(amountInput: self.sellInput.text!)
+            
+            sellingAlert(buyAlert: "Selling successful!")
         }
     }
     
@@ -205,16 +208,24 @@ class SellView: UIViewController, UITextFieldDelegate {
         sellButtonLbl.isHidden = false
     }
     
+    // ---- Alert Setup function ----
+    func sellingAlert(buyAlert:String){
+        let alert = UIAlertController(title: buyAlert, message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "default action"), style: .`default`, handler: { _ in NSLog("The \"OK\" alert occured")
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     // ---- Sell Wallet ----
     func checkOwnedCurrExist(){
         for item in sellWalletData.balanceList{
             if(item.type == wtsSymbol){
-                if(item.amount == "" || Double(item.amount)! < 0.0){
+                if(item.amount == "" || Double(item.amount)! < 0.0 || Double(item.amount)! < Double(self.sellInput.text!) as! Double){
                     hasSellItem = false
-                    print(wtsSymbol + "does not exist in your wallet")
-                } else{
+                    sellingAlert(buyAlert: "Not enough item to sell")
+                }else{
                     hasSellItem = true
+                    currencySellAmount = Double(item.amount)!
                     print ("Has Sell Item!")
                 }
             }
@@ -271,43 +282,54 @@ class SellView: UIViewController, UITextFieldDelegate {
             }})
     }
     
+    // detect device orientation changes
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape {
+            print("rotated device to landscape")
+            setBackgroundImage()
+        } else {
+            print("rotated device to portrait")
+            setBackgroundImage()
+        }
+    }
+    
     // ---- Database Upload functions ----
-//    func addSellInfoToDB()
-//    {
-//        if(MainView.isCryptoSelect == true)
-//        {
-//            currencySellName = sellCryptoData.name
-//        }
-//        else
-//        {
-//            currencySellName = sellRegularData.symbol
-//        }
-//        ref = Database.database().reference()
-//        
-//        let info = [ "data: " :  sellItem.sellDate as String, "sellAmount" :  String(sellItem.sellAmount) as String, "sellValue" : sellValueLbl.text, "sellTotalValue": "-" + String(sellItem.sellTotalValue) as String, "Type" : "Sell" ]
-//        ref.child("PurchasedInfo").child((user?.uid)!).child(currencySellName).childByAutoId().updateChildValues(info)
-//        
-//    }
-//    
-//    func addSellCurrAmountToDB(amountInput : String)
-//    {
-//        
-//        if(MainView.isCryptoSelect == true)
-//        {
-//            currencySellName = sellCryptoData.name
-//        }
-//        else
-//        {
-//            currencySellName = sellRegularData.symbol
-//        }
-//        ref = Database.database().reference()
-//        
-//        currencySellAmount = currencySellAmount - Int(amountInput)!
-//        
-//        let amount = [ "Amount: " : String(currencySellAmount) as String]
-//        ref.child("PurchasedAmount").child((user?.uid)!).child(currencySellName).updateChildValues(amount)
-//        
-//    }
+    func addSellInfoToDB()
+    {
+        if(MainView.isCryptoSelect == true)
+        {
+            currencySellName = sellCryptoData.name
+        }
+        else
+        {
+            currencySellName = sellRegularData.symbol
+        }
+        ref = Database.database().reference()
+        
+        let info = [ "data: " :  sellItem.sellDate as String, "Amount" :  String(sellItem.sellAmount) as String, "Cost" : sellValueLbl.text, "TotalPrice": "+" + String(sellItem.sellTotalValue) as String, "Type" : "Sell" ]
+        ref.child("Information").child((user?.uid)!).child(currencySellName).childByAutoId().updateChildValues(info)
+        
+    }
+    
+    func addSellCurrAmountToDB(amountInput : String)
+    {
+        
+        if(MainView.isCryptoSelect == true)
+        {
+            currencySellName = sellCryptoData.name
+        }
+        else
+        {
+            currencySellName = sellRegularData.symbol
+        }
+        ref = Database.database().reference()
+        
+        currencySellAmount = currencySellAmount - Double(amountInput)!
+        
+        let amount = [ "Amount: " : String(currencySellAmount) as String]
+        ref.child("Amount").child((user?.uid)!).child(currencySellName).updateChildValues(amount)
+        
+    }
     // ---- Sell Currency Value function ----
     func calculateSellTotal(){
         if(sellCryptoData.price_usd != ""){
