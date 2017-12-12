@@ -71,7 +71,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var buyCryptoData = CryptoCurrency()
     var buyRegularData = currency()
     var currencyName = ""
-    var currencyAmount = 0
+    var currencyAmount: Double = 0.0
     var totalPrice : Double = 0.0
     var wtbSymbol : String! // wtb: want to buy
     var wtsSymbol: String! // wts: want to sell
@@ -103,7 +103,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         updateTimer = Timer.scheduledTimer(timeInterval: 90, target: self, selector: #selector(BuyView.updateCurrentValue), userInfo: nil, repeats: true)
         
         // Setup currencyAmount for upload to Database
-        currencyAmount = Int(DetailView.amount)!
+        currencyAmount = Double(DetailView.amount)!
         
         
         // Setup Keyboard type for TextInput and TapRecognizer
@@ -230,7 +230,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         }
         ref = Database.database().reference()
         
-        currencyAmount = currencyAmount + Int(amountInput)!
+        currencyAmount = currencyAmount + Double(amountInput)!
         
         let amount = [ "Amount: " : String(currencyAmount) as String]
         ref.child("Amount").child((user?.uid)!).child(currencyName).updateChildValues(amount)
