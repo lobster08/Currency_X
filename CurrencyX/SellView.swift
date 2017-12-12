@@ -66,6 +66,7 @@ class SellView: UIViewController, UITextFieldDelegate {
     var totalSellValue: Double = 0.0
     var wtbSymbol: String! // wtb: want to buy
     var wtsSymbol: String! // wts: want to sell
+    var isSellOK: Bool = false
     
     
     // Date Variable
@@ -134,6 +135,7 @@ class SellView: UIViewController, UITextFieldDelegate {
         
         if(hasSellItem == true)
         {
+            isSellOK = true
             if (sellInput.text != ""){
                 sellItem.sellAmount = Double(sellInput.text!)!
             }
@@ -148,9 +150,11 @@ class SellView: UIViewController, UITextFieldDelegate {
             sellWithdraw()
             addSellInfoToDB()
             addSellCurrAmountToDB(amountInput: self.sellInput.text!)
-            
             sellingAlert(buyAlert: "Selling successful!")
+            
         }
+        
+        
     }
     
     // ---- Sell Value Update function ----
@@ -204,8 +208,9 @@ class SellView: UIViewController, UITextFieldDelegate {
         {
             calculateSellTotal()
             loadBalance()
+            sellButtonLbl.isHidden = false
         }
-        sellButtonLbl.isHidden = false
+        
     }
     
     // ---- Alert Setup function ----
@@ -216,13 +221,29 @@ class SellView: UIViewController, UITextFieldDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
+    // ---- Clearing TextField and Label function ----
+    func clearSell(){
+        if(hasSellItem == false){
+            sellInput.text = ""
+            sellTotalValueLbl.text = "0.0"
+            sellButtonLbl.isHidden = true
+        }else if (isSellOK == true){
+            sellInput.text = ""
+            sellTotalValueLbl.text = "0.0"
+            sellButtonLbl.isHidden = true
+            isSellOK = false;
+        }
+    }
+    
     // ---- Sell Wallet ----
+    
     func checkOwnedCurrExist(){
         for item in sellWalletData.balanceList{
             if(item.type == wtsSymbol){
                 if(item.amount == "" || Double(item.amount)! < 0.0 || Double(item.amount)! < Double(self.sellInput.text!) as! Double){
                     hasSellItem = false
                     sellingAlert(buyAlert: "Not enough item to sell")
+                    clearSell()
                 }else{
                     hasSellItem = true
                     currencySellAmount = Double(item.amount)!
@@ -278,6 +299,7 @@ class SellView: UIViewController, UITextFieldDelegate {
                 DispatchQueue.main.async {
                     self.ref = Database.database().reference()
                     self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtsSymbol: String(updateAmount)])
+                    self.clearSell()
                 }
             }})
     }

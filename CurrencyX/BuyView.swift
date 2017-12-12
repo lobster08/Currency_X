@@ -75,6 +75,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
     var totalPrice : Double = 0.0
     var wtbSymbol : String! // wtb: want to buy
     var wtsSymbol: String! // wts: want to sell
+    var isBuyOK: Bool = false
     
     // Firebase Variable Initailize
     var ref : DatabaseReference!
@@ -167,8 +168,23 @@ class BuyView: UIViewController, UITextFieldDelegate {
         {
             calcualateBuyCost()
             loadBalance()
+            buyButtonLbl.isHidden = false
         }
-        buyButtonLbl.isHidden = false
+        
+    }
+    
+    // ---- Clearing TextField and Label function ----
+    func clearBuy(){
+        if(hasMoney == false){
+            buyInput.text = ""
+            buyTotalPriceLbl.text = "0.0"
+            buyButtonLbl.isHidden = true
+        }else if (isBuyOK == true){
+            buyInput.text = ""
+            buyTotalPriceLbl.text = "0.0"
+            buyButtonLbl.isHidden = true
+            isBuyOK = false;
+        }
     }
     
     // ---- View's Background Setup functions ----
@@ -243,6 +259,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
                 } else if (Double(money.amount)! < totalPrice){
                     hasMoney = false
                     buyingAlert(buyAlert: "Cannot buy item. Insufficient funds")
+                    clearBuy()
                 } else{
                     print ("Has Money")
                     self.hasMoney = true
@@ -276,7 +293,8 @@ class BuyView: UIViewController, UITextFieldDelegate {
                     updateAmount = currentAmount + Double(self.buyInput.text!)!
                     DispatchQueue.main.async {
                         self.ref = Database.database().reference()
-                        self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtbSymbol: String(updateAmount)])
+                    self.ref.child("Balance").child((self.user?.uid)!).updateChildValues([self.wtbSymbol: String(updateAmount)])
+                        self.clearBuy()
                     }
                 }
             }
@@ -319,6 +337,7 @@ class BuyView: UIViewController, UITextFieldDelegate {
         
         if(self.hasMoney == true)
         {
+            isBuyOK = true
             if Double(self.buyInput.text!) != nil{
                 self.buyItem.buyAmount = Double(self.buyInput.text!)!
             }else{
