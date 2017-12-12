@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CurrencyX/WalletView.swift"
+            timestampString = "534798051.054339"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "WalletView"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CurrencyX.WalletView.action.getter : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "CurrencyX"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quangtran/Desktop/Currency_X/CurrencyX/WalletView.swift"
+                  timestampString = "534795731.796162"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "109">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CurrencyX.WalletView.action.setter : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "CurrencyX"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quangtran/Desktop/Currency_X/CurrencyX/WalletView.swift"
+                  timestampString = "534795731.804023"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "112">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CurrencyX.WalletView.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; CurrencyX.WalletView"
+                  moduleName = "CurrencyX"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quangtran/Desktop/Currency_X/CurrencyX/WalletView.swift"
+                  timestampString = "534795731.808294"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "983">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CurrencyX.WalletView.init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;CurrencyX.WalletView&gt;"
+                  moduleName = "CurrencyX"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quangtran/Desktop/Currency_X/CurrencyX/WalletView.swift"
+                  timestampString = "534795731.813491"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "890">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
